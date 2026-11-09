@@ -1,97 +1,61 @@
-# 📐 Prospecta SaaS — Arquitetura e documentação do projeto
+# Prospecta SaaS
 
-> Esta pasta (`ARQUITETURA/`) guarda **toda a documentação** do que foi construído:
-> o mapa de arquivos, o que cada tela faz, como o banco de dados funciona,
-> como rodar, como publicar e o histórico de todas as etapas.
->
-> Nada aqui é código executável — o app continua rodando a partir da **raiz do projeto**.
+Frontend estático (HTML/CSS/JS) + API serverless (Vercel Functions) + **Neon PostgreSQL** via **Prisma**.
 
----
+## Requisitos
+- Node.js >= 18
+- Conta/projeto no [Neon](https://neon.tech) (PostgreSQL)
 
-## 🗂️ Que pasta é esta?
+## Configuração local
+1. Instale dependências:
+   ```bash
+   npm install
+   ```
+2. Copie variáveis e configure:
+   ```bash
+   copy .env.example .env
+   ```
+   Edite `.env` e defina:
+   - `DATABASE_URL` — connection string **pooled** do Neon (`?sslmode=require`)
+   - `JWT_SECRET` — segredo forte (ex.: `node -e "console.log(require('crypto').randomBytes(48).toString('hex'))"`)
+   - `ADMIN_EMAIL` / `ADMIN_PASSWORD` / `ADMIN_NAME` — seed do admin (troque a senha)
+3. Gere o client Prisma e rode migrations:
+   ```bash
+   npx prisma generate
+   npx prisma migrate dev --name init
+   npm run db:seed
+   ```
+4. Desenvolvimento: para testar o front estático use `npm run dev` (`.serve.cjs`). Para testar as rotas `/api/*` localmente, use `npx vercel dev` (recomendado) com as mesmas variáveis de `.env`.
 
-| Arquivo | O que tem dentro | Quando ler |
-|---|---|---|
-| `README.md` | Este guia: visão geral, mapa de pastas, índice | Comece por aqui |
-| [`ESTRUTURA-DE-ARQUIVOS.md`](ESTRUTURA-DE-ARQUIVOS.md) | Cada arquivo/pasta, linha a linha, e para que serve | Quando for mexer em algum arquivo |
-| [`PAGINAS-E-FUNCIONALIDADES.md`](PAGINAS-E-FUNCIONALIDADES.md) | O que cada tela faz, fluxos, componentes, atalhos | Para entender a interface |
-| [`BANCO-DE-DADOS.md`](BANCO-DE-DADOS.md) | Neon + Prisma: tabelas, API, segurança, migrations, backups | Antes de mexer em dados |
-| [`COMO-RODAR-E-DEPLOY.md`](COMO-RODAR-E-DEPLOY.md) | Rodar local, variáveis de ambiente, publicar na Vercel | Para subir o sistema |
-| [`HISTORICO.md`](HISTORICO.md) | Linha do tempo de tudo que foi feito, passo a passo | Para relembrar o caminho |
+## Deploy na Vercel
+1. Importe o repositório/projeto na Vercel.
+2. Em **Project Settings → Environment Variables**, adicione:
+   - `DATABASE_URL` (Neon pooled)
+   - `JWT_SECRET`
+   - `NODE_ENV=production`
+   - (opcional) `APP_URL`
+3. Build command: `npm run build` (executa `prisma generate`). As migrations devem ser aplicadas com `npx prisma migrate deploy` apontando para o banco de produção (rode localmente com `DATABASE_URL` de produção ou em um job controlado).
+4. A Vercel servirá os arquivos estáticos e as funções em `/api/*`.
 
----
+## Segurança
+- Senhas armazenadas com **bcrypt** (hash) — nunca em texto plano.
+- Sessão via **JWT em cookie HttpOnly, SameSite=Lax, Secure (produção)**.
+- Rotas protegidas validam sessão/role; clientes só acessam seus próprios tickets.
+- Validação server-side (Zod) e queries via Prisma (parametrizadas).
+- **Nunca** commite `.env` nem exponha `DATABASE_URL`/`JWT_SECRET` no frontend.
 
-## 🚀 O que é o Prospecta (resumo em 60 segundos)
+## API (resumo)
+- `POST /api/auth/login` `{ email, password }`
+- `POST /api/auth/logout`
+- `GET  /api/auth/me`
+- `POST /api/auth/register` (admin)
+- `GET/POST /api/users` (admin)
+- `GET/PATCH/DELETE /api/users/[id]` (admin)
+- `GET/POST /api/tickets` (admin: todos; autenticado: próprios)
+- `GET/PATCH /api/tickets/[id]`
+- `POST /api/tickets/[id]/messages`
 
-Um **SaaS de prospecção + criação de sites** para agências e negócios locais.
-É composto por três camadas, todas no mesmo repositório:
-
-```
-┌──────────────────────────────────────────────────────────────┐
-│ 1) FRONTEND  (HTML + CSS global + JS puro)                   │
-│    12 páginas .html  →  assets/css/global.css                │
-│                    →  assets/js/*.js                         │
-├──────────────────────────────────────────────────────────────┤
-│ 2) API  (Vercel Serverless Functions em Node.js)              │
-│    api/**/*.js  →  validam sessão, regras e dados            │
-├──────────────────────────────────────────────────────────────┤
-│ 3) BANCO  (Neon PostgreSQL, na nuvem)                         │
-│    Prisma ORM  →  prisma/schema.prisma  →  migrations        │
-└──────────────────────────────────────────────────────────────┘
-```
-
-- **Desktop e mobile**: uma única sidebar, que vira menu deslizante no celular.
-- **Visual**: um único `global.css` (design tokens + componentes).
-- **Admin separado**: as telas `admin.html`, `tickets.html` e `usuarios.html`
-  só abrem com sessão de administrador.
-- **Suporte com chat**: o cliente abre um ticket pela "Central de ajuda" e
-  conversa com o admin por ali (dados no PostgreSQL).
-
----
-
-## 🗺️ Mapa rápido da raiz
-
-```
-saas/
-├── ARQUITETURA/          ← 📚 ESTA pasta (documentação)
-├── assets/
-│   ├── css/global.css    ← todo o estilo
-│   └── js/               ← app.js, store.js, support.js, admin-auth.js, admin-ui.js
-├── api/                  ← backend serverless (Vercel Functions)
-│   ├── auth/ users/ tickets/ health.js
-├── lib/                  ← prisma.js, auth.js, http.js, audit.js
-├── prisma/               ← schema.prisma, migrations/, seed.js
-├── *.html                ← as 12 telas
-├── package.json          ← scripts (dev, build, db:*)
-├── vercel.json           ← configuração de deploy
-├── .env                  ← segredos reais (NUNCA vai para o Git)
-├── .env.example          ← modelo de variáveis (vai para o Git)
-└── .serve.cjs            ← servidor local simples para as telas
-```
-
-Detalhe completo em [`ESTRUTURA-DE-ARQUIVOS.md`](ESTRUTURA-DE-ARQUIVOS.md).
-
----
-
-## ✅ Onde estamos agora (status)
-
-| Área | Situação |
-|---|---|
-| Interface (desktop + mobile) | ✅ pronta e testada em 3 tamanhos de tela |
-| Central de ajuda + tickets com chat | ✅ funcionando (cliente ↔ admin) |
-| Área admin (3 páginas restritas) | ✅ pronta, protegida por login |
-| Banco Neon PostgreSQL | ✅ schema criado + migration aplicada |
-| Prisma ORM + API `/api/*` | ✅ implementados |
-| Login / sessão JWT em cookie HttpOnly | ✅ implementado |
-| Deploy na Vercel | ⏳ pronto para publicar (falta só configurar as variáveis) |
-
-> Guia de publicação: [`COMO-RODAR-E-DEPLOY.md`](COMO-RODAR-E-DEPLOY.md).
-
----
-
-## 🔐 Regra de ouro
-
-- `.env` contém **segredos reais** e está no `.gitignore`. Nunca commitar, nunca
-  colar em chat, nunca usar no frontend.
-- O frontend só fala com `/api/*`. Ele **nunca** vê a senha do banco.
-- O navegador guarda apenas o **cookie de sessão** (HttpOnly, inacessível ao JS).
+## Notas
+- Sem SQLite/JSON como banco. Dados persistem no Neon PostgreSQL.
+- Backups/PITR: gerenciados pelo Neon (veja o painel do projeto Neon).
+- Se a API não estiver disponível (ex.: abrir HTML direto sem `vercel dev`), o front mantém fallback local limitado para navegação, mas **o alvo de produção é o banco real**.

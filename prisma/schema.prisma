@@ -1,0 +1,107 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  admin
+  member
+  client
+}
+
+enum UserStatus {
+  active
+  invite
+  blocked
+}
+
+enum TicketStatus {
+  aberto
+  respondido
+  resolvido
+}
+
+enum TicketPriority {
+  baixa
+  media
+  alta
+}
+
+enum MessageAuthor {
+  cliente
+  suporte
+  admin
+}
+
+model User {
+  id           String     @id @default(cuid())
+  seq          Int        @unique @default(autoincrement()) // stable numeric ref for UI
+  name         String
+  initials     String
+  email        String     @unique
+  passwordHash String?
+  plan         String     @default("Pro")
+  role         UserRole   @default(member)
+  status       UserStatus @default(invite)
+  jobTitle     String     @default("")
+  note         String?
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  lastLoginAt  DateTime?
+
+  ticketsCreated Ticket[]        @relation("TicketCreator")
+  messages       TicketMessage[] @relation("UserMessages")
+
+  @@index([email])
+  @@index([status])
+  @@index([role])
+  @@map("users")
+}
+
+model Ticket {
+  id          Int            @id @default(autoincrement())
+  subject     String
+  reason      String
+  reasonLabel String
+  priority    TicketPriority @default(media)
+  status      TicketStatus   @default(aberto)
+  origin      String         @default("Dashboard")
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+
+  createdById String?
+  createdBy   User?   @relation("TicketCreator", fields: [createdById], references: [id], onDelete: SetNull)
+
+  // Denormalized creator snapshot for display (survives user changes/deletion context)
+  creatorName     String @default("")
+  creatorInitials String @default("")
+  creatorEmail    String @default("")
+  creatorPlan     String @default("")
+
+  messages TicketMessage[]
+
+  @@index([status])
+  @@index([createdById])
+  @@index([updatedAt])
+  @@map("tickets")
+}
+
+model TicketMessage {
+  id         Int           @id @default(autoincrement())
+  ticketId   Int
+  ticket     Ticket        @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  authorId   String?
+  authorUser User?         @relation("UserMessages", fields: [authorId], references: [id], onDelete: SetNull)
+  authorType MessageAuthor
+  text       String
+  read       Boolean       @default(false)
+  createdAt  DateTime      @default(now())
+
+  @@index([ticketId])
+  @@index([createdAt])
+  @@map("ticket_messages")
+}
