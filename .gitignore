@@ -26,3 +26,7 @@ yarn-error.log*
 
 # Local/QA artifacts (optional - keep if needed)
 # .qa/
+
+# Vercel static build output
+public/
+

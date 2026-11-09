@@ -1,29 +1,29 @@
 {
-  "name": "prospecta-saas",
-  "version": "1.0.0",
-  "private": true,
-  "description": "Prospecta SaaS - static frontend with Vercel serverless API and Neon PostgreSQL",
-  "scripts": {
-    "dev": "node .serve.cjs 5174",
-    "build": "prisma generate",
-    "postinstall": "prisma generate",
-    "db:generate": "prisma generate",
-    "db:migrate": "prisma migrate dev",
-    "db:migrate:deploy": "prisma migrate deploy",
-    "db:push": "prisma db push",
-    "db:studio": "prisma studio",
-    "db:seed": "node prisma/seed.js"
-  },
-  "dependencies": {
-    "@prisma/client": "^5.22.0",
-    "bcryptjs": "^2.4.3",
-    "jsonwebtoken": "^9.0.2",
-    "zod": "^3.23.8"
-  },
-  "devDependencies": {
-    "prisma": "^5.22.0"
-  },
-  "engines": {
-    "node": ">=18"
-  }
+    "name":  "prospecta-saas",
+    "version":  "1.0.0",
+    "private":  true,
+    "description":  "Prospecta SaaS - static frontend with Vercel serverless API and Neon PostgreSQL",
+    "scripts":  {
+                    "dev":  "node .serve.cjs 5174",
+                    "build":  "prisma generate \u0026\u0026 node scripts/vercel-static.mjs",
+                    "postinstall":  "prisma generate",
+                    "db:generate":  "prisma generate",
+                    "db:migrate":  "prisma migrate dev",
+                    "db:migrate:deploy":  "prisma migrate deploy",
+                    "db:push":  "prisma db push",
+                    "db:studio":  "prisma studio",
+                    "db:seed":  "node prisma/seed.js"
+                },
+    "dependencies":  {
+                         "@prisma/client":  "^5.22.0",
+                         "bcryptjs":  "^2.4.3",
+                         "jsonwebtoken":  "^9.0.2",
+                         "zod":  "^3.23.8"
+                     },
+    "devDependencies":  {
+                            "prisma":  "^5.22.0"
+                        },
+    "engines":  {
+                    "node":  "\u003e=18"
+                }
 }
