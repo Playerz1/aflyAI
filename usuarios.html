@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#12142b">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Usuários · Administração Prospecta</title>
+  <link rel="icon"
+    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%2312142b'/%3E%3Ctext x='16' y='22' font-family='Arial' font-size='17' font-weight='bold' fill='white' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/global.css">
+</head>
+
+<body data-page="usuarios" data-role="admin">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="sidebar__brand" href="admin.html">
+      <span class="brand__logo" style="background:linear-gradient(135deg,#12142b,#4f46e5)">A</span>
+      <span>
+        <span class="brand__name">Prospecta</span>
+        <span class="brand__plan">Painel admin</span>
+      </span>
+    </a>
+    <nav class="sidebar__nav">
+      <div class="nav__label">Administração</div>
+      <a class="nav__item" href="admin.html" data-nav="admin">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="7" height="9" rx="1.5" />
+          <rect x="14" y="3" width="7" height="5" rx="1.5" />
+          <rect x="14" y="12" width="7" height="9" rx="1.5" />
+          <rect x="3" y="16" width="7" height="5" rx="1.5" />
+        </svg>
+        Painel admin
+      </a>
+      <a class="nav__item" href="tickets.html" data-nav="tickets">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+          <path d="M8 9h8M8 13h5" />
+        </svg>
+        Tickets <span class="nav__badge" data-badge-tickets>4</span>
+      </a>
+      <a class="nav__item" href="usuarios.html" data-nav="usuarios">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="9" cy="8" r="3.2" />
+          <path d="M3 20a6 6 0 0 1 12 0" />
+          <circle cx="17.5" cy="9.5" r="2.4" />
+          <path d="M16 20a4.5 4.5 0 0 1 5-4.4" />
+        </svg>
+        Usuários
+      </a>
+      <div class="nav__label">Produto</div>
+      <a class="nav__item" href="dashboard.html" data-nav="dashboard">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="7" height="9" rx="1.5" />
+          <rect x="14" y="3" width="7" height="5" rx="1.5" />
+        </svg>
+        Voltar ao app
+      </a>
+      <a class="nav__item" href="prospectar.html" data-nav="prospectar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="7" />
+          <path d="m20 20-3.5-3.5" />
+        </svg>
+        Prospectar
+      </a>
+      <a class="nav__item" href="contratos.html" data-nav="contratos">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z" />
+          <path d="M14 3v5h5" />
+        </svg>
+        Contratos
+      </a>
+      <a class="nav__item" href="sites.html" data-nav="sites">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="4" width="18" height="16" rx="2" />
+          <path d="M3 9h18" />
+        </svg>
+        Sites
+      </a>
+      <a class="nav__item" href="equipes.html" data-nav="equipes">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="9" cy="8" r="3.2" />
+          <path d="M3 20a6 6 0 0 1 12 0" />
+        </svg>
+        Equipes
+      </a>
+      <a class="nav__item" href="extensao.html" data-nav="extensao">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L4 17v3h3l5.3-5.3a4 4 0 0 0 5.4-5.4l-2.3 2.3-2.7-2.7z" />
+        </svg>
+        Extensão
+      </a>
+      <a class="nav__item" href="configuracoes.html" data-nav="configuracoes">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3.2" />
+          <path
+            d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z" />
+        </svg>
+        Configuração
+      </a>
+      <a class="nav__item" href="#" data-toast="Central de ajuda|Todos os tickets estão em Tickets.">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="9" />
+          <path d="M9.5 9a2.5 2.5 0 1 1 3.4 2.3c-.6.3-.9.8-.9 1.4v.4" />
+          <circle cx="12" cy="17" r=".8" fill="currentColor" />
+        </svg>
+        Ajuda
+      </a>
+    </nav>
+    <a class="sidebar__foot" href="#" data-logout>
+      <span class="avatar">RM</span>
+      <span class="sidebar__foot-info">
+        <span class="sidebar__foot-name">Rafael Mendes</span>
+        <span class="sidebar__foot-mail">Admin · sair</span>
+      </span>
+    </a>
+  </aside>
+
+  <div class="overlay" data-overlay></div>
+
+  <div class="main">
+    <header class="topbar">
+      <button class="icon-btn menu-btn" data-menu-toggle aria-label="Abrir menu" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+      <div>
+        <div class="topbar__title">Usuários</div>
+        <div class="topbar__crumbs">Administração <b>/</b> <b>Usuários e assinaturas</b></div>
+      </div>
+      <div class="topbar__spacer"></div>
+      <span class="badge badge--primary badge--plain" style="height:26px">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"
+          stroke-linejoin="round">
+          <path d="M12 2 4 6v6c0 5 3.5 8.5 8 10 4.5-1.5 8-5 8-10V6z" />
+        </svg>
+        Acesso restrito
+      </span>
+      <button class="user-menu" aria-label="Menu do usuário">
+        <span class="avatar avatar--sm">RM</span>
+        <span class="user-menu__name">Rafael</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m6 9 6 6 6-6" />
+        </svg>
+      </button>
+    </header>
+
+    <main class="content">
+      <div class="page-head">
+        <div>
+          <h1 class="page-head__title">Usuários</h1>
+          <p class="page-head__sub">Todos os membros, clientes e convites da plataforma.</p>
+        </div>
+        <div class="page-actions">
+          <button class="btn btn--outline" data-toast="Exportação pronta|A lista de usuários foi baixada.">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 19V5M6 11l6-6 6 6" />
+              <path d="M4 21h16" />
+            </svg>
+            Exportar
+          </button>
+          <button class="btn btn--primary" data-modal-open="modal-novo-usuario">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+              <circle cx="9" cy="7" r="4" />
+              <path d="M19 8v6M22 11h-6" />
+            </svg>
+            Novo usuário
+          </button>
+        </div>
+      </div>
+
+      <!-- KPIs -->
+      <div class="grid grid--4">
+        <article class="card kpi">
+          <div class="kpi__top">
+            <span class="kpi__icon kpi__icon--primary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="9" cy="8" r="3.2" />
+                <path d="M3 20a6 6 0 0 1 12 0" />
+                <circle cx="17.5" cy="9.5" r="2.4" />
+              </svg></span>
+            <span class="trend trend--flat" data-k-var>—</span>
+          </div>
+          <div class="kpi__label">Total de usuários</div>
+          <div class="kpi__value" data-k-total>0</div>
+          <div class="kpi__meta">contas na plataforma</div>
+        </article>
+        <article class="card kpi">
+          <div class="kpi__top">
+            <span class="kpi__icon kpi__icon--success"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="m5 13 4 4L19 7" />
+              </svg></span>
+            <span class="trend trend--up" data-k-ativos-txt>0%</span>
+          </div>
+          <div class="kpi__label">Ativos</div>
+          <div class="kpi__value" data-k-ativos>0</div>
+          <div class="kpi__meta">com acesso liberado</div>
+        </article>
+        <article class="card kpi">
+          <div class="kpi__top">
+            <span class="kpi__icon kpi__icon--warn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 6h16v12H4z" />
+                <path d="m4 7 8 6 8-6" />
+              </svg></span>
+            <span class="trend trend--flat" data-k-convites-txt>—</span>
+          </div>
+          <div class="kpi__label">Convites pendentes</div>
+          <div class="kpi__value" data-k-convites>0</div>
+          <div class="kpi__meta">aguardando aceite</div>
+        </article>
+        <article class="card kpi">
+          <div class="kpi__top">
+            <span class="kpi__icon kpi__icon--danger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-linecap="round" stroke-linejoin="round">
+                <rect x="4" y="10" width="16" height="11" rx="2" />
+                <path d="M8 10V7a4 4 0 0 1 8 0v3" />
+              </svg></span>
+            <span class="trend trend--down" data-k-bloq-txt>—</span>
+          </div>
+          <div class="kpi__label">Bloqueados</div>
+          <div class="kpi__value" data-k-bloqueados>0</div>
+          <div class="kpi__meta">sem acesso à conta</div>
+        </article>
+      </div>
+
+      <!-- Tabela -->
+      <section class="card mt-24">
+        <div class="card__head">
+          <div>
+            <div class="card__title">Todos os usuários</div>
+            <div class="card__sub" data-lista-sub>—</div>
+          </div>
+          <div class="seg" id="filtro-usuarios">
+            <button class="is-active" data-f="todos">Todos</button>
+            <button data-f="ativo">Ativos</button>
+            <button data-f="convite">Convites</button>
+            <button data-f="bloqueado">Bloqueados</button>
+          </div>
+        </div>
+
+        <div class="filter-bar">
+          <div class="input-wrap filter-bar__search">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="7" />
+              <path d="m20 20-3.5-3.5" />
+            </svg>
+            <input class="input input--icon" type="search" id="busca-usuario"
+              placeholder="Buscar por nome, e-mail ou cargo…" aria-label="Buscar usuário">
+          </div>
+          <select class="select" id="filtro-papel" style="width:auto;min-width:190px;flex:0 0 auto" aria-label="Filtrar por papel">
+            <option value="">Todos os papéis</option>
+            <option value="admin">Administradores</option>
+            <option value="membro">Membros da equipe</option>
+            <option value="cliente">Clientes</option>
+          </select>
+        </div>
+        <div class="t-12 muted" style="padding:0 20px 6px" data-filtro-resumo></div>
+
+        <div class="table-wrap">
+          <table class="table table--cards" id="tabela-usuarios">
+            <thead>
+              <tr>
+                <th>Usuário</th>
+                <th>Papel</th>
+                <th>Tickets</th>
+                <th>Último acesso</th>
+                <th>Status</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody data-tbody></tbody>
+          </table>
+        </div>
+        <div class="card__foot">
+          <span data-lista-foot>—</span>
+          <span class="t-12 muted">Dados no navegador (MVP). Em produção, vem do backend.</span>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Modal: novo usuário -->
+  <div class="modal" id="modal-novo-usuario" role="dialog" aria-modal="true" aria-labelledby="t-novo">
+    <div class="modal__panel">
+      <div class="modal__head">
+        <div>
+          <div class="modal__title" id="t-novo">Novo usuário</div>
+          <div class="modal__sub">Ele recebe um convite por e-mail para definir a senha.</div>
+        </div>
+        <button class="icon-btn" data-modal-close aria-label="Fechar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 6l12 12M18 6 6 18" />
+          </svg>
+        </button>
+      </div>
+      <form class="modal__body" id="form-novo-usuario">
+        <div class="field">
+          <label class="label" for="nu-nome">Nome completo</label>
+          <input class="input" id="nu-nome" placeholder="Ex.: Laura Prado" required>
+        </div>
+        <div class="field">
+          <label class="label" for="nu-email">E-mail</label>
+          <input class="input" id="nu-email" type="email" placeholder="nome@empresa.com" required>
+        </div>
+        <div class="form-row">
+          <div class="field">
+            <label class="label" for="nu-papel">Papel</label>
+            <select class="select" id="nu-papel">
+              <option value="membro">Membro da equipe</option>
+              <option value="cliente">Cliente</option>
+              <option value="admin">Administrador</option>
+            </select>
+          </div>
+          <div class="field">
+            <label class="label" for="nu-plano">Plano</label>
+            <select class="select" id="nu-plano">
+              <option>Pro</option>
+              <option>Trial</option>
+              <option>Cliente</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn btn--outline" data-modal-close>Cancelar</button>
+          <button type="submit" class="btn btn--primary">Enviar convite</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: detalhe do usuário -->
+  <div class="modal" id="modal-usuario" role="dialog" aria-modal="true" aria-labelledby="t-usuario">
+    <div class="modal__panel">
+      <div class="modal__head">
+        <div class="row">
+          <span class="avatar avatar--lg" id="u-avatar">RM</span>
+          <div>
+            <div class="modal__title" id="t-usuario">—</div>
+            <div class="modal__sub" id="u-sub">—</div>
+          </div>
+        </div>
+        <button class="icon-btn" data-modal-close aria-label="Fechar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 6l12 12M18 6 6 18" />
+          </svg>
+        </button>
+      </div>
+      <div class="modal__body">
+        <div class="grid grid--2" style="gap:16px">
+          <dl style="margin:0">
+            <div class="kv">
+              <dt>E-mail</dt>
+              <dd id="u-email">—</dd>
+            </div>
+            <div class="kv">
+              <dt>Papel</dt>
+              <dd id="u-papel">—</dd>
+            </div>
+            <div class="kv">
+              <dt>Cargo</dt>
+              <dd id="u-cargo">—</dd>
+            </div>
+          </dl>
+          <dl style="margin:0">
+            <div class="kv">
+              <dt>Plano</dt>
+              <dd id="u-plano">—</dd>
+            </div>
+            <div class="kv">
+              <dt>Tickets abertos</dt>
+              <dd id="u-tickets">—</dd>
+            </div>
+            <div class="kv">
+              <dt>Último acesso</dt>
+              <dd id="u-ultimo">—</dd>
+            </div>
+          </dl>
+        </div>
+        <div class="divider"></div>
+        <label class="label" for="u-nota">Nota interna <span class="label__hint">(só o admin vê)</span></label>
+        <textarea class="textarea" id="u-nota" placeholder="Anotações sobre este usuário…"></textarea>
+      </div>
+      <div class="modal__foot">
+        <button class="btn btn--outline" data-modal-close>Fechar</button>
+        <button class="btn btn--primary" id="u-salvar-nota">Salvar nota</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite">
+    <svg class="toast__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"
+      stroke-linejoin="round">
+      <circle cx="12" cy="12" r="9" />
+      <path d="m8.5 12 2.5 2.5 4.5-5" />
+    </svg>
+    <div><strong data-toast-title>Feito!</strong><small data-toast-text></small></div>
+  </div>
+
+  <script src="assets/js/store.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script>
+    /* ============ Admin · Usuários ============ */
+    (function () {
+      var D = window.Dados;
+      D.pronto().then(function(){
+        if (!D.ehAdmin()) { location.replace("login.html?destino=usuarios.html"); return; }
+        boot();
+      });
+      function boot() {
+
+      var filtro = "todos";
+      var papel = "";
+      var busca = "";
+      var aberto = null;
+
+      var tbody = document.querySelector("[data-tbody]");
+
+      function iniciais(nome) {
+        return nome.trim().split(/\s+/).map(function (p) { return p[0]; }).slice(0, 2).join("").toUpperCase();
+      }
+
+      function statusBadge(s) {
+        return '<span class="badge badge--' + (s === "ativo" ? "success" : s === "convite" ? "warn" : "danger") + '">' +
+          (s === "ativo" ? "Ativo" : s === "convite" ? "Convite enviado" : "Bloqueado") + "</span>";
+      }
+
+      function papelBadge(p) {
+        if (p === "admin") return '<span class="badge badge--primary badge--plain">Administrador</span>';
+        if (p === "cliente") return '<span class="badge badge--neutral badge--plain">Cliente</span>';
+        return '<span class="badge badge--neutral badge--plain">Equipe</span>';
+      }
+
+      function filtrados() {
+        return D.usuarios().filter(function (u) {
+          if (filtro !== "todos" && u.status !== filtro) return false;
+          if (papel && u.papel !== papel) return false;
+          if (busca) {
+            var q = busca.toLowerCase();
+            return (u.nome + " " + u.email + " " + u.cargo).toLowerCase().indexOf(q) !== -1;
+          }
+          return true;
+        });
+      }
+
+      function kpis() {
+        var us = D.usuarios();
+        var ativos = us.filter(function (u) { return u.status === "ativo"; }).length;
+        var convites = us.filter(function (u) { return u.status === "convite"; }).length;
+        var bloqueados = us.filter(function (u) { return u.status === "bloqueado"; }).length;
+        var pct = us.length ? Math.round((ativos / us.length) * 100) : 0;
+
+        document.querySelector("[data-k-total]").textContent = us.length;
+        document.querySelector("[data-k-ativos]").textContent = ativos;
+        document.querySelector("[data-k-convites]").textContent = convites;
+        document.querySelector("[data-k-bloqueados]").textContent = bloqueados;
+        document.querySelector("[data-k-var]").textContent = "+" + convites + " novos";
+        document.querySelector("[data-k-ativos-txt]").textContent = pct + "%";
+        document.querySelector("[data-k-convites-txt]").textContent = convites ? "ação" : "em dia";
+        document.querySelector("[data-k-bloq-txt]").textContent = bloqueados ? "revisar" : "0";
+
+        document.querySelector("[data-lista-sub]").textContent = us.length + " pessoas · " + ativos + " ativas · " + convites + " convite(s) pendente(s)";
+        document.querySelectorAll("[data-badge-tickets]").forEach(function (b) {
+          b.textContent = D.tickets().filter(function (t) { return t.status === "aberto"; }).length;
+        });
+      }
+
+      function pintarTabela() {
+        var lista = filtrados();
+        document.querySelector("[data-lista-foot]").textContent = "Mostrando " + lista.length + " de " + D.usuarios().length + " usuários";
+        document.querySelector("[data-filtro-resumo]").textContent = filtro === "todos" && !papel && !busca
+          ? "Filtros rápidos: role para o lado no celular."
+          : "Filtro: " + (filtro === "todos" ? "todos os status" : filtro) + (papel ? " · " + papel : "") + (busca ? ' · busca "' + busca + '"' : "");
+
+        tbody.innerHTML = lista.length
+          ? lista.map(function (u) {
+            return "<tr>" +
+              '<td><div class="cell-user"><span class="avatar avatar--sm">' + D.esc(u.iniciais) + "</span><div>" +
+              '<div class="cell-user__name">' + D.esc(u.nome) + "</div>" +
+              '<div class="cell-user__sub">' + D.esc(u.email) + "</div>" +
+              "</div></div></td>" +
+              "<td>" + papelBadge(u.papel) + "</td>" +
+              "<td>" + (u.tickets ? "<b>" + u.tickets + "</b>" : "—") + "</td>" +
+              '<td><span class="t-13">' + (u.ultimo ? D.haQuanto(u.ultimo) : "nunca") + "</span></td>" +
+              "<td>" + statusBadge(u.status) + "</td>" +
+              '<td><div class="t-actions">' +
+              '<button class="btn btn--outline btn--sm" data-ver="' + u.id + '">Ver</button>' +
+              '<button class="btn btn--ghost btn--sm" data-toggle="' + u.id + '">' + (u.status === "bloqueado" ? "Desbloquear" : u.status === "convite" ? "Reenviar" : "Bloquear") + "</button>" +
+              "</div></td>" +
+              "</tr>";
+          }).join("")
+          : '<tr><td colspan="6" style="text-align:center;padding:34px 16px;white-space:normal"><span class="t-13 muted">Nenhum usuário encontrado com esses filtros.</span></td></tr>';
+
+        tbody.querySelectorAll("[data-ver]").forEach(function (b) {
+          b.addEventListener("click", function () { verUsuario(Number(b.getAttribute("data-ver"))); });
+        });
+        tbody.querySelectorAll("[data-toggle]").forEach(function (b) {
+          b.addEventListener("click", function () { alternar(Number(b.getAttribute("data-toggle"))); });
+        });
+      }
+
+      function verUsuario(id) {
+        var u = D.usuarios().filter(function (x) { return x.id === id; })[0];
+        if (!u) return;
+        aberto = id;
+        document.getElementById("u-avatar").textContent = u.iniciais;
+        document.getElementById("t-usuario").textContent = u.nome;
+        document.getElementById("u-sub").textContent = u.cargo + " · " + (u.papel === "admin" ? "Administrador" : u.papel === "cliente" ? "Cliente" : "Equipe");
+        document.getElementById("u-email").textContent = u.email;
+        document.getElementById("u-papel").textContent = u.papel === "admin" ? "Administrador" : u.papel === "cliente" ? "Cliente" : "Membro";
+        document.getElementById("u-cargo").textContent = u.cargo;
+        document.getElementById("u-plano").textContent = u.plano;
+        document.getElementById("u-tickets").textContent = u.tickets;
+        document.getElementById("u-ultimo").textContent = u.ultimo ? D.haQuanto(u.ultimo) : "nunca";
+        document.getElementById("u-nota").value = u.nota || "";
+        window.Prospecta.openModal("modal-usuario");
+      }
+
+      function alternar(id) {
+        var lista = D.usuarios();
+        var u = lista.filter(function (x) { return x.id === id; })[0];
+        if (!u) return;
+        if (u.papel === "admin" && u.email === "rafael@agenciamendes.com") {
+          window.Prospecta.toast("Ação bloqueada", "O administrador principal não pode ser bloqueado.");
+          return;
+        }
+        if (u.status === "bloqueado") { u.status = "ativo"; window.Prospecta.toast("Usuário desbloqueado", u.nome + " voltou a ter acesso."); }
+        else if (u.status === "convite") { window.Prospecta.toast("Convite reenviado", "O e-mail foi para " + u.email + "."); }
+        else { u.status = "bloqueado"; window.Prospecta.toast("Usuário bloqueado", u.nome + " não consegue mais entrar."); }
+        Promise.resolve(D.atualizarUsuario ? D.atualizarUsuario(id, { status: u.status === 'ativo' ? 'ativo' : u.status === 'bloqueado' ? 'bloqueado' : 'convite' }) : D.salvarUsuarios(lista)).then(function(){ kpis(); pintarTabela(); }).catch(function(err){ window.Prospecta.toast('Erro', err.message || 'Falha ao salvar'); });
+      }
+
+      // Novo usuário
+      document.getElementById("form-novo-usuario").addEventListener("submit", function (e) {
+        e.preventDefault();
+        var nome = document.getElementById("nu-nome").value.trim();
+        var email = document.getElementById("nu-email").value.trim();
+        var papelNovo = document.getElementById("nu-papel").value;
+        var plano = document.getElementById("nu-plano").value;
+
+        var lista = D.usuarios();
+        if (lista.some(function (u) { return u.email.toLowerCase() === email.toLowerCase(); })) {
+          window.Prospecta.toast("E-mail já cadastrado", "Use outro endereço ou reenvie o convite na tabela.");
+          return;
+        }
+        var novo = { nome: nome, iniciais: iniciais(nome), email: email, plano: plano, cargo: papelNovo === "cliente" ? "Cliente" : papelNovo === "admin" ? "Administrador" : "Equipe", status: "convite", papel: papelNovo };
+        Promise.resolve(D.criarUsuario ? D.criarUsuario(novo) : (lista.unshift(Object.assign({id:Date.now(),tickets:0,criado:new Date().toISOString(),ultimo:null},novo)), D.salvarUsuarios(lista))).then(function(){
+          window.Prospecta.closeModals(); e.target.reset(); window.Prospecta.toast("Convite enviado!", nome + " receberá o e-mail em instantes."); kpis(); pintarTabela();
+        }).catch(function(err){ window.Prospecta.toast('Erro', err.message || 'Falha ao criar usuário'); });
+      });
+
+      // Nota interna
+      document.getElementById("u-salvar-nota").addEventListener("click", function () {
+        var lista = D.usuarios();
+        var u = lista.filter(function (x) { return x.id === aberto; })[0];
+        if (!u) return;
+        u.nota = document.getElementById("u-nota").value.trim();
+        Promise.resolve(D.atualizarUsuario ? D.atualizarUsuario(aberto, { note: u.nota }) : D.salvarUsuarios(lista)).then(function(){
+          window.Prospecta.closeModals(); window.Prospecta.toast("Nota salva", "Visível apenas para administradores.");
+        }).catch(function(err){ window.Prospecta.toast('Erro', err.message || 'Falha ao salvar nota'); });
+      });
+
+      // Filtros
+      document.querySelectorAll("#filtro-usuarios button").forEach(function (b) {
+        b.addEventListener("click", function () {
+          document.querySelectorAll("#filtro-usuarios button").forEach(function (x) { x.classList.remove("is-active"); });
+          b.classList.add("is-active");
+          filtro = b.getAttribute("data-f");
+          pintarTabela();
+        });
+      });
+      document.getElementById("filtro-papel").addEventListener("change", function (e) { papel = e.target.value; pintarTabela(); });
+      document.getElementById("busca-usuario").addEventListener("input", function (e) { busca = e.target.value.trim(); pintarTabela(); });
+
+      document.querySelectorAll("[data-logout]").forEach(function (el) {
+        el.addEventListener("click", function (e) {
+          e.preventDefault();
+          if (confirm("Sair do painel admin?")) Promise.resolve(D.sairAdmin && D.sairAdmin()).finally(function(){ location.href = "dashboard.html"; });
+        });
+      });
+
+      document.addEventListener("prospecta:mudou", function () { kpis(); pintarTabela(); });
+      kpis();
+      pintarTabela();
+      }
+    })();
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#12142b">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Tickets · Administração Prospecta</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%2312142b'/%3E%3Ctext x='16' y='22' font-family='Arial' font-size='17' font-weight='bold' fill='white' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/global.css">
+</head>
+<body data-page="tickets" data-role="admin">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="sidebar__brand" href="admin.html">
+      <span class="brand__logo" style="background:linear-gradient(135deg,#12142b,#4f46e5)">A</span>
+      <span>
+        <span class="brand__name">Prospecta</span>
+        <span class="brand__plan">Painel admin</span>
+      </span>
+    </a>
+    <nav class="sidebar__nav">
+      <div class="nav__label">Administração</div>
+      <a class="nav__item" href="admin.html" data-nav="admin">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>
+        Painel admin
+      </a>
+      <a class="nav__item" href="tickets.html" data-nav="tickets">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M8 9h8M8 13h5"/></svg>
+        Tickets <span class="nav__badge" data-badge-tickets>4</span>
+      </a>
+      <a class="nav__item" href="usuarios.html" data-nav="usuarios">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3 20a6 6 0 0 1 12 0"/><circle cx="17.5" cy="9.5" r="2.4"/><path d="M16 20a4.5 4.5 0 0 1 5-4.4"/></svg>
+        Usuários
+      </a>
+      <div class="nav__label">Produto</div>
+      <a class="nav__item" href="dashboard.html" data-nav="dashboard">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/></svg>
+        Voltar ao app
+      </a>
+      <a class="nav__item" href="prospectar.html" data-nav="prospectar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        Prospectar
+      </a>
+      <a class="nav__item" href="contratos.html" data-nav="contratos">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/></svg>
+        Contratos
+      </a>
+      <a class="nav__item" href="sites.html" data-nav="sites">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/></svg>
+        Sites
+      </a>
+      <a class="nav__item" href="equipes.html" data-nav="equipes">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3 20a6 6 0 0 1 12 0"/></svg>
+        Equipes
+      </a>
+      <a class="nav__item" href="extensao.html" data-nav="extensao">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L4 17v3h3l5.3-5.3a4 4 0 0 0 5.4-5.4l-2.3 2.3-2.7-2.7z"/></svg>
+        Extensão
+      </a>
+      <a class="nav__item" href="configuracoes.html" data-nav="configuracoes">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.2"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
+        Configuração
+      </a>
+      <a class="nav__item" href="#" data-toast="Central de ajuda|Todos os tickets estão aqui.">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 3.4 2.3c-.6.3-.9.8-.9 1.4v.4"/><circle cx="12" cy="17" r=".8" fill="currentColor"/></svg>
+        Ajuda
+      </a>
+    </nav>
+    <a class="sidebar__foot" href="#" data-logout>
+      <span class="avatar">RM</span>
+      <span class="sidebar__foot-info">
+        <span class="sidebar__foot-name">Rafael Mendes</span>
+        <span class="sidebar__foot-mail">Admin · sair</span>
+      </span>
+    </a>
+  </aside>
+
+  <div class="overlay" data-overlay></div>
+
+  <div class="main">
+    <header class="topbar">
+      <button class="icon-btn menu-btn" data-menu-toggle aria-label="Abrir menu" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </button>
+      <div>
+        <div class="topbar__title">Tickets</div>
+        <div class="topbar__crumbs">Administração <b>/</b> <b>Central de tickets</b></div>
+      </div>
+      <div class="topbar__spacer"></div>
+      <span class="badge badge--primary badge--plain" style="height:26px">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 6v6c0 5 3.5 8.5 8 10 4.5-1.5 8-5 8-10V6z"/></svg>
+        Acesso restrito
+      </span>
+      <button class="user-menu" aria-label="Menu do usuário">
+        <span class="avatar avatar--sm">RM</span>
+        <span class="user-menu__name">Rafael</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      </button>
+    </header>
+
+    <main class="content">
+      <div class="page-head">
+        <div>
+          <h1 class="page-head__title">Central de tickets</h1>
+          <p class="page-head__sub">Tudo que os clientes abrem em “Central de ajuda” chega aqui.</p>
+        </div>
+        <div class="page-actions">
+          <div class="seg" id="filtro-status">
+            <button class="is-active" data-status="todos">Todos</button>
+            <button data-status="aberto">Abertos</button>
+            <button data-status="respondido">Respondidos</button>
+            <button data-status="resolvido">Resolvidos</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="admin-grid">
+        <!-- Lista -->
+        <section class="card inbox">
+          <div class="inbox__tools">
+            <div class="input-wrap">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+              <input class="input input--icon" type="search" placeholder="Buscar por cliente, assunto ou #id" id="busca-ticket" aria-label="Buscar ticket">
+            </div>
+            <div class="row row--between t-12 muted">
+              <span id="contagem-lista">—</span>
+              <span>SLA 2h</span>
+            </div>
+          </div>
+          <div class="inbox__list" id="lista-tickets"></div>
+        </section>
+
+        <!-- Conversa + detalhes -->
+        <section class="card conversation" id="conversa">
+          <div class="empty" id="sem-ticket" style="margin:auto">
+            <div class="empty__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+            <div class="empty__title">Selecione um ticket</div>
+            <div class="empty__text">Escolha um atendimento na lista ao lado para ler a conversa e responder ao cliente.</div>
+          </div>
+
+          <div id="ticket-painel" class="hide" style="display:flex;flex-direction:column;min-height:0;flex:1">
+            <div class="conversation__head">
+              <span class="avatar avatar--sm" id="t-avatar">BT</span>
+              <div class="conversation__meta">
+                <div class="conversation__title" id="t-assunto">—</div>
+                <div class="conversation__sub" id="t-sub">—</div>
+              </div>
+              <div class="conversation__actions">
+                <select class="select" id="t-status" style="height:34px;width:auto;font-size:12.5px" aria-label="Status do ticket">
+                  <option value="aberto">Aberto</option>
+                  <option value="respondido">Respondido</option>
+                  <option value="resolvido">Resolvido</option>
+                </select>
+                <button class="btn btn--success btn--sm" id="t-resolver">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg>
+                  Resolver
+                </button>
+              </div>
+            </div>
+
+            <div class="conversation__stream" id="t-stream"></div>
+
+            <div class="conversation__composer">
+              <div class="quick-replies" id="t-quick"></div>
+              <div class="composer">
+                <textarea class="textarea" id="t-input" rows="1" placeholder="Escreva a resposta para o cliente…" aria-label="Resposta" maxlength="2000"></textarea>
+                <button class="composer__send" id="t-send" aria-label="Enviar resposta">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4z"/><path d="M22 2 11 13"/></svg>
+                </button>
+              </div>
+              <div class="conversation__hint">
+                <span>Enter envia · Shift + Enter quebra linha</span>
+                <span>Respondendo como <b>Admin · Rafael</b></span>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- Detalhes do ticket (abaixo, ocupa a largura) -->
+      <section class="card mt-24 hide" id="detalhe-card">
+        <div class="card__head">
+          <div class="card__title">Detalhes do ticket</div>
+          <span class="t-12 muted" id="d-criado">—</span>
+        </div>
+        <div class="card__body">
+          <div class="grid grid--4" style="gap:24px">
+            <dl style="margin:0">
+              <div class="kv"><dt>Ticket</dt><dd id="d-id">—</dd></div>
+              <div class="kv"><dt>Motivo</dt><dd id="d-motivo">—</dd></div>
+              <div class="kv"><dt>Prioridade</dt><dd id="d-prio">—</dd></div>
+            </dl>
+            <dl style="margin:0">
+              <div class="kv"><dt>Cliente</dt><dd id="d-cliente">—</dd></div>
+              <div class="kv"><dt>E-mail</dt><dd id="d-email" style="font-weight:500;font-size:12px">—</dd></div>
+              <div class="kv"><dt>Plano</dt><dd id="d-plano">—</dd></div>
+            </dl>
+            <dl style="margin:0">
+              <div class="kv"><dt>Origem</dt><dd id="d-origem">—</dd></div>
+              <div class="kv"><dt>Mensagens</dt><dd id="d-msgs">—</dd></div>
+              <div class="kv"><dt>Última ação</dt><dd id="d-atualizado">—</dd></div>
+            </dl>
+            <dl style="margin:0">
+              <div class="kv"><dt>Status</dt><dd id="d-status">—</dd></div>
+              <div class="kv"><dt>Tempo de espera</dt><dd id="d-espera">—</dd></div>
+              <div class="kv"><dt>Atendente</dt><dd>Rafael (admin)</dd></div>
+            </dl>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite">
+    <svg class="toast__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg>
+    <div><strong data-toast-title>Feito!</strong><small data-toast-text></small></div>
+  </div>
+
+  <script src="assets/js/store.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script>
+    /* ============ Admin · Centro de tickets ============ */
+    (function () {
+      var D = window.Dados;
+      D.pronto().then(function(){ if (!D.ehAdmin()) { location.replace("login.html?destino=tickets.html"); return; } bootTickets(); });
+      function bootTickets() {
+
+      var filtro = "todos";
+      var busca = "";
+      var atual = Number(new URLSearchParams(location.search).get("ticket")) || null;
+
+      var elLista = document.getElementById("lista-tickets");
+      var elContagem = document.getElementById("contagem-lista");
+      var elSem = document.getElementById("sem-ticket");
+      var elPainel = document.getElementById("ticket-painel");
+      var elStream = document.getElementById("t-stream");
+      var elInput = document.getElementById("t-input");
+
+      var RAPIDAS = [
+        "Olá! Já estou verificando aqui, me dá 2 minutinhos? 🙌",
+        "Pode me confirmar o e-mail da sua conta?",
+        "Resolvido! Se precisar, é só responder por aqui.",
+        "Vou escalar para o time técnico e volto com uma resposta em até 2h."
+      ];
+
+      function statusClasse(s) { return s === "resolvido" ? "st--resolvido" : s === "respondido" ? "st--respondido" : "st--aberto"; }
+      function statusLabel(s) { return s === "resolvido" ? "Resolvido" : s === "respondido" ? "Respondido" : "Aberto"; }
+      function prioLabel(p) { return p === "alta" ? "Alta" : p === "media" ? "Média" : "Baixa"; }
+
+      function visiveis() {
+        return D.tickets()
+          .filter(function (t) { return filtro === "todos" || t.status === filtro; })
+          .filter(function (t) {
+            if (!busca) return true;
+            var q = busca.toLowerCase();
+            return (t.assunto + " " + t.cliente.nome + " " + t.cliente.email + " " + t.id).toLowerCase().indexOf(q) !== -1;
+          })
+          .sort(function (a, b) { return new Date(b.atualizado) - new Date(a.atualizado); });
+      }
+
+      function pintarLista() {
+        var lista = visiveis();
+        var abertos = D.tickets().filter(function (t) { return t.status === "aberto"; }).length;
+        document.querySelectorAll("[data-badge-tickets]").forEach(function (b) { b.textContent = abertos; });
+
+        elContagem.textContent = lista.length + " de " + D.tickets().length + " tickets";
+        elLista.innerHTML = lista.length
+          ? lista.map(function (t) {
+              var ult = D.ultimaMensagem(t) || {};
+              var nl = D.naoLidas(t);
+              return '<button class="ticket-item' + (Number(t.id) === atual ? " is-active" : "") + '" data-id="' + t.id + '">' +
+                '<span class="avatar avatar--sm ' + (t.prioridade === "alta" ? "avatar--rose" : t.prioridade === "media" ? "avatar--amber" : "avatar--sky") + '">' + D.esc(t.cliente.iniciais) + "</span>" +
+                '<span class="ticket-item__body">' +
+                  '<span class="ticket-item__top"><span class="ticket-item__nome">' + D.esc(t.cliente.nome) + "</span>" +
+                    '<span class="ticket-item__hora">' + D.haQuanto(t.atualizado) + "</span></span>" +
+                  '<span class="ticket-item__assunto">' + D.esc(t.assunto) + "</span>" +
+                  '<span class="ticket-item__foot">' +
+                    '<span class="st ' + statusClasse(t.status) + '">' + statusLabel(t.status) + "</span>" +
+                    '<span class="ticket-item__id">#' + t.id + "</span>" +
+                    (nl ? '<span class="badge badge--primary badge--plain" style="height:18px;font-size:10.5px;margin-left:auto">' + nl + " nova" + (nl > 1 ? "s" : "") + "</span>" : "") +
+                  "</span>" +
+                "</span>" +
+              "</button>";
+            }).join("")
+          : '<div class="empty"><div class="empty__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></div><div class="empty__title">Nenhum ticket encontrado</div><div class="empty__text">Tente outro termo de busca ou outro filtro de status.</div></div>';
+
+        elLista.querySelectorAll("[data-id]").forEach(function (b) {
+          b.addEventListener("click", function () { abrir(Number(b.getAttribute("data-id"))); });
+        });
+      }
+
+      function abrir(id) {
+        atual = id;
+        var t = D.tickets().filter(function (x) { return Number(x.id) === id; })[0];
+        if (!t) { pintarLista(); return; }
+
+        // marca as mensagens do cliente como lidas (admin leu)
+        var lista = D.tickets();
+        var alvo = lista.filter(function (x) { return Number(x.id) === id; })[0];
+        if (D.modo && D.modo() === 'api' && D.carregarTicket) {
+          D.carregarTicket(id).catch(function(){});
+        } else {
+          alvo.mensagens.forEach(function (m) { if (m.autor === "cliente") m.lida = true; });
+          D.salvarTickets(lista);
+        }
+
+        history.replaceState(null, "", "tickets.html?ticket=" + id);
+
+        elSem.classList.add("hide");
+        elPainel.classList.remove("hide");
+        elPainel.style.display = "flex";
+        document.getElementById("detalhe-card").classList.remove("hide");
+
+        document.getElementById("t-avatar").textContent = t.cliente.iniciais;
+        document.getElementById("t-assunto").textContent = "#" + t.id + " · " + t.assunto;
+        document.getElementById("t-sub").textContent = t.cliente.nome + " · " + t.cliente.email + " · " + t.motivoRotulo;
+        document.getElementById("t-status").value = t.status;
+
+        document.getElementById("d-id").textContent = "#" + t.id;
+        document.getElementById("d-motivo").textContent = t.motivoRotulo;
+        document.getElementById("d-prio").innerHTML = '<span class="badge badge--' + (t.prioridade === "alta" ? "danger" : t.prioridade === "media" ? "warn" : "neutral") + '">' + prioLabel(t.prioridade) + "</span>";
+        document.getElementById("d-cliente").textContent = t.cliente.nome;
+        document.getElementById("d-email").textContent = t.cliente.email;
+        document.getElementById("d-plano").textContent = t.cliente.plano;
+        document.getElementById("d-origem").textContent = t.origem;
+        document.getElementById("d-msgs").textContent = t.mensagens.length;
+        document.getElementById("d-atualizado").textContent = D.haQuanto(t.atualizado);
+        document.getElementById("d-status").innerHTML = '<span class="st ' + statusClasse(t.status) + '">' + statusLabel(t.status) + "</span>";
+        document.getElementById("d-espera").textContent = D.haQuanto(t.criado);
+        document.getElementById("d-criado").textContent = "Aberto em " + D.hora(t.criado);
+
+        document.getElementById("t-quick").innerHTML = RAPIDAS.map(function (r, i) {
+          return '<button type="button" data-quick="' + i + '">' + D.esc(r.length > 38 ? r.slice(0, 36) + "…" : r) + "</button>";
+        }).join("");
+        document.getElementById("t-quick").querySelectorAll("[data-quick]").forEach(function (b) {
+          b.addEventListener("click", function () {
+            elInput.value = RAPIDAS[Number(b.getAttribute("data-quick"))];
+            elInput.focus();
+          });
+        });
+
+        pintarConversa();
+        pintarLista();
+      }
+
+      function pintarConversa() {
+        var t = D.tickets().filter(function (x) { return Number(x.id) === atual; })[0];
+        if (!t) return;
+        var html = '<div class="conversation__note">Ticket aberto pelo cliente em <b>Central de ajuda → ' + D.esc(t.origem) + "</b>. Respostas enviadas aqui aparecem no chat do cliente.</div>";
+
+        t.mensagens.forEach(function (m) {
+          var autor = m.autor === "cliente" ? "Cliente" : m.autor === "admin" ? "Admin · Rafael" : "Suporte";
+          html += '<div class="msg ' + (m.autor === "cliente" ? "msg--in" : "msg--out") + '">' + D.esc(m.texto) +
+            '<span class="msg__meta">' + autor + " · " + D.hora(m.em) + "</span></div>";
+        });
+        elStream.innerHTML = html;
+        elStream.scrollTop = elStream.scrollHeight;
+      }
+
+      function responder() {
+        var texto = elInput.value.trim();
+        if (!texto || !atual) return;
+        var lista = D.tickets();
+        var t = lista.filter(function (x) { return Number(x.id) === atual; })[0];
+        if (!t) return;
+        t.mensagens.push({ id: Date.now(), autor: "admin", texto: texto, em: new Date().toISOString(), lida: true });
+        t.status = "respondido";
+        t.atualizado = new Date().toISOString();
+        Promise.resolve(D.enviarMensagem ? D.enviarMensagem(atual, texto, { status: 'respondido' }) : D.salvarTickets(lista)).then(function(ticket){
+          elInput.value = ""; elInput.style.height = "44px"; document.getElementById("t-status").value = "respondido";
+          if (ticket) { pintarConversa(); pintarLista(); abrirDetalhesRapidos(ticket); } else { pintarConversa(); pintarLista(); }
+          window.Prospecta.toast("Resposta enviada", "O cliente recebe no chat da Central de ajuda.");
+        }).catch(function(err){ window.Prospecta.toast('Erro', err.message || 'Falha ao enviar'); });
+      }
+
+      function abrirDetalhesRapidos(t) {
+        document.getElementById("d-msgs").textContent = t.mensagens.length;
+        document.getElementById("d-atualizado").textContent = D.haQuanto(t.atualizado);
+        document.getElementById("d-status").innerHTML = '<span class="st ' + statusClasse(t.status) + '">' + statusLabel(t.status) + "</span>";
+      }
+
+      // eventos
+      document.getElementById("t-send").addEventListener("click", responder);
+      elInput.addEventListener("keydown", function (e) {
+        if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); responder(); }
+      });
+      elInput.addEventListener("input", function () {
+        elInput.style.height = "44px";
+        elInput.style.height = Math.min(120, elInput.scrollHeight) + "px";
+      });
+
+      document.getElementById("t-status").addEventListener("change", function (e) {
+        var lista = D.tickets();
+        var t = lista.filter(function (x) { return Number(x.id) === atual; })[0];
+        if (!t) return;
+        t.status = e.target.value;
+        t.atualizado = new Date().toISOString();
+        Promise.resolve(D.atualizarTicket ? D.atualizarTicket(atual, { status: t.status }) : D.salvarTickets(lista)).then(function(nt){
+          if (nt) t = nt; pintarConversa(); pintarLista(); abrirDetalhesRapidos(t);
+          window.Prospecta.toast("Status atualizado", "Ticket agora está como " + statusLabel(t.status) + ".");
+        }).catch(function(err){ window.Prospecta.toast('Erro', err.message || 'Falha ao atualizar'); });
+      });
+
+      document.getElementById("t-resolver").addEventListener("click", function () {
+        var lista = D.tickets();
+        var t = lista.filter(function (x) { return Number(x.id) === atual; })[0];
+        if (!t) return;
+        t.status = "resolvido";
+        t.atualizado = new Date().toISOString();
+        t.mensagens.push({ id: Date.now(), autor: "suporte", texto: "Seu atendimento foi marcado como resolvido. Se precisar, é só responder por aqui que reabrimos. 💜", em: new Date().toISOString(), lida: false });
+        Promise.resolve(D.atualizarTicket ? D.atualizarTicket(atual, { status: 'resolvido' }) : D.salvarTickets(lista)).then(function(nt){
+          if (nt) t = nt; document.getElementById("t-status").value = "resolvido"; pintarConversa(); pintarLista(); abrirDetalhesRapidos(t);
+          window.Prospecta.toast("Ticket resolvido", "#" + t.id + " foi encerrado com sucesso.");
+        }).catch(function(err){ window.Prospecta.toast('Erro', err.message || 'Falha ao resolver'); });
+      });
+
+      document.getElementById("busca-ticket").addEventListener("input", function (e) {
+        busca = e.target.value.trim();
+        pintarLista();
+      });
+
+      document.querySelectorAll("#filtro-status button").forEach(function (b) {
+        b.addEventListener("click", function () {
+          document.querySelectorAll("#filtro-status button").forEach(function (x) { x.classList.remove("is-active"); });
+          b.classList.add("is-active");
+          filtro = b.getAttribute("data-status");
+          pintarLista();
+        });
+      });
+
+      document.querySelectorAll("[data-logout]").forEach(function (el) {
+        el.addEventListener("click", function (e) { e.preventDefault(); if (confirm("Sair do painel admin?")) Promise.resolve(D.sairAdmin && D.sairAdmin()).finally(function(){ location.href = "dashboard.html"; }); });
+      });
+
+      document.addEventListener("prospecta:mudou", function () { pintarLista(); if (atual) { var t=D.tickets().filter(function(x){return Number(x.id)===atual;})[0]; if(t){ pintarConversa(); } } });
+      pintarLista();
+      if (atual) abrir(atual);
+      else { var primeiro = visiveis()[0]; if (primeiro) abrir(Number(primeiro.id)); }
+      }
+    })();
+  </script>
+</body>
+</html>

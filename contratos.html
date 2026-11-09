@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#12142b">
+  <title>Contratos · Prospecta</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%236366f1'/%3E%3Ctext x='16' y='22' font-family='Arial' font-size='17' font-weight='bold' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/global.css">
+</head>
+<body data-page="contratos">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="sidebar__brand" href="dashboard.html">
+      <span class="brand__logo">P</span>
+      <span>
+        <span class="brand__name">Prospecta</span>
+        <span class="brand__plan">Plano Pro</span>
+      </span>
+    </a>
+    <nav class="sidebar__nav">
+      <div class="nav__label">Principal</div>
+      <a class="nav__item" href="dashboard.html" data-nav="dashboard">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>
+        Dashboard
+      </a>
+      <a class="nav__item" href="prospectar.html" data-nav="prospectar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/><path d="M11 8v6M8 11h6"/></svg>
+        Prospectar <span class="nav__badge">12</span>
+      </a>
+      <a class="nav__item" href="contratos.html" data-nav="contratos">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h4"/></svg>
+        Contratos <span class="nav__badge nav__badge--soft">4</span>
+      </a>
+      <div class="nav__label">Produto</div>
+      <a class="nav__item" href="sites.html" data-nav="sites">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/><circle cx="6.5" cy="6.5" r=".6" fill="currentColor"/><circle cx="9" cy="6.5" r=".6" fill="currentColor"/></svg>
+        Sites
+      </a>
+      <a class="nav__item" href="equipes.html" data-nav="equipes">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3 20a6 6 0 0 1 12 0"/><circle cx="17.5" cy="9.5" r="2.4"/><path d="M16 20a4.5 4.5 0 0 1 5-4.4"/></svg>
+        Equipes
+      </a>
+      <a class="nav__item" href="extensao.html" data-nav="extensao">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L4 17v3h3l5.3-5.3a4 4 0 0 0 5.4-5.4l-2.3 2.3-2.7-2.7z"/></svg>
+        Extensão <span class="nav__badge nav__badge--soft">Novo</span>
+      </a>
+      <div class="nav__label">Conta</div>
+      <a class="nav__item" href="configuracoes.html" data-nav="configuracoes">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.2"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
+        Configuração
+      </a>
+      <button type="button" class="nav__item nav__item--btn" data-support-toggle>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 3.4 2.3c-.6.3-.9.8-.9 1.4v.4"/><circle cx="12" cy="17" r=".8" fill="currentColor"/></svg>
+        Ajuda
+      </button>
+    </nav>
+    <div class="sidebar__promo">
+      <h4>Desbloqueie o Pro</h4>
+      <p>Leads ilimitados, sites com domínio próprio e automações.</p>
+      <a class="btn btn--primary btn--sm btn--block" href="configuracoes.html#plano">Ver planos</a>
+    </div>
+    <a class="sidebar__foot" href="configuracoes.html">
+      <span class="avatar">RM</span>
+      <span class="sidebar__foot-info">
+        <span class="sidebar__foot-name">Rafael Mendes</span>
+        <span class="sidebar__foot-mail">rafael@agenciamendes.com</span>
+      </span>
+    </a>
+  </aside>
+
+  <div class="overlay" data-overlay></div>
+
+  <div class="main">
+    <header class="topbar">
+      <button class="icon-btn menu-btn" data-menu-toggle aria-label="Abrir menu" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </button>
+      <div>
+        <div class="topbar__title">Contratos</div>
+        <div class="topbar__crumbs">Início <b>/</b> <b>Contratos</b></div>
+      </div>
+      <div class="topbar__spacer"></div>
+      <button class="icon-btn" aria-label="Notificações">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
+        <span class="icon-btn__dot"></span>
+      </button>
+      <button class="user-menu" aria-label="Menu do usuário">
+        <span class="avatar avatar--sm">RM</span>
+        <span class="user-menu__name">Rafael</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      </button>
+    </header>
+
+    <main class="content">
+      <div class="page-head">
+        <div>
+          <h1 class="page-head__title">Contratos</h1>
+          <p class="page-head__sub">Acompanhe assinaturas, valores e renovações dos seus clientes.</p>
+        </div>
+        <div class="page-actions">
+          <button class="btn btn--outline" data-toast="Relatório gerado|Contratos de novembro foram exportados.">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M6 11l6-6 6 6"/><path d="M4 21h16"/></svg>
+            Exportar
+          </button>
+          <button class="btn btn--primary" data-modal-open="modal-contrato">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+            Novo contrato
+          </button>
+        </div>
+      </div>
+
+      <!-- KPIs -->
+      <div class="grid grid--4">
+        <article class="card kpi">
+          <div class="kpi__top">
+            <span class="kpi__icon kpi__icon--success"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="m9 15 2 2 4-4"/></svg></span>
+            <span class="trend trend--up">+4</span>
+          </div>
+          <div class="kpi__label">Contratos ativos</div>
+          <div class="kpi__value" data-count="38">38</div>
+          <div class="kpi__meta">de 44 no total</div>
+        </article>
+        <article class="card kpi">
+          <div class="kpi__top">
+            <span class="kpi__icon kpi__icon--primary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 6.5c0-2-2.2-3-5-3s-5 1-5 3 2.5 2.6 5 3.2 5 1.2 5 3.3-2.2 3-5 3-5-1-5-3"/></svg></span>
+            <span class="trend trend--up">9%</span>
+          </div>
+          <div class="kpi__label">Receita recorrente</div>
+          <div class="kpi__value"><small style="font-size:15px;font-weight:600;color:var(--text-soft)">R$</small> 46.900</div>
+          <div class="kpi__meta">MRR · previsão R$ 52.100</div>
+        </article>
+        <article class="card kpi">
+          <div class="kpi__top">
+            <span class="kpi__icon kpi__icon--warn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>
+            <span class="trend trend--flat">2</span>
+          </div>
+          <div class="kpi__label">Aguardando assinatura</div>
+          <div class="kpi__value" data-count="4">4</div>
+          <div class="kpi__meta">Valor em negociação: R$ 12.300</div>
+        </article>
+        <article class="card kpi">
+          <div class="kpi__top">
+            <span class="kpi__icon kpi__icon--info"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m7 15 4-5 3 3 4-6"/></svg></span>
+            <span class="trend trend--up">94%</span>
+          </div>
+          <div class="kpi__label">Taxa de renovação</div>
+          <div class="kpi__value"><span data-count="94" >94</span>%</div>
+          <div class="kpi__meta">Últimos 6 meses</div>
+        </article>
+      </div>
+
+      <div class="grid grid--sidebar mt-24" style="align-items:start">
+        <!-- Lista de contratos -->
+        <section class="card">
+          <div class="card__head">
+            <div>
+              <div class="card__title">Todos os contratos</div>
+              <div class="card__sub">44 contratos no plano Pro</div>
+            </div>
+            <button class="btn btn--outline btn--sm" data-toast="Filtros|Selecione status ou cliente na barra de busca.">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16l-6 7v6l-4 2v-8z"/></svg>
+              Filtros
+            </button>
+          </div>
+
+          <div class="filter-bar">
+            <div class="input-wrap filter-bar__search">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+              <input class="input input--icon" type="search" placeholder="Buscar contrato, cliente ou ID…" data-search="#tabela-contratos" aria-label="Buscar contratos">
+            </div>
+            <div class="row row--wrap" data-chip-group="contratos">
+              <button class="chip is-active" data-filter="all">Todos</button>
+              <button class="chip" data-filter="ativo">Ativos</button>
+              <button class="chip" data-filter="pendente">Pendentes</button>
+              <button class="chip" data-filter="revisao">Em revisão</button>
+              <button class="chip" data-filter="encerrado">Encerrados</button>
+            </div>
+          </div>
+
+          <div class="table-wrap">
+            <table class="table table--cards" id="tabela-contratos" data-row-group="contratos">
+              <thead>
+                <tr>
+                  <th>Cliente</th>
+                  <th>Serviço</th>
+                  <th>Início</th>
+                  <th class="num">Valor</th>
+                  <th>Status</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr data-status="ativo">
+                  <td><div class="cell-user"><span class="avatar avatar--sq avatar--amber avatar--sm">PT</span><div><div class="cell-user__name">Padaria Trigo D'ouro</div><div class="cell-user__sub">CT-2041 · São Paulo</div></div></div></td>
+                  <td>Site + Landing page</td>
+                  <td>12/10/2026</td>
+                  <td class="num">R$ 2.400</td>
+                  <td><span class="badge badge--success">Ativo</span></td>
+                  <td><button class="btn btn--outline btn--sm" data-modal-open="modal-detalhe">Abrir</button></td>
+                </tr>
+                <tr data-status="ativo">
+                  <td><div class="cell-user"><span class="avatar avatar--sq avatar--green avatar--sm">CB</span><div><div class="cell-user__name">Clínica Bem Viver</div><div class="cell-user__sub">CT-2038 · Belo Horizonte</div></div></div></td>
+                  <td>Site institucional</td>
+                  <td>02/10/2026</td>
+                  <td class="num">R$ 1.850</td>
+                  <td><span class="badge badge--success">Ativo</span></td>
+                  <td><button class="btn btn--outline btn--sm" data-modal-open="modal-detalhe">Abrir</button></td>
+                </tr>
+                <tr data-status="pendente">
+                  <td><div class="cell-user"><span class="avatar avatar--sq avatar--sky avatar--sm">AB</span><div><div class="cell-user__name">AutoBox Veículos</div><div class="cell-user__sub">CT-2033 · Curitiba</div></div></div></td>
+                  <td>E-commerce</td>
+                  <td>—</td>
+                  <td class="num">R$ 4.900</td>
+                  <td><span class="badge badge--warn">Pendente</span></td>
+                  <td><button class="btn btn--outline btn--sm" data-modal-open="modal-detalhe">Abrir</button></td>
+                </tr>
+                <tr data-status="revisao">
+                  <td><div class="cell-user"><span class="avatar avatar--sq avatar--rose avatar--sm">MS</span><div><div class="cell-user__name">Studio Melo</div><div class="cell-user__sub">CT-2031 · Recife</div></div></div></td>
+                  <td>Portfólio</td>
+                  <td>28/09/2026</td>
+                  <td class="num">R$ 1.200</td>
+                  <td><span class="badge badge--info">Em revisão</span></td>
+                  <td><button class="btn btn--outline btn--sm" data-modal-open="modal-detalhe">Abrir</button></td>
+                </tr>
+                <tr data-status="ativo">
+                  <td><div class="cell-user"><span class="avatar avatar--sq avatar--violet avatar--sm">ES</span><div><div class="cell-user__name">Estúdio Solar</div><div class="cell-user__sub">CT-2027 · Florianópolis</div></div></div></td>
+                  <td>Site + Blog</td>
+                  <td>15/09/2026</td>
+                  <td class="num">R$ 2.750</td>
+                  <td><span class="badge badge--success">Ativo</span></td>
+                  <td><button class="btn btn--outline btn--sm" data-modal-open="modal-detalhe">Abrir</button></td>
+                </tr>
+                <tr data-status="ativo">
+                  <td><div class="cell-user"><span class="avatar avatar--sq avatar--sm">DB</span><div><div class="cell-user__name">Doceria Bela Vista</div><div class="cell-user__sub">CT-2022 · Santos</div></div></div></td>
+                  <td>Landing page</td>
+                  <td>04/09/2026</td>
+                  <td class="num">R$ 990</td>
+                  <td><span class="badge badge--success">Ativo</span></td>
+                  <td><button class="btn btn--outline btn--sm" data-modal-open="modal-detalhe">Abrir</button></td>
+                </tr>
+                <tr data-status="encerrado">
+                  <td><div class="cell-user"><span class="avatar avatar--sq avatar--sm" style="background:#e9ebf3;color:#8b91a7">GF</span><div><div class="cell-user__name">Gráfica Fontana</div><div class="cell-user__sub">CT-1998 · Campinas</div></div></div></td>
+                  <td>Catálogo digital</td>
+                  <td>10/03/2026</td>
+                  <td class="num">R$ 1.100</td>
+                  <td><span class="badge badge--neutral">Encerrado</span></td>
+                  <td><button class="btn btn--ghost btn--sm" data-toast="Contrato reenviado|Enviamos a proposta atualizada.">Reenviar</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="card__foot">
+            <span>Mostrando 7 de 44 contratos</span>
+            <div class="row">
+              <button class="btn btn--outline btn--sm" disabled>Anterior</button>
+              <button class="btn btn--outline btn--sm" data-toast="Página 2|Mais contratos carregados.">Próxima</button>
+            </div>
+          </div>
+        </section>
+
+        <aside class="stack" style="gap:0">
+          <section class="card">
+            <div class="card__head"><div class="card__title">Receita por serviço</div></div>
+            <div class="card__body">
+              <div class="hbar">
+                <div class="hbar__top"><span class="hbar__label">Sites institucionais</span><span class="hbar__value">R$ 21.400</span></div>
+                <div class="progress"><div class="progress__bar" style="width:82%"></div></div>
+              </div>
+              <div class="hbar">
+                <div class="hbar__top"><span class="hbar__label">E-commerce</span><span class="hbar__value">R$ 12.900</span></div>
+                <div class="progress"><div class="progress__bar progress__bar--info" style="width:50%"></div></div>
+              </div>
+              <div class="hbar">
+                <div class="hbar__top"><span class="hbar__label">Landing pages</span><span class="hbar__value">R$ 7.600</span></div>
+                <div class="progress"><div class="progress__bar progress__bar--success" style="width:30%"></div></div>
+              </div>
+              <div class="hbar">
+                <div class="hbar__top"><span class="hbar__label">Manutenção</span><span class="hbar__value">R$ 5.000</span></div>
+                <div class="progress"><div class="progress__bar progress__bar--warn" style="width:19%"></div></div>
+              </div>
+            </div>
+          </section>
+
+          <section class="card" style="margin-top:18px">
+            <div class="card__head">
+              <div class="card__title">Próximas renovações</div>
+              <a class="link t-12" href="#" data-toast="Calendário|Renovações sincronizadas com o Google Calendar.">Calendário</a>
+            </div>
+            <div class="card__body card__body--flush">
+              <div class="list-row">
+                <span class="avatar avatar--amber avatar--sm">PT</span>
+                <div class="list-row__body">
+                  <div class="list-row__title">Trigo D'ouro</div>
+                  <div class="list-row__meta">12/11 · em 4 dias</div>
+                </div>
+                <div class="list-row__right t-12 bold">R$ 2.400</div>
+              </div>
+              <div class="list-row">
+                <span class="avatar avatar--green avatar--sm">CB</span>
+                <div class="list-row__body">
+                  <div class="list-row__title">Bem Viver</div>
+                  <div class="list-row__meta">02/12 · em 24 dias</div>
+                </div>
+                <div class="list-row__right t-12 bold">R$ 1.850</div>
+              </div>
+              <div class="list-row">
+                <span class="avatar avatar--violet avatar--sm">ES</span>
+                <div class="list-row__body">
+                  <div class="list-row__title">Estúdio Solar</div>
+                  <div class="list-row__meta">15/12 · em 37 dias</div>
+                </div>
+                <div class="list-row__right t-12 bold">R$ 2.750</div>
+              </div>
+            </div>
+          </section>
+
+          <div class="banner banner--warn" style="margin-top:18px">
+            <span class="banner__icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 17h.01"/><path d="M10.3 3.9 2.4 18a2 2 0 0 0 1.7 3h15.8a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg>
+            </span>
+            <div>
+              <div class="banner__title">1 contrato vence em 4 dias</div>
+              <div class="banner__text">Envie a proposta de renovação para o Trigo D'ouro.</div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </main>
+  </div>
+
+  <!-- Modal: novo contrato -->
+  <div class="modal" id="modal-contrato" role="dialog" aria-modal="true" aria-labelledby="t-contrato">
+    <div class="modal__panel">
+      <div class="modal__head">
+        <div>
+          <div class="modal__title" id="t-contrato">Novo contrato</div>
+          <div class="modal__sub">Gere a proposta e envie para assinatura.</div>
+        </div>
+        <button class="icon-btn" data-modal-close aria-label="Fechar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6 6 18"/></svg>
+        </button>
+      </div>
+      <form class="modal__body" onsubmit="event.preventDefault(); Prospecta.closeModals(); Prospecta.toast('Contrato criado!', 'A proposta foi gerada e está pronta para envio.');">
+        <div class="field">
+          <label class="label" for="c-cliente">Cliente</label>
+          <input class="input" id="c-cliente" placeholder="Nome da empresa">
+        </div>
+        <div class="form-row mt-16">
+          <div class="field">
+            <label class="label" for="c-servico">Serviço</label>
+            <select class="select" id="c-servico">
+              <option>Site institucional</option>
+              <option>Landing page</option>
+              <option>E-commerce</option>
+              <option>Manutenção mensal</option>
+            </select>
+          </div>
+          <div class="field">
+            <label class="label" for="c-valor">Valor mensal (R$)</label>
+            <input class="input" id="c-valor" type="number" placeholder="1.900" min="0">
+          </div>
+        </div>
+        <div class="field mt-16">
+          <span class="label">Cobrança</span>
+          <div class="radio-cards">
+            <label class="radio-card">
+              <input type="radio" name="cobranca" checked>
+              <span class="radio-card__dot"></span>
+              <span><span class="radio-card__title">Recorrente</span><span class="radio-card__desc">Mensalidade automática</span></span>
+            </label>
+            <label class="radio-card">
+              <input type="radio" name="cobranca">
+              <span class="radio-card__dot"></span>
+              <span><span class="radio-card__title">Único</span><span class="radio-card__desc">Pagamento à vista</span></span>
+            </label>
+          </div>
+        </div>
+        <div class="field mt-16">
+          <label class="label" for="c-obs">Observações <span class="label__hint">(opcional)</span></label>
+          <textarea class="textarea" id="c-obs" placeholder="Escopo, prazos e entregas…"></textarea>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn btn--outline" data-modal-close>Cancelar</button>
+          <button type="submit" class="btn btn--primary">Criar e enviar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: detalhe do contrato -->
+  <div class="modal" id="modal-detalhe" role="dialog" aria-modal="true" aria-labelledby="t-detalhe">
+    <div class="modal__panel">
+      <div class="modal__head">
+        <div class="row">
+          <span class="avatar avatar--amber avatar--lg avatar--sq">PT</span>
+          <div>
+            <div class="modal__title" id="t-detalhe">Padaria Trigo D'ouro</div>
+            <div class="modal__sub">CT-2041 · contrato ativo desde 12/10/2026</div>
+          </div>
+        </div>
+        <button class="icon-btn" data-modal-close aria-label="Fechar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6 6 18"/></svg>
+        </button>
+      </div>
+      <div class="modal__body">
+        <div class="stat-strip card" style="box-shadow:none;margin-bottom:18px">
+          <div><div class="stat-strip__label">Valor</div><div class="stat-strip__value">R$ 2.400</div></div>
+          <div><div class="stat-strip__label">Cobrança</div><div class="stat-strip__value">Mensal</div></div>
+          <div><div class="stat-strip__label">Renovação</div><div class="stat-strip__value">12/11</div></div>
+        </div>
+        <div class="tabs" data-tabs="detalhe" style="margin-bottom:16px">
+          <button class="tab is-active" data-target="resumo">Resumo</button>
+          <button class="tab" data-target="faturas">Faturas</button>
+        </div>
+        <div data-owner="detalhe" data-panel="resumo">
+          <div class="timeline">
+            <div class="timeline__item is-done">
+              <div class="timeline__title">Proposta enviada</div>
+              <div class="timeline__meta">10/10/2026 · por Ana Lima</div>
+            </div>
+            <div class="timeline__item is-done">
+              <div class="timeline__title">Contrato assinado</div>
+              <div class="timeline__meta">12/10/2026 · assinatura digital</div>
+            </div>
+            <div class="timeline__item is-current">
+              <div class="timeline__title">Site publicado</div>
+              <div class="timeline__meta">trigo-douro.prospecta.site</div>
+            </div>
+            <div class="timeline__item">
+              <div class="timeline__title">Primeira renovação</div>
+              <div class="timeline__meta">prevista para 12/11/2026</div>
+            </div>
+          </div>
+        </div>
+        <div data-owner="detalhe" data-panel="faturas" class="hide">
+          <div class="list-row" style="padding-left:0;padding-right:0">
+            <div class="list-row__body"><div class="list-row__title">Fatura #1103</div><div class="list-row__meta">Vence 12/11/2026</div></div>
+            <span class="badge badge--warn">Pendente</span>
+          </div>
+          <div class="list-row" style="padding-left:0;padding-right:0">
+            <div class="list-row__body"><div class="list-row__title">Fatura #0987</div><div class="list-row__meta">Paga em 12/10/2026</div></div>
+            <span class="badge badge--success">Paga</span>
+          </div>
+        </div>
+      </div>
+      <div class="modal__foot">
+        <button class="btn btn--outline" data-toast="Link copiado|Envie para o cliente assinar.">Copiar link</button>
+        <button class="btn btn--primary" data-toast="Renovação solicitada|O cliente receberá a proposta por e-mail.">Renovar contrato</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="support" id="support" data-support aria-label="Central de ajuda" aria-hidden="true">
+    <!-- Conteúdo montado por assets/js/support.js -->
+  </div>
+
+
+<div class="toast" id="toast" role="status" aria-live="polite">
+    <svg class="toast__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg>
+    <div><strong data-toast-title>Feito!</strong><small data-toast-text></small></div>
+  </div>
+
+  <script src="assets/js/store.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script src="assets/js/support.js"></script>
+</body>
+</html>

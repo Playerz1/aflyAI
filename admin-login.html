@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#12142b">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Entrar no painel admin · Prospecta</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%2312142b'/%3E%3Ctext x='16' y='22' font-family='Arial' font-size='17' font-weight='bold' fill='white' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/global.css">
+  <style>
+    .auth {
+      min-height: 100dvh;
+      display: grid;
+      place-items: center;
+      padding: 24px 16px;
+      background:
+        radial-gradient(900px 500px at 10% -10%, #eef0ff 0%, transparent 60%),
+        radial-gradient(700px 400px at 110% 110%, #e6f6fe 0%, transparent 55%),
+        var(--bg);
+    }
+    .auth__card { width: 100%; max-width: 420px; }
+    .auth__brand {
+      display: flex; align-items: center; gap: 10px; justify-content: center;
+      margin-bottom: 22px;
+    }
+    .auth__brand .brand__logo { width: 42px; height: 42px; border-radius: 12px; font-size: 18px; }
+    .auth__brand strong { display: block; font-size: 15px; letter-spacing: -.02em; }
+    .auth__brand span { display: block; font-size: 11.5px; color: var(--text-mute); }
+    .auth__card .card { padding: 26px; }
+  </style>
+</head>
+<body data-page="admin-login">
+
+  <div class="auth">
+    <div class="auth__card">
+      <div class="auth__brand">
+        <span class="brand__logo" style="background:linear-gradient(135deg,#12142b,#4f46e5)">A</span>
+        <div>
+          <strong>Prospecta · Administração</strong>
+          <span>Área restrita aos administradores</span>
+        </div>
+      </div>
+
+      <form class="card" id="form-admin" novalidate>
+        <div class="row" style="margin-bottom:16px">
+          <span class="kpi__icon kpi__icon--primary">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+          </span>
+          <div>
+            <div class="card__title" style="font-size:15px">Entrar no painel</div>
+            <div class="card__sub">Tickets e usuários só aparecem para admins</div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label" for="adm-email">E-mail do administrador</label>
+          <input class="input" id="adm-email" type="email" autocomplete="username" placeholder="voce@empresa.com" required>
+        </div>
+        <div class="field">
+          <label class="label" for="adm-senha">Senha</label>
+          <div class="input-wrap">
+            <input class="input" id="adm-senha" type="password" autocomplete="current-password" placeholder="••••••••" required style="padding-right:44px">
+            <button type="button" class="icon-btn input-wrap__action" id="adm-ver" aria-label="Mostrar senha" style="width:32px;height:32px;border:0;box-shadow:none;background:transparent">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="row row--between mt-16">
+          <label class="check"><input type="checkbox" checked> Manter conectado</label>
+          <a class="link t-12" href="#" id="adm-esqueci">Esqueci a senha</a>
+        </div>
+
+        <div class="mt-16" id="adm-erro" style="display:none">
+          <div class="banner banner--danger" style="padding:10px 12px">
+            <span class="banner__icon" style="width:30px;height:30px;border-radius:9px">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 17h.01"/><circle cx="12" cy="12" r="9"/></svg>
+            </span>
+            <div><div class="banner__title" id="adm-erro-txt">E-mail não é de administrador</div></div>
+          </div>
+        </div>
+
+        <button class="btn btn--primary btn--block btn--lg mt-24" type="submit">
+          Entrar no painel admin
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </button>
+
+        <div class="divider"></div>
+
+        <div class="t-12 muted" style="margin-bottom:10px">Demonstração (MVP, sem backend):</div>
+        <button type="button" class="btn btn--outline btn--block btn--sm" id="adm-demo">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m13 2-9 12h7l-1 8 9-12h-7z"/></svg>
+          Entrar como administrador (demo)
+        </button>
+      </form>
+
+      <div class="row" style="justify-content:center;margin-top:18px">
+        <a class="t-12 muted" href="dashboard.html" style="display:inline-flex;align-items:center;gap:6px">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+          Voltar para o app
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite">
+    <svg class="toast__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg>
+    <div><strong data-toast-title>Feito!</strong><small data-toast-text></small></div>
+  </div>
+
+  <script src="assets/js/store.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script>
+    (function () {
+      var D = window.Dados;
+      var params = new URLSearchParams(location.search);
+      var destino = params.get("destino") || "admin.html";
+      // só aceita destinos internos conhecidos
+      if (!/^(admin|tickets|usuarios)\.html$/.test(destino)) destino = "admin.html";
+
+      D.pronto().then(function(){ if (D.ehAdmin()) location.replace(destino); });
+
+      var form = document.getElementById("form-admin");
+      var erro = document.getElementById("adm-erro");
+      var erroTxt = document.getElementById("adm-erro-txt");
+
+      document.getElementById("adm-ver").addEventListener("click", function () {
+        var s = document.getElementById("adm-senha");
+        s.type = s.type === "password" ? "text" : "password";
+      });
+
+      document.getElementById("adm-esqueci").addEventListener("click", function (e) {
+        e.preventDefault();
+        window.Prospecta.toast("Recuperação enviada", "Confira o e-mail do administrador.");
+      });
+
+      form.addEventListener("submit", async function (e) {
+        e.preventDefault();
+        var email = document.getElementById("adm-email").value.trim();
+        var senha = document.getElementById("adm-senha").value;
+        erro.style.display = "none";
+
+        if (!email) { erroTxt.textContent = "Informe o e-mail do administrador."; erro.style.display = ""; return; }
+        if (senha.length < 4) { erroTxt.textContent = "Senha muito curta."; erro.style.display = ""; return; }
+
+        try {
+          if (D.login) {
+            var me = await D.login(email, senha);
+            if (me && me.papel === 'admin') { location.href = destino; return; }
+            if (me) { erroTxt.textContent = "Este usuário não tem acesso de administrador."; erro.style.display = ""; return; }
+          }
+        } catch (err) {
+          // Fallback local apenas para dev sem API configurada
+          if (D.modo && D.modo() === 'local' && D.entrarAdmin) {
+            var ok = await D.entrarAdmin(email);
+            if (ok) { location.href = destino; return; }
+          }
+          erroTxt.textContent = (err && err.message) ? err.message : "Falha ao autenticar.";
+          erro.style.display = "";
+          return;
+        }
+        erroTxt.textContent = "Credenciais inválidas ou usuário sem acesso admin.";
+        erro.style.display = "";
+      });
+
+      var _demo=document.getElementById('adm-demo'); if(_demo) _demo.addEventListener("click", async function () {
+        document.getElementById("adm-email").value = "rafael@agenciamendes.com";
+        document.getElementById("adm-senha").value = "demo1234";
+        // Demo real: exige usuário seedado no banco (npm run db:seed) com a senha definida em ADMIN_PASSWORD.
+        // Em modo local/offline, usa fallback legado.
+        try {
+          if (D.modo && D.modo() === 'local' && D.entrarAdmin) { if (await D.entrarAdmin("rafael@agenciamendes.com")) location.href = destino; return; }
+        } catch(e){}
+        erroTxt.textContent = "Para entrar: configure o banco (Neon), rode migrations/seed e use a senha de ADMIN_PASSWORD.";
+        erro.style.display = "";
+      });
+    })();
+  </script>
+</body>
+</html>

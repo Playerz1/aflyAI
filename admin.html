@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#12142b">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Painel admin · Prospecta</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%2312142b'/%3E%3Ctext x='16' y='22' font-family='Arial' font-size='17' font-weight='bold' fill='white' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/global.css">
+</head>
+<body data-page="admin" data-role="admin">
+
+  <aside class="sidebar" id="sidebar">
+    <a class="sidebar__brand" href="admin.html">
+      <span class="brand__logo" style="background:linear-gradient(135deg,#12142b,#4f46e5)">A</span>
+      <span>
+        <span class="brand__name">Prospecta</span>
+        <span class="brand__plan">Painel admin</span>
+      </span>
+    </a>
+    <nav class="sidebar__nav">
+      <div class="nav__label">Administração</div>
+      <a class="nav__item" href="admin.html" data-nav="admin">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>
+        Painel admin
+      </a>
+      <a class="nav__item" href="tickets.html" data-nav="tickets">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M8 9h8M8 13h5"/></svg>
+        Tickets <span class="nav__badge" data-badge-tickets>4</span>
+      </a>
+      <a class="nav__item" href="usuarios.html" data-nav="usuarios">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3 20a6 6 0 0 1 12 0"/><circle cx="17.5" cy="9.5" r="2.4"/><path d="M16 20a4.5 4.5 0 0 1 5-4.4"/></svg>
+        Usuários
+      </a>
+
+      <div class="nav__label">Produto</div>
+      <a class="nav__item" href="dashboard.html" data-nav="dashboard">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/></svg>
+        Voltar ao app
+      </a>
+      <a class="nav__item" href="prospectar.html" data-nav="prospectar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        Prospectar
+      </a>
+      <a class="nav__item" href="contratos.html" data-nav="contratos">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/></svg>
+        Contratos
+      </a>
+      <a class="nav__item" href="sites.html" data-nav="sites">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/></svg>
+        Sites
+      </a>
+      <a class="nav__item" href="equipes.html" data-nav="equipes">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3 20a6 6 0 0 1 12 0"/></svg>
+        Equipes
+      </a>
+      <a class="nav__item" href="extensao.html" data-nav="extensao">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L4 17v3h3l5.3-5.3a4 4 0 0 0 5.4-5.4l-2.3 2.3-2.7-2.7z"/></svg>
+        Extensão
+      </a>
+      <a class="nav__item" href="configuracoes.html" data-nav="configuracoes">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.2"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
+        Configuração
+      </a>
+      <a class="nav__item" href="#" data-toast="Central de ajuda|Todos os tickets estão em Tickets.">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 3.4 2.3c-.6.3-.9.8-.9 1.4v.4"/><circle cx="12" cy="17" r=".8" fill="currentColor"/></svg>
+        Ajuda
+      </a>
+    </nav>
+    <a class="sidebar__foot" href="#" data-logout>
+      <span class="avatar">RM</span>
+      <span class="sidebar__foot-info">
+        <span class="sidebar__foot-name">Rafael Mendes</span>
+        <span class="sidebar__foot-mail">Admin · sair</span>
+      </span>
+    </a>
+  </aside>
+
+  <div class="overlay" data-overlay></div>
+
+  <div class="main">
+    <header class="topbar">
+      <button class="icon-btn menu-btn" data-menu-toggle aria-label="Abrir menu" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </button>
+      <div>
+        <div class="topbar__title">Painel admin</div>
+        <div class="topbar__crumbs">Administração <b>/</b> <b>Visão geral</b></div>
+      </div>
+      <div class="topbar__spacer"></div>
+      <span class="badge badge--primary badge--plain" style="height:26px">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 6v6c0 5 3.5 8.5 8 10 4.5-1.5 8-5 8-10V6z"/></svg>
+        Acesso restrito
+      </span>
+      <button class="icon-btn" aria-label="Notificações">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
+        <span class="icon-btn__dot"></span>
+      </button>
+      <button class="user-menu" aria-label="Menu do usuário">
+        <span class="avatar avatar--sm">RM</span>
+        <span class="user-menu__name">Rafael</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      </button>
+    </header>
+
+    <main class="content">
+      <div class="page-head">
+        <div>
+          <h1 class="page-head__title">Painel admin</h1>
+          <p class="page-head__sub">Só o administrador vê esta área: tickets, usuários e saúde da plataforma.</p>
+        </div>
+        <div class="page-actions">
+          <a class="btn btn--outline" href="usuarios.html">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3 20a6 6 0 0 1 12 0"/></svg>
+            Usuários
+          </a>
+          <a class="btn btn--primary" href="tickets.html">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            Ver tickets
+          </a>
+        </div>
+      </div>
+
+      <!-- KPIs -->
+      <div class="grid grid--4">
+        <article class="card kpi">
+          <div class="kpi__top">
+            <span class="kpi__icon kpi__icon--warn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>
+            <span class="trend trend--flat" data-kpi-espera>—</span>
+          </div>
+          <div class="kpi__label">Tickets abertos</div>
+          <div class="kpi__value" data-kpi-abertos>0</div>
+          <div class="kpi__meta" data-kpi-abertos-meta>aguardando primeira resposta</div>
+        </article>
+        <article class="card kpi">
+          <div class="kpi__top">
+            <span class="kpi__icon kpi__icon--info"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4z"/><path d="M22 2 11 13"/></svg></span>
+            <span class="trend trend--up" data-kpi-hoje>0</span>
+          </div>
+          <div class="kpi__label">Respondidos hoje</div>
+          <div class="kpi__value" data-kpi-respondidos>0</div>
+          <div class="kpi__meta">primeira resposta do suporte</div>
+        </article>
+        <article class="card kpi">
+          <div class="kpi__top">
+            <span class="kpi__icon kpi__icon--success"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg></span>
+            <span class="trend trend--up" data-kpi-tempo>1h 48m</span>
+          </div>
+          <div class="kpi__label">Tempo médio de resposta</div>
+          <div class="kpi__value">1h 48m</div>
+          <div class="kpi__meta">meta: até 2h</div>
+        </article>
+        <article class="card kpi">
+          <div class="kpi__top">
+            <span class="kpi__icon kpi__icon--primary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3 20a6 6 0 0 1 12 0"/></svg></span>
+            <span class="trend trend--flat" data-kpi-novos>+2</span>
+          </div>
+          <div class="kpi__label">Usuários ativos</div>
+          <div class="kpi__value" data-kpi-usuarios>0</div>
+          <div class="kpi__meta" data-kpi-usuarios-meta>2 convites pendentes</div>
+        </article>
+      </div>
+
+      <div class="grid grid--sidebar mt-24" style="align-items:start">
+        <!-- Fila de tickets -->
+        <section class="card">
+          <div class="card__head">
+            <div>
+              <div class="card__title">Fila de atendimento</div>
+              <div class="card__sub">Mais antigos primeiro · responda dentro do SLA de 2h</div>
+            </div>
+            <a class="btn btn--outline btn--sm" href="tickets.html">Abrir central</a>
+          </div>
+          <div class="card__body card__body--flush" data-fila></div>
+          <div class="card__foot">
+            <span data-fila-resumo>—</span>
+            <a class="link" href="tickets.html">Ver todos os tickets →</a>
+          </div>
+        </section>
+
+        <aside class="stack" style="gap:0">
+          <!-- Desempenho por motivo -->
+          <section class="card">
+            <div class="card__head">
+              <div class="card__title">Tickets por motivo</div>
+              <span class="t-12 muted">7 dias</span>
+            </div>
+            <div class="card__body" data-motivos></div>
+          </section>
+
+          <!-- Usuários recentes -->
+          <section class="card" style="margin-top:18px">
+            <div class="card__head">
+              <div class="card__title">Últimos usuários</div>
+              <a class="link t-12" href="usuarios.html">Ver todos</a>
+            </div>
+            <div class="card__body card__body--flush" data-usuarios-recentes></div>
+          </section>
+
+          <div class="banner mt-16" style="margin-top:18px">
+            <span class="banner__icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 6v6c0 5 3.5 8.5 8 10 4.5-1.5 8-5 8-10V6z"/><path d="m9 12 2 2 4-4"/></svg>
+            </span>
+            <div>
+              <div class="banner__title">Área exclusiva do administrador</div>
+              <div class="banner__text">Usuários comuns não veem estes 3 links no menu.</div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </main>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite">
+    <svg class="toast__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg>
+    <div><strong data-toast-title>Feito!</strong><small data-toast-text></small></div>
+  </div>
+
+  <script src="assets/js/store.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script>
+    /* Painel admin: lê os dados do store (localStorage) e monta a visão geral */
+    (function () {
+      var D = window.Dados;
+
+      D.pronto().then(function(){
+        if (!D.ehAdmin()) { location.replace("login.html?destino=admin.html"); return; }
+        initAdmin();
+      });
+
+      function initAdmin() {
+      function pintar() {
+        var tickets = D.tickets();
+        var usuarios = D.usuarios();
+
+        var abertos = tickets.filter(function (t) { return t.status === "aberto"; });
+        var respondidos = tickets.filter(function (t) { return t.status === "respondido"; });
+        var ativos = usuarios.filter(function (u) { return u.status === "ativo"; });
+        var convites = usuarios.filter(function (u) { return u.status === "convite"; });
+
+        document.querySelectorAll("[data-badge-tickets]").forEach(function (b) { b.textContent = abertos.length; });
+        document.querySelector("[data-kpi-abertos]").textContent = abertos.length;
+        document.querySelector("[data-kpi-abertos-meta]").textContent = abertos.length === 1 ? "1 aguardando primeira resposta" : abertos.length + " aguardando primeira resposta";
+        document.querySelector("[data-kpi-respondidos]").textContent = respondidos.length;
+        document.querySelector("[data-kpi-hoje]").textContent = "+" + respondidos.length;
+        document.querySelector("[data-kpi-usuarios]").textContent = ativos.length;
+        document.querySelector("[data-kpi-usuarios-meta]").textContent = convites.length + " convite" + (convites.length === 1 ? "" : "s") + " pendente" + (convites.length === 1 ? "" : "s");
+
+        // KPI de espera = ticket aberto mais antigo
+        var maisAntigo = abertos.slice().sort(function (a, b) { return new Date(a.criado) - new Date(b.criado); })[0];
+        document.querySelector("[data-kpi-espera]").textContent = maisAntigo ? "espera " + D.haQuanto(maisAntigo.criado) : "fila vazia";
+
+        // Fila: abertos + respondidos, mais antigos primeiro, no máximo 5
+        var fila = tickets
+          .filter(function (t) { return t.status !== "resolvido"; })
+          .sort(function (a, b) { return new Date(a.criado) - new Date(b.criado); })
+          .slice(0, 5);
+
+        var box = document.querySelector("[data-fila]");
+        box.innerHTML = fila.length
+          ? fila.map(function (t) {
+              var nl = D.naoLidas(t);
+              var stClass = t.status === "aberto" ? "st--aberto" : "st--respondido";
+              var stLabel = t.status === "aberto" ? "Aberto" : "Respondido";
+              return '<a class="list-row" href="tickets.html?ticket=' + t.id + '">' +
+                '<span class="avatar ' + (t.prioridade === "alta" ? "avatar--rose" : t.prioridade === "media" ? "avatar--amber" : "avatar--sky") + ' avatar--sm">' + D.esc(t.cliente.iniciais) + "</span>" +
+                '<div class="list-row__body">' +
+                  '<div class="list-row__title truncate">#' + t.id + " · " + D.esc(t.assunto) + "</div>" +
+                  '<div class="list-row__meta">' + D.esc(t.cliente.nome) + " · " + D.esc(t.origem) + " · " + D.haQuanto(t.criado) + "</div>" +
+                "</div>" +
+                '<div class="list-row__right"><span class="st ' + stClass + '">' + stLabel + "</span>" +
+                  (nl ? '<div class="t-12 muted" style="margin-top:4px">' + nl + " nova" + (nl > 1 ? "s" : "") + "</div>" : "") +
+                "</div>" +
+              "</a>";
+            }).join("")
+          : '<div class="empty"><div class="empty__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg></div><div class="empty__title">Fila zerada</div><div class="empty__text">Nenhum ticket aguardando resposta.</div></div>';
+
+        document.querySelector("[data-fila-resumo]").textContent =
+          tickets.length + " tickets no total · " + abertos.length + " abertos · " + respondidos.length + " respondidos";
+
+        // Por motivo
+        var rotulos = { duvida: "Dúvida de uso", site: "Problema em site", contrato: "Contrato e cobrança", lead: "Leads ou extensão", acesso: "Acesso e login", outro: "Outro assunto" };
+        var contagem = {};
+        tickets.forEach(function (t) { contagem[t.motivo] = (contagem[t.motivo] || 0) + 1; });
+        var max = Math.max.apply(null, Object.keys(contagem).map(function (k) { return contagem[k]; }).concat([1]));
+        var cores = ["", "progress__bar--info", "progress__bar--success", "progress__bar--warn"];
+
+        document.querySelector("[data-motivos]").innerHTML = Object.keys(rotulos)
+          .filter(function (k) { return contagem[k]; })
+          .sort(function (a, b) { return contagem[b] - contagem[a]; })
+          .map(function (k, i) {
+            return '<div class="hbar">' +
+              '<div class="hbar__top"><span class="hbar__label">' + rotulos[k] + '</span><span class="hbar__value">' + contagem[k] + "</span></div>" +
+              '<div class="progress"><div class="progress__bar ' + cores[i % cores.length] + '" style="width:' + Math.round((contagem[k] / max) * 100) + '%"></div></div>' +
+            "</div>";
+          }).join("") || '<div class="t-13 muted">Sem dados ainda.</div>';
+
+        // Usuários recentes
+        document.querySelector("[data-usuarios-recentes]").innerHTML = usuarios
+          .slice()
+          .sort(function (a, b) { return new Date(b.criado) - new Date(a.criado); })
+          .slice(0, 4)
+          .map(function (u) {
+            return '<div class="list-row">' +
+              '<span class="avatar avatar--sm">' + D.esc(u.iniciais) + "</span>" +
+              '<div class="list-row__body"><div class="list-row__title">' + D.esc(u.nome) + '</div><div class="list-row__meta">' + D.esc(u.cargo) + "</div></div>" +
+              '<span class="badge badge--' + (u.status === "ativo" ? "success" : u.status === "convite" ? "warn" : "danger") + '">' +
+                (u.status === "ativo" ? "Ativo" : u.status === "convite" ? "Convite" : "Bloqueado") + "</span>" +
+            "</div>";
+          }).join("");
+      }
+
+      document.querySelectorAll("[data-logout]").forEach(function (el) {
+        el.addEventListener("click", function (e) {
+          e.preventDefault();
+          if (confirm("Sair do painel admin?")) {
+            Promise.resolve(D.sairAdmin && D.sairAdmin()).finally(function(){ location.href = "dashboard.html"; });
+          }
+        });
+      });
+
+      document.addEventListener("prospecta:mudou", pintar);
+      pintar();
+      }
+    })();
+  </script>
+</body>
+</html>
