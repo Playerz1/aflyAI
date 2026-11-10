@@ -20,7 +20,24 @@ window.Suporte = (function () {
     outro: { rotulo: "Outro assunto", auto: "Obrigado pelo contato! Já recebi sua mensagem e vou te responder por este chat." }
   };
 
-  var state = { ticketId: null, typing: false, cache: [] };
+  var state = { ticketId: null, typing: false, cache: [], pollTimer: null };
+  var POLL_MS = 5000; // atualização ao vivo do chat a cada 5s
+
+  /* ---------------- polling (tempo ao vivo) ---------------- */
+  function pararPolling() {
+    if (state.pollTimer) { clearInterval(state.pollTimer); state.pollTimer = null; }
+  }
+  function iniciarPolling() {
+    pararPolling();
+    if (!apiAtiva() || !state.ticketId) return;
+    state.pollTimer = setInterval(async function () {
+      if (!state.ticketId || !painel() || !painel().classList.contains("is-open")) return;
+      if (D() && D().carregarTicket) {
+        try { var t = await D().carregarTicket(state.ticketId); if (t) renderMensagens(); } catch (e) {}
+      }
+    }, POLL_MS);
+  }
+  window.addEventListener("beforeunload", pararPolling);
 
   function D() { return window.Dados; }
   function apiAtiva() { return D() && D().modo && D().modo() === 'api'; }
@@ -91,6 +108,7 @@ window.Suporte = (function () {
   }
 
   function irParaLista() {
+    pararPolling();
     var p = painel(); if (!p) return;
     var view = p.querySelector("[data-support-view]"); var foot = p.querySelector("[data-support-foot]");
     if (!view || !foot) return;
@@ -157,6 +175,7 @@ window.Suporte = (function () {
 
   async function irParaChat(id) {
     state.ticketId = id;
+    iniciarPolling();
     var p = painel(); var view = p.querySelector("[data-support-view]"); var foot = p.querySelector("[data-support-foot]");
     if (apiAtiva() && D() && D().carregarTicket) { try { await D().carregarTicket(id); } catch(e){} }
     var t = buscar(id); if (!t) { irParaLista(); return; }
@@ -194,7 +213,7 @@ window.Suporte = (function () {
     chat.innerHTML = html; chat.parentElement.scrollTop = chat.parentElement.scrollHeight;
   }
 
-  function fechar() { var p = painel(); if (p) p.classList.remove("is-open"); }
+  function fechar() { pararPolling(); var p = painel(); if (p) p.classList.remove("is-open"); }
   function abrir(ticketId) { var p = painel(); if (!p) return; p.classList.add("is-open"); if (ticketId) irParaChat(ticketId); else irParaLista(); }
   function aoAbrir() { if (state.ticketId) renderMensagens(); else irParaLista(); }
 
