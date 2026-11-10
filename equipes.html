@@ -29,11 +29,11 @@
       </a>
       <a class="nav__item" href="prospectar.html" data-nav="prospectar">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/><path d="M11 8v6M8 11h6"/></svg>
-        Prospectar <span class="nav__badge">12</span>
+        Prospectar <span class="nav__badge" data-badge-leads>0</span>
       </a>
       <a class="nav__item" href="contratos.html" data-nav="contratos">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h4"/></svg>
-        Contratos <span class="nav__badge nav__badge--soft">4</span>
+        Contratos <span class="nav__badge nav__badge--soft" data-badge-contratos>0</span>
       </a>
       <div class="nav__label">Produto</div>
       <a class="nav__item" href="sites.html" data-nav="sites">
@@ -64,10 +64,10 @@
       <a class="btn btn--primary btn--sm btn--block" href="configuracoes.html#plano">Ver planos</a>
     </div>
     <a class="sidebar__foot" href="configuracoes.html">
-      <span class="avatar">RM</span>
+      <span class="avatar">U</span>
       <span class="sidebar__foot-info">
-        <span class="sidebar__foot-name">Rafael Mendes</span>
-        <span class="sidebar__foot-mail">rafael@agenciamendes.com</span>
+        <span class="sidebar__foot-name">Conta</span>
+        <span class="sidebar__foot-mail">—</span>
       </span>
     </a>
   </aside>
@@ -89,8 +89,8 @@
         <span class="icon-btn__dot"></span>
       </button>
       <button class="user-menu" aria-label="Menu do usuário">
-        <span class="avatar avatar--sm">RM</span>
-        <span class="user-menu__name">Rafael</span>
+        <span class="avatar avatar--sm">U</span>
+        <span class="user-menu__name">Conta</span>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
       </button>
     </header>
@@ -118,38 +118,38 @@
         <article class="card kpi">
           <div class="kpi__top">
             <span class="kpi__icon kpi__icon--primary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3 20a6 6 0 0 1 12 0"/><circle cx="17.5" cy="9.5" r="2.4"/><path d="M16 20a4.5 4.5 0 0 1 5-4.4"/></svg></span>
-            <span class="trend trend--flat">5/8</span>
+            <span class="trend trend--flat">ativos</span>
           </div>
           <div class="kpi__label">Membros ativos</div>
-          <div class="kpi__value" data-count="5">5</div>
-          <div class="kpi__meta">de 8 assentos do plano</div>
+          <div class="kpi__value" data-eq="ativos">0</div>
+          <div class="kpi__meta"><span data-eq="total">0</span> pessoas na conta</div>
         </article>
         <article class="card kpi">
           <div class="kpi__top">
             <span class="kpi__icon kpi__icon--success"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m7 15 4-5 3 3 4-6"/></svg></span>
-            <span class="trend trend--up">+12</span>
+            <span class="trend trend--flat">total</span>
           </div>
-          <div class="kpi__label">Contratos fechados no mês</div>
-          <div class="kpi__value" data-count="38">38</div>
-          <div class="kpi__meta">Meta da equipe: 50</div>
+          <div class="kpi__label">Contratos fechados</div>
+          <div class="kpi__value" data-eq="contratos">0</div>
+          <div class="kpi__meta">Contratos ativos: <span data-eq="contratos-ativos">0</span></div>
         </article>
         <article class="card kpi">
           <div class="kpi__top">
             <span class="kpi__icon kpi__icon--warn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg></span>
-            <span class="trend trend--up">1,8×</span>
+            <span class="trend trend--flat">base</span>
           </div>
-          <div class="kpi__label">Tempo médio de resposta</div>
-          <div class="kpi__value">2h 14m</div>
-          <div class="kpi__meta">SLA da equipe: 4h</div>
+          <div class="kpi__label">Leads na conta</div>
+          <div class="kpi__value" data-eq="leads">0</div>
+          <div class="kpi__meta">Atribuídos na base</div>
         </article>
         <article class="card kpi">
           <div class="kpi__top">
             <span class="kpi__icon kpi__icon--info"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v12H5.2L4 17.2z"/><path d="M8 8h8M8 12h5"/></svg></span>
-            <span class="trend trend--flat">0</span>
+            <span class="trend trend--flat">pendentes</span>
           </div>
           <div class="kpi__label">Convites pendentes</div>
-          <div class="kpi__value" data-count="2">2</div>
-          <div class="kpi__meta">Reenviar convite abaixo</div>
+          <div class="kpi__value" data-eq="convites">0</div>
+          <div class="kpi__meta">Aguardando aceite</div>
         </article>
       </div>
 
@@ -159,11 +159,11 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16v12H4z"/><path d="m4 7 8 6 8-6"/></svg>
         </span>
         <div>
-          <div class="banner__title">2 convites aguardando aceite</div>
-          <div class="banner__text">lucas@agenciamendes.com (Comercial) e paula@agenciamendes.com (Design).</div>
+          <div class="banner__title" data-eq="aviso-titulo">Nenhum convite pendente</div>
+          <div class="banner__text" data-eq="aviso-texto">Usuários com status “convite” aparecem aqui.</div>
         </div>
         <div class="banner__actions">
-          <button class="btn btn--primary btn--sm" data-toast="Convites reenviados|Enviados para lucas e paula.">Reenviar convites</button>
+          <button class="btn btn--primary btn--sm" data-modal-open="modal-convidar">Convidar membro</button>
         </div>
       </div>
 
@@ -173,7 +173,7 @@
           <div class="card__head">
             <div>
               <div class="card__title">Membros da equipe</div>
-              <div class="card__sub">5 pessoas ativas · 2 convites pendentes</div>
+              <div class="card__sub" data-eq="resumo">0 pessoas</div>
             </div>
             <div class="input-wrap" style="max-width:230px">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
@@ -191,55 +191,15 @@
                   <th></th>
                 </tr>
               </thead>
-              <tbody>
-                <tr>
-                  <td><div class="cell-user"><span class="avatar avatar--sm">RM</span><div><div class="cell-user__name">Rafael Mendes</div><div class="cell-user__sub">rafael@agenciamendes.com</div></div></div></td>
-                  <td><span class="badge badge--primary badge--plain">Proprietário</span></td>
-                  <td>—</td>
-                  <td><span class="badge badge--success">Ativo</span></td>
-                  <td><div class="t-actions"><button class="btn btn--ghost btn--sm" data-toast="Perfil|Proprietário não pode ser removido.">Você</button></div></td>
-                </tr>
-                <tr>
-                  <td><div class="cell-user"><span class="avatar avatar--green avatar--sm">AL</span><div><div class="cell-user__name">Ana Lima</div><div class="cell-user__sub">ana@agenciamendes.com</div></div></div></td>
-                  <td><span class="badge badge--neutral badge--plain">Comercial</span></td>
-                  <td><b>18</b></td>
-                  <td><span class="badge badge--success">Ativo</span></td>
-                  <td><div class="t-actions"><button class="btn btn--outline btn--sm" data-toast="Membro|Permissões da Ana abertas.">Gerenciar</button></div></td>
-                </tr>
-                <tr>
-                  <td><div class="cell-user"><span class="avatar avatar--sky avatar--sm">CM</span><div><div class="cell-user__name">Carlos Moreira</div><div class="cell-user__sub">carlos@agenciamendes.com</div></div></div></td>
-                  <td><span class="badge badge--neutral badge--plain">Comercial</span></td>
-                  <td><b>14</b></td>
-                  <td><span class="badge badge--success">Ativo</span></td>
-                  <td><div class="t-actions"><button class="btn btn--outline btn--sm" data-toast="Membro|Permissões do Carlos abertas.">Gerenciar</button></div></td>
-                </tr>
-                <tr>
-                  <td><div class="cell-user"><span class="avatar avatar--violet avatar--sm">JS</span><div><div class="cell-user__name">Juliana Souza</div><div class="cell-user__sub">juliana@agenciamendes.com</div></div></div></td>
-                  <td><span class="badge badge--neutral badge--plain">Design</span></td>
-                  <td><b>6</b></td>
-                  <td><span class="badge badge--success">Ativo</span></td>
-                  <td><div class="t-actions"><button class="btn btn--outline btn--sm" data-toast="Membro|Permissões da Juliana abertas.">Gerenciar</button></div></td>
-                </tr>
-                <tr>
-                  <td><div class="cell-user"><span class="avatar avatar--rose avatar--sm">PF</span><div><div class="cell-user__name">Paula Ferreira</div><div class="cell-user__sub">paula@agenciamendes.com</div></div></div></td>
-                  <td><span class="badge badge--neutral badge--plain">Design</span></td>
-                  <td>—</td>
-                  <td><span class="badge badge--warn">Convite enviado</span></td>
-                  <td><div class="t-actions"><button class="btn btn--ghost btn--sm" data-toast="Convite reenviado|Paula receberá o e-mail novamente.">Reenviar</button></div></td>
-                </tr>
-                <tr>
-                  <td><div class="cell-user"><span class="avatar avatar--sm" style="background:#e9ebf3;color:#8b91a7">LM</span><div><div class="cell-user__name">Lucas Martins</div><div class="cell-user__sub">lucas@agenciamendes.com</div></div></div></td>
-                  <td><span class="badge badge--neutral badge--plain">Comercial</span></td>
-                  <td>—</td>
-                  <td><span class="badge badge--warn">Convite enviado</span></td>
-                  <td><div class="t-actions"><button class="btn btn--ghost btn--sm" data-toast="Convite reenviado|Lucas receberá o e-mail novamente.">Reenviar</button></div></td>
-                </tr>
+              <tbody data-eq-rows>
+                <!-- Membros carregados de /api/users -->
               </tbody>
             </table>
           </div>
+          <div class="card__body" data-eq-vazio></div>
           <div class="card__foot">
-            <span>5 de 8 assentos usados</span>
-            <a class="link" href="#assentos">Aumentar assentos →</a>
+            <span data-eq="rodape">0 pessoas</span>
+            <a class="link" href="#assentos">Ver assentos →</a>
           </div>
         </section>
 
@@ -248,24 +208,10 @@
           <section class="card">
             <div class="card__head">
               <div class="card__title">Desempenho do mês</div>
-              <div class="seg">
-                <button class="is-active">Nov</button>
-                <button>Out</button>
-              </div>
+              <a class="link t-12" href="contratos.html">Detalhes</a>
             </div>
-            <div class="card__body">
-              <div class="hbar">
-                <div class="hbar__top"><span class="hbar__label"><span class="avatar avatar--green avatar--sm" style="width:20px;height:20px;font-size:9px">AL</span>Ana Lima</span><span class="hbar__value">18</span></div>
-                <div class="progress"><div class="progress__bar progress__bar--success" style="width:95%"></div></div>
-              </div>
-              <div class="hbar">
-                <div class="hbar__top"><span class="hbar__label"><span class="avatar avatar--sky avatar--sm" style="width:20px;height:20px;font-size:9px">CM</span>Carlos Moreira</span><span class="hbar__value">14</span></div>
-                <div class="progress"><div class="progress__bar" style="width:74%"></div></div>
-              </div>
-              <div class="hbar">
-                <div class="hbar__top"><span class="hbar__label"><span class="avatar avatar--violet avatar--sm" style="width:20px;height:20px;font-size:9px">JS</span>Juliana Souza</span><span class="hbar__value">6</span></div>
-                <div class="progress"><div class="progress__bar progress__bar--info" style="width:32%"></div></div>
-              </div>
+            <div class="card__body" data-eq="desempenho">
+              <!-- Contratos por responsável, calculado com dados reais -->
             </div>
           </section>
 
@@ -314,12 +260,12 @@
           <section class="card" style="margin-top:18px" id="assentos">
             <div class="card__body">
               <div class="row row--between" style="margin-bottom:10px">
-                <span class="bold t-13">Assentos do plano</span>
-                <span class="t-12 muted">5 / 8</span>
+                <span class="bold t-13">Usuários da conta</span>
+                <span class="t-12 muted" data-eq="usuarios">0</span>
               </div>
-              <div class="progress"><div class="progress__bar progress__bar--success" style="width:62%"></div></div>
-              <div class="t-12 muted mt-16">Cada assento extra custa R$ 39/mês.</div>
-              <button class="btn btn--primary btn--block mt-16" data-toast="Assentos adicionados|Você agora tem 10 assentos disponíveis.">Adicionar assentos</button>
+              <div class="progress"><div class="progress__bar progress__bar--success" data-eq="usuarios-barra" style="width:0%"></div></div>
+              <div class="t-12 muted mt-16">Convide membros para acessar a plataforma com o cargo adequado.</div>
+              <button class="btn btn--primary btn--block mt-16" data-modal-open="modal-convidar">Convidar membro</button>
             </div>
           </section>
         </aside>
@@ -339,27 +285,33 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6 6 18"/></svg>
         </button>
       </div>
-      <form class="modal__body" onsubmit="event.preventDefault(); Prospecta.closeModals(); Prospecta.toast('Convite enviado!', 'A pessoa receberá um e-mail para aceitar.');">
+      <form class="modal__body" id="form-convite">
         <div class="field">
+          <label class="label" for="e-nome">Nome</label>
+          <input class="input" id="e-nome" placeholder="Nome completo" required>
+        </div>
+        <div class="field mt-16">
           <label class="label" for="e-mail">E-mail</label>
           <input class="input" id="e-mail" type="email" placeholder="nome@empresa.com" required>
         </div>
-        <div class="field mt-16">
-          <label class="label" for="cargo">Cargo</label>
-          <select class="select" id="cargo">
-            <option>Comercial</option>
-            <option>Design / Sites</option>
-            <option>Administrador</option>
-            <option>Visualizador</option>
-          </select>
+        <div class="form-row mt-16">
+          <div class="field">
+            <label class="label" for="cargo">Cargo</label>
+            <input class="input" id="cargo" placeholder="Ex.: Comercial" value="Comercial">
+          </div>
+          <div class="field">
+            <label class="label" for="papel">Permissão</label>
+            <select class="select" id="papel">
+              <option value="member">Membro</option>
+              <option value="admin">Administrador</option>
+              <option value="client">Cliente</option>
+            </select>
+          </div>
         </div>
-        <div class="field mt-16">
-          <label class="label" for="msg">Mensagem <span class="label__hint">(opcional)</span></label>
-          <textarea class="textarea" id="msg" placeholder="Bora fechar muitos contratos juntos!"></textarea>
-        </div>
+        <p class="t-12 muted mt-16">O usuário é criado com status <b>Convite</b> e aparece na lista da equipe.</p>
         <div class="form-actions">
           <button type="button" class="btn btn--outline" data-modal-close>Cancelar</button>
-          <button type="submit" class="btn btn--primary">Enviar convite</button>
+          <button type="submit" class="btn btn--primary">Criar usuário</button>
         </div>
       </form>
     </div>
@@ -378,5 +330,129 @@
   <script src="assets/js/store.js"></script>
   <script src="assets/js/app.js"></script>
   <script src="assets/js/support.js"></script>
+  <script>
+  /* Equipes: membros reais de /api/users + desempenho por responsável */
+  (function () {
+    var D = window.Dados;
+    if (!D || !D.pronto) return;
+    var AVATARES = ['primary', 'green', 'sky', 'rose', 'violet'];
+
+    function set(sel, value) { document.querySelectorAll(sel).forEach(function (el) { el.textContent = value; }); }
+    function statusBadge(status) {
+      var map = { ativo: ['success', 'Ativo'], convite: ['warn', 'Convite'], bloqueado: ['danger', 'Bloqueado'] };
+      var b = map[status] || ['neutral', status];
+      return '<span class="badge badge--' + b[0] + '">' + D.esc(b[1]) + '</span>';
+    }
+
+    function pintar() {
+      var membros = D.usuarios();
+      var contratos = D.contratos();
+      var ativos = membros.filter(function (u) { return u.status === 'ativo'; });
+      var convites = membros.filter(function (u) { return u.status === 'convite'; });
+      var porId = {};
+      contratos.forEach(function (c) {
+        if (!c.createdById) return;
+        porId[c.createdById] = porId[c.createdById] || { qtd: 0, valor: 0 };
+        porId[c.createdById].qtd += 1;
+        porId[c.createdById].valor += Number(c.value || 0);
+      });
+
+      set('[data-eq="ativos"]', D.num(ativos.length));
+      set('[data-eq="total"]', D.num(membros.length));
+      set('[data-eq="contratos"]', D.num(contratos.length));
+      set('[data-eq="contratos-ativos"]', D.num(contratos.filter(function (c) { return c.status === 'ativo'; }).length));
+      set('[data-eq="leads"]', D.num(D.leads().length));
+      set('[data-eq="convites"]', D.num(convites.length));
+      set('[data-eq="resumo"]', D.num(ativos.length) + ' ativo' + (ativos.length === 1 ? '' : 's') + ' · ' + D.num(convites.length) + ' convite' + (convites.length === 1 ? '' : 's'));
+      set('[data-eq="rodape"]', D.num(membros.length) + ' pessoa' + (membros.length === 1 ? '' : 's'));
+      set('[data-eq="usuarios"]', D.num(membros.length) + ' no total');
+      set('[data-badge-leads]', D.num(D.leads().length));
+      set('[data-badge-contratos]', D.num(contratos.length));
+      var barra = document.querySelector('[data-eq="usuarios-barra"]');
+      if (barra) barra.style.width = (ativos.length && membros.length ? Math.round((ativos.length / membros.length) * 100) : 0) + '%';
+
+      if (convites.length) {
+        set('[data-eq="aviso-titulo"]', convites.length + ' convite' + (convites.length === 1 ? '' : 's') + ' aguardando aceite');
+        set('[data-eq="aviso-texto"]', convites.map(function (u) { return u.email; }).join(', '));
+      } else {
+        set('[data-eq="aviso-titulo"]', 'Nenhum convite pendente');
+        set('[data-eq="aviso-texto"]', 'Usuários com status “convite” aparecem aqui.');
+      }
+
+      var tbody = document.querySelector('[data-eq-rows]');
+      if (tbody) {
+        tbody.innerHTML = membros.map(function (u, i) {
+          var perf = porId[u._id] || { qtd: 0 };
+          return '<tr data-status="' + D.esc(u.papel) + '"><td><div class="cell-user"><span class="avatar avatar--' + AVATARES[i % AVATARES.length] + ' avatar--sm">' + D.esc(u.iniciais || D.iniciais(u.nome)) + '</span>' +
+            '<div><div class="cell-user__name">' + D.esc(u.nome) + '</div><div class="cell-user__sub">' + D.esc(u.email) + '</div></div></div></td>' +
+            '<td>' + D.esc(u.cargo || (u.papel === 'admin' ? 'Administrador' : u.papel === 'cliente' ? 'Cliente' : 'Membro')) + '</td>' +
+            '<td>' + D.num(perf.qtd) + '</td><td>' + statusBadge(u.status) + '</td>' +
+            '<td><div class="t-actions">' +
+              '<select class="select" style="height:32px;font-size:12px;padding:0 8px" data-status-user="' + D.esc(u._id) + '">' +
+                ['ativo', 'convite', 'bloqueado'].map(function (s) {
+                  return '<option value="' + s + '"' + (s === u.status ? ' selected' : '') + '>' + (s === 'ativo' ? 'Ativo' : s === 'convite' ? 'Convite' : 'Bloqueado') + '</option>';
+                }).join('') +
+              '</select></div></td></tr>';
+        }).join('');
+      }
+      var vazio = document.querySelector('[data-eq-vazio]');
+      if (vazio) vazio.innerHTML = membros.length ? '' : '<div class="empty"><div class="empty__title">Nenhum membro</div><div class="empty__text">Convide a primeira pessoa para a equipe.</div></div>';
+
+      var desempenho = document.querySelector('[data-eq="desempenho"]');
+      if (desempenho) {
+        var ranking = membros.map(function (u) {
+          var p = porId[u._id] || { qtd: 0, valor: 0 };
+          return { nome: u.nome, qtd: p.qtd, valor: p.valor };
+        }).sort(function (a, b) { return b.valor - a.valor; }).slice(0, 4);
+        var max = ranking.length ? Math.max.apply(null, ranking.map(function (r) { return r.valor; }).concat([1])) : 1;
+        var cores = ['progress__bar--success', '', 'progress__bar--info', 'progress__bar--warn'];
+        desempenho.innerHTML = ranking.length && contratos.length ? ranking.map(function (r, i) {
+          return '<div class="hbar"><div class="hbar__top"><span class="hbar__label">' + D.esc(r.nome) + '</span><span class="hbar__value">' + D.dinheiro(r.valor) + ' · ' + r.qtd + '</span></div>' +
+            '<div class="progress"><div class="progress__bar ' + cores[i % cores.length] + '" style="width:' + Math.round((r.valor / max) * 100) + '%"></div></div></div>';
+        }).join('') : '<div class="empty"><div class="empty__title">Sem dados de desempenho</div><div class="empty__text">Os contratos por responsável aparecem aqui.</div></div>';
+      }
+    }
+
+    D.pronto().then(function () {
+      if (!D.ehAdmin()) {
+        var lista = document.querySelector('[data-eq-rows]');
+        if (lista) lista.innerHTML = '';
+        var vazio = document.querySelector('[data-eq-vazio]');
+        if (vazio) vazio.innerHTML = '<div class="empty"><div class="empty__title">Acesso restrito</div><div class="empty__text">Apenas administradores gerenciam a equipe.</div></div>';
+        return;
+      }
+      document.body.setAttribute('data-dados-reais', '1');
+      pintar();
+      document.addEventListener('prospecta:mudou', pintar);
+
+      document.getElementById('form-convite').addEventListener('submit', function (e) {
+        e.preventDefault();
+        var payload = {
+          name: document.getElementById('e-nome').value.trim(),
+          email: document.getElementById('e-mail').value.trim(),
+          jobTitle: document.getElementById('cargo').value.trim(),
+          role: document.getElementById('papel').value,
+          status: 'invite'
+        };
+        D.criarUsuario(payload).then(function () {
+          document.getElementById('form-convite').reset();
+          window.Prospecta.closeModals();
+          window.Prospecta.toast('Usuário criado', payload.name + ' foi adicionado à equipe.');
+        }).catch(function (err) { window.Prospecta.toast('Erro ao criar', err.message); });
+      });
+
+      document.addEventListener('change', function (e) {
+        var sel = e.target.closest('[data-status-user]');
+        if (!sel) return;
+        var id = sel.getAttribute('data-status-user');
+        var atual = D.usuarios().filter(function (u) { return u._id === id; })[0];
+        if (!atual) return;
+        D.atualizarUsuario(atual.id, { status: sel.value })
+          .then(function () { window.Prospecta.toast('Usuário atualizado', 'Status: ' + sel.options[sel.selectedIndex].text + '.'); })
+          .catch(function (err) { window.Prospecta.toast('Erro', err.message); });
+      });
+    });
+  })();
+  </script>
 </body>
 </html>

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
@@ -29,11 +29,11 @@
       </a>
       <a class="nav__item" href="prospectar.html" data-nav="prospectar">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/><path d="M11 8v6M8 11h6"/></svg>
-        Prospectar <span class="nav__badge">12</span>
+        Prospectar <span class="nav__badge" data-badge-leads>0</span>
       </a>
       <a class="nav__item" href="contratos.html" data-nav="contratos">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h4"/></svg>
-        Contratos <span class="nav__badge nav__badge--soft">4</span>
+        Contratos <span class="nav__badge nav__badge--soft" data-badge-contratos>0</span>
       </a>
       <div class="nav__label">Produto</div>
       <a class="nav__item" href="sites.html" data-nav="sites">
@@ -64,10 +64,10 @@
       <a class="btn btn--primary btn--sm btn--block" href="configuracoes.html#plano">Ver planos</a>
     </div>
     <a class="sidebar__foot" href="configuracoes.html">
-      <span class="avatar">RM</span>
+      <span class="avatar">U</span>
       <span class="sidebar__foot-info">
-        <span class="sidebar__foot-name">Rafael Mendes</span>
-        <span class="sidebar__foot-mail">rafael@agenciamendes.com</span>
+        <span class="sidebar__foot-name">Conta</span>
+        <span class="sidebar__foot-mail">—</span>
       </span>
     </a>
   </aside>
@@ -89,8 +89,8 @@
         <span class="icon-btn__dot"></span>
       </button>
       <button class="user-menu" aria-label="Menu do usuário">
-        <span class="avatar avatar--sm">RM</span>
-        <span class="user-menu__name">Rafael</span>
+        <span class="avatar avatar--sm">U</span>
+        <span class="user-menu__name">Conta</span>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
       </button>
     </header>
@@ -120,10 +120,10 @@
             <span class="badge badge--primary badge--plain" style="margin-bottom:12px">MVP · novo</span>
             <h2 style="font-size:20px;letter-spacing:-.03em;line-height:1.25">Descreva o negócio. A IA monta o site.</h2>
             <p class="soft" style="margin-top:6px;font-size:13.5px">Escolha uma categoria, preencha nome e telefone, e o editor já abre com textos, seções e paleta prontos.</p>
-            <form class="mt-16" onsubmit="event.preventDefault(); window.location.href = 'editor.html';">
+            <form class="mt-16" id="form-site-rapido">
               <div class="field">
                 <label class="label" for="s-nome">Nome do negócio</label>
-                <input class="input" id="s-nome" value="Padaria Trigo D'ouro" placeholder="Ex.: Clínica Bem Viver">
+                <input class="input" id="s-nome" placeholder="Ex.: Clínica Bem Viver" required>
               </div>
               <div class="form-row mt-16">
                 <div class="field">
@@ -138,7 +138,7 @@
                 </div>
                 <div class="field">
                   <label class="label" for="s-tel">WhatsApp</label>
-                  <input class="input" id="s-tel" value="(11) 3555-1287">
+                  <input class="input" id="s-tel" placeholder="(11) 90000-0000">
                 </div>
               </div>
               <button class="btn btn--primary btn--block mt-16" type="submit">
@@ -151,11 +151,11 @@
             <div class="preview-frame" style="width:100%;max-width:320px">
               <div class="preview-toolbar">
                 <span class="preview-dots"><i></i><i></i><i></i></span>
-                <span class="preview-url">trigo-douro.prospecta.site</span>
+                <span class="preview-url" data-preview-url>seu-site.aflyai.vercel.app</span>
               </div>
               <div class="site-preview" style="padding:16px;min-height:0">
                 <div class="site-preview__nav" style="margin-bottom:14px">
-                  <span class="site-preview__brand" style="font-size:12px">Trigo D'ouro</span>
+                  <span class="site-preview__brand" style="font-size:12px" data-preview-brand>Seu negócio</span>
                   <span class="site-preview__links"><span>Contato</span></span>
                 </div>
                 <div class="site-preview__hero" style="padding:18px 14px;border-radius:12px">
@@ -180,38 +180,38 @@
         <article class="card kpi">
           <div class="kpi__top">
             <span class="kpi__icon kpi__icon--primary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/></svg></span>
-            <span class="trend trend--up">+6</span>
+            <span class="trend trend--flat" data-kpi-total>0 no total</span>
           </div>
           <div class="kpi__label">Sites publicados</div>
-          <div class="kpi__value" data-count="57">57</div>
-          <div class="kpi__meta">3 aguardando publicação</div>
+          <div class="kpi__value" data-sites="publicados">0</div>
+          <div class="kpi__meta"><span data-sites="rascunhos">0</span> em rascunho</div>
         </article>
         <article class="card kpi">
           <div class="kpi__top">
             <span class="kpi__icon kpi__icon--info"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg></span>
-            <span class="trend trend--up">22%</span>
+            <span class="trend trend--flat">arquivados</span>
           </div>
-          <div class="kpi__label">Visitas no mês</div>
-          <div class="kpi__value" data-count="18430">18.430</div>
-          <div class="kpi__meta">Somatório dos sites</div>
+          <div class="kpi__label">Sites arquivados</div>
+          <div class="kpi__value" data-sites="arquivados">0</div>
+          <div class="kpi__meta">Fora do ar</div>
         </article>
         <article class="card kpi">
           <div class="kpi__top">
             <span class="kpi__icon kpi__icon--success"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>
-            <span class="trend trend--up">+41</span>
+            <span class="trend trend--flat">leads</span>
           </div>
-          <div class="kpi__label">Leads recebidos</div>
-          <div class="kpi__value" data-count="318">318</div>
-          <div class="kpi__meta">Formulários dos sites</div>
+          <div class="kpi__label">Leads na base</div>
+          <div class="kpi__value" data-sites="leads">0</div>
+          <div class="kpi__meta">Prospecção da conta</div>
         </article>
         <article class="card kpi">
           <div class="kpi__top">
             <span class="kpi__icon kpi__icon--warn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>
-            <span class="trend trend--flat">3</span>
+            <span class="trend trend--flat">rascunhos</span>
           </div>
           <div class="kpi__label">Rascunhos</div>
-          <div class="kpi__value" data-count="3">3</div>
-          <div class="kpi__meta">Última edição hoje</div>
+          <div class="kpi__value" data-sites="rascunhos-kpi">0</div>
+          <div class="kpi__meta">Aguardando publicação</div>
         </article>
       </div>
 
@@ -220,94 +220,34 @@
         <div class="card__head">
           <div>
             <div class="card__title">Meus sites</div>
-            <div class="card__sub">57 publicados · 3 rascunhos</div>
+            <div class="card__sub" data-sites="resumo">0 sites</div>
           </div>
-          <div class="row">
+          <div class="row" data-sites-filtro>
             <div class="seg">
-              <button class="is-active">Todos</button>
-              <button>Publicados</button>
-              <button>Rascunhos</button>
+              <button class="is-active" data-filtro="all">Todos</button>
+              <button data-filtro="publicado">Publicados</button>
+              <button data-filtro="rascunho">Rascunhos</button>
             </div>
           </div>
         </div>
         <div class="table-wrap">
-          <table class="table table--cards">
+          <table class="table table--cards" data-row-group="sites">
             <thead>
               <tr>
                 <th>Site</th>
                 <th>Cliente</th>
-                <th class="num">Visitas</th>
+                <th>Plano</th>
                 <th>Status</th>
                 <th></th>
               </tr>
             </thead>
-            <tbody>
-              <tr>
-                <td>
-                  <div class="cell-user">
-                    <span class="avatar avatar--sq avatar--amber avatar--sm">PT</span>
-                    <div><div class="cell-user__name">Trigo D'ouro</div><div class="cell-user__sub">trigo-douro.prospecta.site</div></div>
-                  </div>
-                </td>
-                <td>Padaria Trigo D'ouro</td>
-                <td class="num">4.120</td>
-                <td><span class="badge badge--success">Publicado</span></td>
-                <td><div class="t-actions"><a class="btn btn--outline btn--sm" href="editor.html">Editar</a></div></td>
-              </tr>
-              <tr>
-                <td>
-                  <div class="cell-user">
-                    <span class="avatar avatar--sq avatar--green avatar--sm">CB</span>
-                    <div><div class="cell-user__name">Clínica Bem Viver</div><div class="cell-user__sub">bemviver.prospecta.site</div></div>
-                  </div>
-                </td>
-                <td>Clínica Bem Viver</td>
-                <td class="num">8.940</td>
-                <td><span class="badge badge--success">Publicado</span></td>
-                <td><div class="t-actions"><a class="btn btn--outline btn--sm" href="editor.html">Editar</a></div></td>
-              </tr>
-              <tr>
-                <td>
-                  <div class="cell-user">
-                    <span class="avatar avatar--sq avatar--sky avatar--sm">AB</span>
-                    <div><div class="cell-user__name">AutoBox Veículos</div><div class="cell-user__sub">autobox.prospecta.site</div></div>
-                  </div>
-                </td>
-                <td>AutoBox Veículos</td>
-                <td class="num">2.310</td>
-                <td><span class="badge badge--info">Em revisão</span></td>
-                <td><div class="t-actions"><a class="btn btn--outline btn--sm" href="editor.html">Editar</a></div></td>
-              </tr>
-              <tr>
-                <td>
-                  <div class="cell-user">
-                    <span class="avatar avatar--sq avatar--rose avatar--sm">MS</span>
-                    <div><div class="cell-user__name">Studio Melo</div><div class="cell-user__sub">studio-melo.prospecta.site</div></div>
-                  </div>
-                </td>
-                <td>Studio Melo</td>
-                <td class="num">—</td>
-                <td><span class="badge badge--warn">Rascunho</span></td>
-                <td><div class="t-actions"><a class="btn btn--primary btn--sm" href="editor.html">Publicar</a></div></td>
-              </tr>
-              <tr>
-                <td>
-                  <div class="cell-user">
-                    <span class="avatar avatar--sq avatar--violet avatar--sm">ES</span>
-                    <div><div class="cell-user__name">Estúdio Solar</div><div class="cell-user__sub">estudiosolar.prospecta.site</div></div>
-                  </div>
-                </td>
-                <td>Estúdio Solar</td>
-                <td class="num">3.060</td>
-                <td><span class="badge badge--success">Publicado</span></td>
-                <td><div class="t-actions"><a class="btn btn--outline btn--sm" href="editor.html">Editar</a></div></td>
-              </tr>
+            <tbody data-sites-rows>
             </tbody>
           </table>
         </div>
+        <div class="card__body" data-sites-vazio></div>
         <div class="card__foot">
-          <span>Mostrando 5 de 60 sites</span>
-          <button class="btn btn--outline btn--sm" data-toast="Mais sites|Carregando a próxima página.">Carregar mais</button>
+          <span data-sites="rodape">0 sites</span>
         </div>
       </section>
     </main>
@@ -326,5 +266,111 @@
   <script src="assets/js/store.js"></script>
   <script src="assets/js/app.js"></script>
   <script src="assets/js/support.js"></script>
+  <script>
+  /* Sites: lista e KPIs via /api/sites; criação via POST /api/sites */
+  (function () {
+    var D = window.Dados;
+    if (!D || !D.pronto) return;
+    var filtro = 'all';
+    var AVATARES = ['amber', 'green', 'sky', 'rose', 'violet'];
+
+    function set(sel, value) { document.querySelectorAll(sel).forEach(function (el) { el.textContent = value; }); }
+    function statusBadge(status) {
+      var map = { publicado: ['success', 'Publicado'], rascunho: ['warn', 'Rascunho'], arquivado: ['neutral', 'Arquivado'] };
+      var b = map[status] || ['neutral', status];
+      return '<span class="badge badge--' + b[0] + '">' + D.esc(b[1]) + '</span>';
+    }
+
+    function pintar() {
+      var sites = D.sites();
+      var publicados = sites.filter(function (s) { return s.status === 'publicado'; });
+      var rascunhos = sites.filter(function (s) { return s.status === 'rascunho'; });
+      var arquivados = sites.filter(function (s) { return s.status === 'arquivado'; });
+
+      set('[data-sites="publicados"]', D.num(publicados.length));
+      set('[data-sites="rascunhos"]', D.num(rascunhos.length));
+      set('[data-sites="rascunhos-kpi"]', D.num(rascunhos.length));
+      set('[data-sites="arquivados"]', D.num(arquivados.length));
+      set('[data-sites="leads"]', D.num(D.leads().length));
+      set('[data-kpi-total]', D.num(sites.length) + ' no total');
+      set('[data-sites="resumo"]', D.num(publicados.length) + ' publicado' + (publicados.length === 1 ? '' : 's') + ' · ' + D.num(rascunhos.length) + ' rascunho' + (rascunhos.length === 1 ? '' : 's'));
+      set('[data-sites="rodape"]', 'Mostrando ' + D.num(sites.length) + ' site' + (sites.length === 1 ? '' : 's'));
+      set('[data-badge-contratos]', D.num(D.contratos().length));
+      set('[data-badge-leads]', D.num(D.leads().length));
+
+      var lista = filtro === 'all' ? sites : sites.filter(function (s) { return s.status === filtro; });
+      var tbody = document.querySelector('[data-sites-rows]');
+      if (tbody) {
+        tbody.innerHTML = lista.map(function (s, i) {
+          return '<tr data-status="' + D.esc(s.status) + '" data-id="' + D.esc(s.id) + '">' +
+            '<td><div class="cell-user"><span class="avatar avatar--sq avatar--' + AVATARES[i % AVATARES.length] + ' avatar--sm">' + D.esc(D.iniciais(s.name)) + '</span>' +
+            '<div><div class="cell-user__name">' + D.esc(s.name) + '</div><div class="cell-user__sub">' + D.esc(s.domain) + '</div></div></div></td>' +
+            '<td>' + D.esc(s.client ? s.client.name : '—') + '</td><td>' + D.esc(s.plan || 'gratis') + '</td>' +
+            '<td>' + statusBadge(s.status) + '</td>' +
+            '<td><div class="t-actions">' +
+              (s.status === 'publicado'
+                ? '<a class="btn btn--outline btn--sm" href="https://' + encodeURI(s.domain) + '" target="_blank" rel="noopener">Abrir</a>'
+                : '<button class="btn btn--primary btn--sm" data-publicar-site="' + D.esc(s.id) + '">Publicar</button>') +
+              '<button class="btn btn--ghost btn--sm" data-excluir-site="' + D.esc(s.id) + '">Excluir</button>' +
+            '</div></td></tr>';
+        }).join('');
+      }
+      var vazio = document.querySelector('[data-sites-vazio]');
+      if (vazio) {
+        vazio.innerHTML = lista.length ? '' : '<div class="empty"><div class="empty__title">Nenhum site ' + (filtro === 'all' ? 'criado' : 'com este status') + '</div><div class="empty__text">Use o formulário acima para criar o primeiro site.</div></div>';
+      }
+    }
+
+    D.pronto().then(function () {
+      document.body.setAttribute('data-dados-reais', '1');
+      pintar();
+      document.addEventListener('prospecta:mudou', pintar);
+
+      document.querySelectorAll('[data-sites-filtro] [data-filtro]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          filtro = btn.getAttribute('data-filtro');
+          document.querySelectorAll('[data-sites-filtro] [data-filtro]').forEach(function (b) { b.classList.remove('is-active'); });
+          btn.classList.add('is-active');
+          pintar();
+        });
+      });
+
+      var nome = document.getElementById('s-nome');
+      if (nome) nome.addEventListener('input', function () {
+        set('[data-preview-brand]', nome.value.trim() || 'Seu negócio');
+        var slug = nome.value.trim().normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+        set('[data-preview-url]', (slug || 'seu-site') + '.aflyai.vercel.app');
+      });
+
+      document.getElementById('form-site-rapido').addEventListener('submit', function (e) {
+        e.preventDefault();
+        var val = nome.value.trim();
+        if (val.length < 2) { window.Prospecta.toast('Informe o nome', 'O nome precisa ter ao menos 2 caracteres.'); return; }
+        D.criarSite({ name: val, status: 'rascunho', plan: 'gratis' }).then(function (site) {
+          window.Prospecta.toast('Site criado', site.domain + ' foi salvo como rascunho.');
+          document.getElementById('form-site-rapido').reset();
+          D.carregar('activities').catch(function () {});
+        }).catch(function (err) { window.Prospecta.toast('Erro ao criar', err.message); });
+      });
+
+      document.addEventListener('click', function (e) {
+        var pub = e.target.closest('[data-publicar-site]');
+        if (pub) {
+          D.atualizarSite(pub.getAttribute('data-publicar-site'), { status: 'publicado' })
+            .then(function (s) { window.Prospecta.toast('Site publicado', s.domain + ' está no ar.'); D.carregar('activities').catch(function () {}); })
+            .catch(function (err) { window.Prospecta.toast('Erro', err.message); });
+          return;
+        }
+        var del = e.target.closest('[data-excluir-site]');
+        if (del) {
+          if (!confirm('Excluir este site?')) return;
+          D.excluirSite(del.getAttribute('data-excluir-site'))
+            .then(function () { window.Prospecta.toast('Site excluído', 'O registro foi removido.'); })
+            .catch(function (err) { window.Prospecta.toast('Erro', err.message); });
+        }
+      });
+    });
+  })();
+  </script>
 </body>
 </html>

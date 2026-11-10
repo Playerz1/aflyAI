@@ -29,11 +29,11 @@
       </a>
       <a class="nav__item" href="prospectar.html" data-nav="prospectar">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/><path d="M11 8v6M8 11h6"/></svg>
-        Prospectar <span class="nav__badge">12</span>
+        Prospectar <span class="nav__badge" data-badge-leads>0</span>
       </a>
       <a class="nav__item" href="contratos.html" data-nav="contratos">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h4"/></svg>
-        Contratos <span class="nav__badge nav__badge--soft">4</span>
+        Contratos <span class="nav__badge nav__badge--soft" data-badge-contratos>0</span>
       </a>
       <div class="nav__label">Produto</div>
       <a class="nav__item" href="sites.html" data-nav="sites">
@@ -64,10 +64,10 @@
       <a class="btn btn--primary btn--sm btn--block" href="configuracoes.html#plano">Ver planos</a>
     </div>
     <a class="sidebar__foot" href="configuracoes.html">
-      <span class="avatar">RM</span>
+      <span class="avatar">U</span>
       <span class="sidebar__foot-info">
-        <span class="sidebar__foot-name">Rafael Mendes</span>
-        <span class="sidebar__foot-mail">rafael@agenciamendes.com</span>
+        <span class="sidebar__foot-name">Conta</span>
+        <span class="sidebar__foot-mail">?</span>
       </span>
     </a>
   </aside>
@@ -89,8 +89,8 @@
         <span class="icon-btn__dot"></span>
       </button>
       <button class="user-menu" aria-label="Menu do usuário">
-        <span class="avatar avatar--sm">RM</span>
-        <span class="user-menu__name">Rafael</span>
+        <span class="avatar avatar--sm">U</span>
+        <span class="user-menu__name">Conta</span>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
       </button>
     </header>
@@ -118,38 +118,38 @@
         <article class="card kpi">
           <div class="kpi__top">
             <span class="kpi__icon kpi__icon--primary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></span>
-            <span class="trend trend--up">+196</span>
+            <span class="trend trend--flat" data-leads="novos-meta">0 novos</span>
           </div>
           <div class="kpi__label">Total de leads</div>
-          <div class="kpi__value" data-count="1284">1.284</div>
+          <div class="kpi__value" data-leads="total">0</div>
           <div class="kpi__meta">Base completa da conta</div>
         </article>
         <article class="card kpi">
           <div class="kpi__top">
             <span class="kpi__icon kpi__icon--success"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3M12 18v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M3 12h3M18 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg></span>
-            <span class="trend trend--up">+8</span>
+            <span class="trend trend--flat">qualificados</span>
           </div>
           <div class="kpi__label">Leads qualificados</div>
-          <div class="kpi__value" data-count="316">316</div>
-          <div class="kpi__meta">Score acima de 70</div>
+          <div class="kpi__value" data-leads="qualificados">0</div>
+          <div class="kpi__meta">Status qualificado ou posterior</div>
         </article>
         <article class="card kpi">
           <div class="kpi__top">
             <span class="kpi__icon kpi__icon--warn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>
-            <span class="trend trend--flat">0</span>
+            <span class="trend trend--flat">novos</span>
           </div>
           <div class="kpi__label">Aguardando contato</div>
-          <div class="kpi__value" data-count="12">12</div>
+          <div class="kpi__value" data-leads="aguardando">0</div>
           <div class="kpi__meta">SLA ideal: 24 horas</div>
         </article>
         <article class="card kpi">
           <div class="kpi__top">
             <span class="kpi__icon kpi__icon--info"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m7 15 4-5 3 3 4-6"/></svg></span>
-            <span class="trend trend--up">+2,1pp</span>
+            <span class="trend trend--flat">funil</span>
           </div>
-          <div class="kpi__label">Taxa de resposta</div>
-          <div class="kpi__value"><span data-count="42.8" data-decimals="1">42,8</span>%</div>
-          <div class="kpi__meta">Mensagens enviadas: 742</div>
+          <div class="kpi__label">Taxa de conversão</div>
+          <div class="kpi__value"><span data-leads="conversao">0</span>%</div>
+          <div class="kpi__meta"><span data-leads="fechados">0</span> leads fechados</div>
         </article>
       </div>
 
@@ -159,25 +159,27 @@
           <div class="card__head">
             <div>
               <div class="card__title">Meus leads</div>
-              <div class="card__sub">12 leads novos nas últimas 24 horas</div>
+              <div class="card__sub" data-leads="resumo">0 leads</div>
             </div>
-            <button class="btn btn--outline btn--sm" data-toast="Exportação iniciada|Você receberá o arquivo por e-mail.">
+            <button class="btn btn--outline btn--sm" data-exportar-leads>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M6 11l6-6 6 6"/><path d="M4 21h16"/></svg>
-              Exportar
+              Exportar CSV
             </button>
           </div>
 
           <div class="filter-bar">
             <div class="input-wrap filter-bar__search">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-              <input class="input input--icon" type="search" placeholder="Buscar por empresa, cidade ou e-mail…" data-search="#tabela-leads" aria-label="Buscar leads">
+              <input class="input input--icon" type="search" placeholder="Buscar por empresa, contato ou e-mail…" data-search="#tabela-leads" aria-label="Buscar leads">
             </div>
             <div class="row row--wrap" data-chip-group="leads">
-              <button class="chip is-active" data-filter="all">Todos <span class="chip__count">8</span></button>
-              <button class="chip" data-filter="novo">Novos <span class="chip__count">3</span></button>
-              <button class="chip" data-filter="qualificado">Qualificados <span class="chip__count">2</span></button>
-              <button class="chip" data-filter="contatado">Contatados <span class="chip__count">2</span></button>
-              <button class="chip" data-filter="perdido">Perdidos <span class="chip__count">1</span></button>
+              <button class="chip is-active" data-filter="all">Todos <span class="chip__count" data-chip="all">0</span></button>
+              <button class="chip" data-filter="novo">Novos <span class="chip__count" data-chip="novo">0</span></button>
+              <button class="chip" data-filter="contato">Contatados <span class="chip__count" data-chip="contato">0</span></button>
+              <button class="chip" data-filter="qualificado">Qualificados <span class="chip__count" data-chip="qualificado">0</span></button>
+              <button class="chip" data-filter="proposta">Propostas <span class="chip__count" data-chip="proposta">0</span></button>
+              <button class="chip" data-filter="fechado">Fechados <span class="chip__count" data-chip="fechado">0</span></button>
+              <button class="chip" data-filter="perdido">Perdidos <span class="chip__count" data-chip="perdido">0</span></button>
             </div>
           </div>
 
@@ -188,125 +190,19 @@
                   <th>Empresa</th>
                   <th>Contato</th>
                   <th>Segmento</th>
-                  <th>Score</th>
+                  <th class="num">Valor</th>
                   <th>Status</th>
                   <th></th>
                 </tr>
               </thead>
-              <tbody>
-                <tr data-status="novo">
-                  <td>
-                    <div class="cell-user">
-                      <span class="avatar avatar--sq avatar--amber avatar--sm">AB</span>
-                      <div><div class="cell-user__name">AutoBox Veículos</div><div class="cell-user__sub">Curitiba · PR</div></div>
-                    </div>
-                  </td>
-                  <td><div class="cell-main">Marcos Pires</div><div class="cell-sub">(41) 99512-8840</div></td>
-                  <td>Automotivo</td>
-                  <td><b style="color:#0f9d6e">92</b></td>
-                  <td><span class="badge badge--primary">Novo</span></td>
-                  <td><div class="t-actions"><a class="btn btn--outline btn--sm" href="contratos.html">Contratar</a></div></td>
-                </tr>
-                <tr data-status="novo">
-                  <td>
-                    <div class="cell-user">
-                      <span class="avatar avatar--sq avatar--danger avatar--sm">DB</span>
-                      <div><div class="cell-user__name">Doceria Bela Vista</div><div class="cell-user__sub">Santos · SP</div></div>
-                    </div>
-                  </td>
-                  <td><div class="cell-main">Renata Alves</div><div class="cell-sub">renata@belavista.com.br</div></td>
-                  <td>Alimentação</td>
-                  <td><b style="color:#0f9d6e">88</b></td>
-                  <td><span class="badge badge--primary">Novo</span></td>
-                  <td><div class="t-actions"><a class="btn btn--outline btn--sm" href="contratos.html">Contratar</a></div></td>
-                </tr>
-                <tr data-status="novo">
-                  <td>
-                    <div class="cell-user">
-                      <span class="avatar avatar--sq avatar--sky avatar--sm">ES</span>
-                      <div><div class="cell-user__name">Estúdio Solar</div><div class="cell-user__sub">Florianópolis · SC</div></div>
-                    </div>
-                  </td>
-                  <td><div class="cell-main">Bruno Klein</div><div class="cell-sub">(48) 98120-4477</div></td>
-                  <td>Arquitetura</td>
-                  <td><b style="color:#0f9d6e">81</b></td>
-                  <td><span class="badge badge--primary">Novo</span></td>
-                  <td><div class="t-actions"><a class="btn btn--outline btn--sm" href="contratos.html">Contratar</a></div></td>
-                </tr>
-                <tr data-status="qualificado">
-                  <td>
-                    <div class="cell-user">
-                      <span class="avatar avatar--sq avatar--green avatar--sm">CB</span>
-                      <div><div class="cell-user__name">Clínica Bem Viver</div><div class="cell-user__sub">Belo Horizonte · MG</div></div>
-                    </div>
-                  </td>
-                  <td><div class="cell-main">Dra. Helena Costa</div><div class="cell-sub">contato@bemviver.med</div></td>
-                  <td>Saúde</td>
-                  <td><b style="color:#0f9d6e">95</b></td>
-                  <td><span class="badge badge--success">Qualificado</span></td>
-                  <td><div class="t-actions"><a class="btn btn--primary btn--sm" href="contratos.html">Fechar</a></div></td>
-                </tr>
-                <tr data-status="qualificado">
-                  <td>
-                    <div class="cell-user">
-                      <span class="avatar avatar--sq avatar--violet avatar--sm">LF</span>
-                      <div><div class="cell-user__name">Lava-rápido Fox</div><div class="cell-user__sub">Goiânia · GO</div></div>
-                    </div>
-                  </td>
-                  <td><div class="cell-main">Diego Nunes</div><div class="cell-sub">(62) 99234-1180</div></td>
-                  <td>Serviços</td>
-                  <td><b style="color:#d97706">74</b></td>
-                  <td><span class="badge badge--success">Qualificado</span></td>
-                  <td><div class="t-actions"><a class="btn btn--primary btn--sm" href="contratos.html">Fechar</a></div></td>
-                </tr>
-                <tr data-status="contatado">
-                  <td>
-                    <div class="cell-user">
-                      <span class="avatar avatar--sq avatar--sm">PT</span>
-                      <div><div class="cell-user__name">Padaria Trigo D'ouro</div><div class="cell-user__sub">São Paulo · SP</div></div>
-                    </div>
-                  </td>
-                  <td><div class="cell-main">Joana Ribeiro</div><div class="cell-sub">(11) 98877-2211</div></td>
-                  <td>Alimentação</td>
-                  <td><b style="color:#d97706">69</b></td>
-                  <td><span class="badge badge--info">Contatado</span></td>
-                  <td><div class="t-actions"><a class="btn btn--outline btn--sm" href="contratos.html">Ver</a></div></td>
-                </tr>
-                <tr data-status="contatado">
-                  <td>
-                    <div class="cell-user">
-                      <span class="avatar avatar--sq avatar--rose avatar--sm">MS</span>
-                      <div><div class="cell-user__name">Studio Melo</div><div class="cell-user__sub">Recife · PE</div></div>
-                    </div>
-                  </td>
-                  <td><div class="cell-main">Lucas Melo</div><div class="cell-sub">lucas@studiomelo.com</div></td>
-                  <td>Design</td>
-                  <td><b style="color:#8b91a7">58</b></td>
-                  <td><span class="badge badge--info">Contatado</span></td>
-                  <td><div class="t-actions"><a class="btn btn--outline btn--sm" href="contratos.html">Ver</a></div></td>
-                </tr>
-                <tr data-status="perdido">
-                  <td>
-                    <div class="cell-user">
-                      <span class="avatar avatar--sq avatar--neutral avatar--sm" style="background:#e9ebf3;color:#8b91a7">GF</span>
-                      <div><div class="cell-user__name">Gráfica Fontana</div><div class="cell-user__sub">Campinas · SP</div></div>
-                    </div>
-                  </td>
-                  <td><div class="cell-main">Sérgio Fontana</div><div class="cell-sub">(19) 99111-0022</div></td>
-                  <td>Indústria</td>
-                  <td><b style="color:#ef4444">31</b></td>
-                  <td><span class="badge badge--danger">Perdido</span></td>
-                  <td><div class="t-actions"><button class="btn btn--ghost btn--sm" data-toast="Lead reativado|Ele voltou para a fila de novos leads.">Reativar</button></div></td>
-                </tr>
+              <tbody data-leads-rows>
+                <!-- Leads reais de /api/leads -->
               </tbody>
             </table>
           </div>
+          <div class="card__body" data-leads-vazio></div>
           <div class="card__foot">
-            <span>Mostrando 8 de 1.284 leads</span>
-            <div class="row">
-              <button class="btn btn--outline btn--sm" disabled>Anterior</button>
-              <button class="btn btn--outline btn--sm" data-toast="Página 2|Mais leads carregados.">Próxima</button>
-            </div>
+            <span data-leads="rodape">0 leads</span>
           </div>
         </section>
 
@@ -317,31 +213,8 @@
               <div class="card__title">Buscas salvas</div>
               <button class="btn btn--ghost btn--sm" data-toast="Nova busca|Configure os filtros no botão Nova busca.">+ Nova</button>
             </div>
-            <div class="card__body card__body--flush">
-              <a class="list-row" href="#" data-toast="Busca carregada|Padarias em São Paulo · 84 leads.">
-                <span class="kpi__icon kpi__icon--warn" style="width:34px;height:34px;border-radius:10px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10h16M6 10V7a3 3 0 0 1 3-3h6a3 3 0 0 1 3 3v3M5 10v10h14V10"/></svg></span>
-                <div class="list-row__body">
-                  <div class="list-row__title">Padarias em SP</div>
-                  <div class="list-row__meta">84 leads · atualizada hoje</div>
-                </div>
-                <span class="trend trend--up">+12</span>
-              </a>
-              <a class="list-row" href="#" data-toast="Busca carregada|Clínicas no Sudeste · 156 leads.">
-                <span class="kpi__icon kpi__icon--success" style="width:34px;height:34px;border-radius:10px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></span>
-                <div class="list-row__body">
-                  <div class="list-row__title">Clínicas no Sudeste</div>
-                  <div class="list-row__meta">156 leads · há 2 dias</div>
-                </div>
-                <span class="trend trend--up">+8</span>
-              </a>
-              <a class="list-row" href="#" data-toast="Busca carregada|Advogados em BH · 42 leads.">
-                <span class="kpi__icon kpi__icon--info" style="width:34px;height:34px;border-radius:10px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M5 8h14M7 8l-3 6h6zM17 8l-3 6h6z"/></svg></span>
-                <div class="list-row__body">
-                  <div class="list-row__title">Advogados em BH</div>
-                  <div class="list-row__meta">42 leads · há 5 dias</div>
-                </div>
-                <span class="trend trend--flat">0</span>
-              </a>
+            <div class="card__body card__body--flush" data-buscas-salvas>
+              <!-- Segmentos montados a partir da base real de leads -->
             </div>
           </section>
 
@@ -379,11 +252,11 @@
           <section class="card" style="margin-top:18px">
             <div class="card__body">
               <div class="row row--between" style="margin-bottom:10px">
-                <span class="bold t-13">Meta do mês</span>
-                <span class="t-12 muted">38 / 50 contratos</span>
+                <span class="bold t-13">Conversão da base</span>
+                <span class="t-12 muted"><span data-leads="fechados">0</span> / <span data-leads="total">0</span> leads</span>
               </div>
-              <div class="progress"><div class="progress__bar" style="width:76%"></div></div>
-              <div class="t-12 muted mt-16">Faltam 12 contratos para bater a meta.</div>
+              <div class="progress"><div class="progress__bar" data-leads="barra" style="width:0%"></div></div>
+              <div class="t-12 muted mt-16">Leads com status “fechado” sobre o total da conta.</div>
             </div>
           </section>
         </aside>
@@ -403,38 +276,59 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6 6 18"/></svg>
         </button>
       </div>
-      <form class="modal__body" onsubmit="event.preventDefault(); Prospecta.closeModals(); Prospecta.toast('Busca criada!', 'Estamos procurando leads compatíveis.');">
+      <form class="modal__body" id="form-lead">
         <div class="field">
-          <label class="label" for="b-segmento">Segmento</label>
-          <select class="select" id="b-segmento">
-            <option>Alimentação</option>
-            <option>Saúde</option>
-            <option>Automotivo</option>
-            <option>Serviços locais</option>
-            <option>Advocacia</option>
-          </select>
+          <label class="label" for="b-empresa">Empresa</label>
+          <input class="input" id="b-empresa" placeholder="Nome da empresa" required>
         </div>
         <div class="form-row mt-16">
           <div class="field">
-            <label class="label" for="b-cidade">Cidade</label>
-            <input class="input" id="b-cidade" value="São Paulo">
+            <label class="label" for="b-contato">Contato</label>
+            <input class="input" id="b-contato" placeholder="Nome da pessoa">
           </div>
           <div class="field">
-            <label class="label" for="b-qtd">Quantidade</label>
-            <select class="select" id="b-qtd"><option>50 leads</option><option selected>100 leads</option><option>250 leads</option></select>
+            <label class="label" for="b-email">E-mail</label>
+            <input class="input" id="b-email" type="email" placeholder="contato@empresa.com" required>
+          </div>
+        </div>
+        <div class="form-row mt-16">
+          <div class="field">
+            <label class="label" for="b-telefone">Telefone</label>
+            <input class="input" id="b-telefone" placeholder="(11) 90000-0000">
+          </div>
+          <div class="field">
+            <label class="label" for="b-segmento">Segmento / origem</label>
+            <select class="select" id="b-segmento">
+              <option>Alimentação</option>
+              <option>Saúde</option>
+              <option>Automotivo</option>
+              <option>Serviços locais</option>
+              <option>Advocacia</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row mt-16">
+          <div class="field">
+            <label class="label" for="b-valor">Valor estimado (R$)</label>
+            <input class="input" id="b-valor" type="number" min="0" step="0.01" placeholder="0">
+          </div>
+          <div class="field">
+            <label class="label" for="b-status">Status</label>
+            <select class="select" id="b-status">
+              <option value="novo">Novo</option>
+              <option value="contato">Contatado</option>
+              <option value="qualificado">Qualificado</option>
+              <option value="proposta">Proposta</option>
+            </select>
           </div>
         </div>
         <div class="field mt-16">
-          <span class="label">Filtros</span>
-          <div class="row row--wrap">
-            <label class="check"><input type="checkbox" checked> Com Instagram</label>
-            <label class="check"><input type="checkbox" checked> Sem site próprio</label>
-            <label class="check"><input type="checkbox"> Com telefone</label>
-          </div>
+          <label class="label" for="b-obs">Observações <span class="label__hint">(opcional)</span></label>
+          <textarea class="textarea" id="b-obs" placeholder="Observações do primeiro contato…"></textarea>
         </div>
         <div class="form-actions">
           <button type="button" class="btn btn--outline" data-modal-close>Cancelar</button>
-          <button type="submit" class="btn btn--primary">Prospectar agora</button>
+          <button type="submit" class="btn btn--primary">Adicionar lead</button>
         </div>
       </form>
     </div>
@@ -453,16 +347,18 @@
         </button>
       </div>
       <div class="modal__body">
-        <div class="empty" style="padding:30px 16px;border:2px dashed var(--border-strong);border-radius:var(--radius)">
+        <label class="empty" style="padding:30px 16px;border:2px dashed var(--border-strong);border-radius:var(--radius);cursor:pointer">
           <div class="empty__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 20h16"/></svg></div>
-          <div class="empty__title">Arraste seu arquivo aqui</div>
-          <div class="empty__text">ou escolha do computador. Colunas: empresa, contato, e-mail, telefone, cidade.</div>
-          <button class="btn btn--outline" data-toast="Arquivo selecionado|leads-novembro.csv · 248 linhas.">Escolher arquivo</button>
-        </div>
+          <div class="empty__title" data-import-nome>Escolha seu arquivo CSV</div>
+          <div class="empty__text">Colunas aceitas: empresa (ou nome), contato, e-mail, telefone, segmento/origem, valor. O e-mail é obrigatório.</div>
+          <input type="file" accept=".csv,text/csv" data-import-file hidden>
+          <span class="btn btn--outline">Selecionar arquivo</span>
+        </label>
+        <p class="t-12 muted mt-16" data-import-status></p>
       </div>
       <div class="modal__foot">
         <button class="btn btn--outline" data-modal-close>Cancelar</button>
-        <button class="btn btn--primary" data-modal-close data-toast="Importação concluída|248 leads adicionados com sucesso.">Importar</button>
+        <button class="btn btn--primary" data-import-run disabled>Importar</button>
       </div>
     </div>
   </div>
@@ -480,5 +376,203 @@
   <script src="assets/js/store.js"></script>
   <script src="assets/js/app.js"></script>
   <script src="assets/js/support.js"></script>
+  <script>
+  /* Prospecção: leads reais via /api/leads (listar, criar, mudar status, excluir, importar CSV) */
+  (function () {
+    var D = window.Dados;
+    if (!D || !D.pronto) return;
+    var AVATARES = ['amber', 'green', 'sky', 'rose', 'violet'];
+    var csvRows = [];
+
+    function set(sel, value) { document.querySelectorAll(sel).forEach(function (el) { el.textContent = value; }); }
+    var STATUS = {
+      novo: ['primary', 'Novo'], contato: ['info', 'Contatado'], qualificado: ['success', 'Qualificado'],
+      proposta: ['warn', 'Proposta'], fechado: ['success', 'Fechado'], perdido: ['danger', 'Perdido']
+    };
+    function badge(status) {
+      var b = STATUS[status] || ['neutral', status];
+      return '<span class="badge badge--' + b[0] + '">' + D.esc(b[1]) + '</span>';
+    }
+
+    function pintar() {
+      var leads = D.leads();
+      var contagem = { all: leads.length };
+      Object.keys(STATUS).forEach(function (k) { contagem[k] = 0; });
+      leads.forEach(function (l) { contagem[l.status] = (contagem[l.status] || 0) + 1; });
+
+      var qualificados = leads.filter(function (l) { return ['qualificado', 'proposta', 'fechado'].indexOf(l.status) >= 0; }).length;
+      var fechados = contagem.fechado || 0;
+      var novos = contagem.novo || 0;
+
+      set('[data-leads="total"]', D.num(leads.length));
+      set('[data-leads="qualificados"]', D.num(qualificados));
+      set('[data-leads="aguardando"]', D.num(novos));
+      set('[data-leads="fechados"]', D.num(fechados));
+      set('[data-leads="conversao"]', (leads.length ? ((fechados / leads.length) * 100).toFixed(1) : '0').replace('.', ','));
+      set('[data-leads="novos-meta"]', novos + (novos === 1 ? ' novo' : ' novos'));
+      set('[data-leads="resumo"]', D.num(novos) + ' lead' + (novos === 1 ? '' : 's') + ' novo' + (novos === 1 ? '' : 's') + ' · ' + D.num(leads.length) + ' no total');
+      set('[data-leads="rodape"]', 'Mostrando ' + D.num(leads.length) + ' lead' + (leads.length === 1 ? '' : 's'));
+      set('[data-badge-leads]', D.num(leads.length));
+      set('[data-badge-contratos]', D.num(D.contratos().length));
+      Object.keys(contagem).forEach(function (k) { set('[data-chip="' + k + '"]', D.num(contagem[k])); });
+      var barra = document.querySelector('[data-leads="barra"]');
+      if (barra) barra.style.width = (leads.length ? Math.round((fechados / leads.length) * 100) : 0) + '%';
+
+      var tbody = document.querySelector('[data-leads-rows]');
+      if (tbody) {
+        tbody.innerHTML = leads.map(function (l, i) {
+          var podeContratar = ['qualificado', 'proposta', 'fechado'].indexOf(l.status) >= 0;
+          return '<tr data-status="' + D.esc(l.status) + '" data-id="' + D.esc(l.id) + '">' +
+            '<td><div class="cell-user"><span class="avatar avatar--sq avatar--' + AVATARES[i % AVATARES.length] + ' avatar--sm">' + D.esc(D.iniciais(l.company || l.name)) + '</span>' +
+            '<div><div class="cell-user__name">' + D.esc(l.company || l.name) + '</div><div class="cell-user__sub">' + D.esc(l.name) + '</div></div></div></td>' +
+            '<td><div class="cell-main">' + D.esc(l.email) + '</div><div class="cell-sub">' + D.esc(l.phone || '—') + '</div></td>' +
+            '<td>' + D.esc(l.source || '—') + '</td>' +
+            '<td>' + D.dinheiro(l.value) + '</td>' +
+            '<td>' + badge(l.status) + '</td>' +
+            '<td><div class="t-actions">' +
+              '<select class="select" style="height:32px;font-size:12px;padding:0 8px" data-status-lead="' + D.esc(l.id) + '">' +
+                Object.keys(STATUS).map(function (k) { return '<option value="' + k + '"' + (k === l.status ? ' selected' : '') + '>' + STATUS[k][1] + '</option>'; }).join('') +
+              '</select>' +
+              (podeContratar ? '<a class="btn btn--primary btn--sm" href="contratos.html?lead=' + encodeURIComponent(l.id) + '">Contratar</a>' : '') +
+              '<button class="btn btn--ghost btn--sm" data-excluir-lead="' + D.esc(l.id) + '">Excluir</button>' +
+            '</div></td></tr>';
+        }).join('');
+      }
+      var vazio = document.querySelector('[data-leads-vazio]');
+      if (vazio) vazio.innerHTML = leads.length ? '' : '<div class="empty"><div class="empty__title">Nenhum lead cadastrado</div><div class="empty__text">Adicione o primeiro lead com “Nova busca” ou importe um CSV.</div></div>';
+      if (window.ProspectaFiltro) window.ProspectaFiltro('leads');
+
+      // Buscas salvas = segmentos presentes na base real
+      var box = document.querySelector('[data-buscas-salvas]');
+      if (box) {
+        var porOrigem = {};
+        leads.forEach(function (l) { var k = l.source || 'Sem segmento'; porOrigem[k] = (porOrigem[k] || 0) + 1; });
+        var keys = Object.keys(porOrigem).sort(function (a, b) { return porOrigem[b] - porOrigem[a]; }).slice(0, 5);
+        var cores = ['warn', 'success', 'info', 'primary', 'danger'];
+        box.innerHTML = keys.length ? keys.map(function (k, i) {
+          return '<div class="list-row"><span class="kpi__icon kpi__icon--' + cores[i % cores.length] + '" style="width:34px;height:34px;border-radius:10px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></span>' +
+            '<div class="list-row__body"><div class="list-row__title">' + D.esc(k) + '</div><div class="list-row__meta">' + D.num(porOrigem[k]) + ' lead' + (porOrigem[k] === 1 ? '' : 's') + '</div></div></div>';
+        }).join('') : '<div class="empty" style="padding:24px 16px"><div class="empty__title">Sem segmentos</div><div class="empty__text">Segmentos aparecem quando houver leads cadastrados.</div></div>';
+      }
+    }
+
+    function baixar(name, conteudo) {
+      var url = URL.createObjectURL(new Blob([conteudo], { type: 'text/csv;charset=utf-8' }));
+      var a = document.createElement('a'); a.href = url; a.download = name; a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    D.pronto().then(function () {
+      document.body.setAttribute('data-dados-reais', '1');
+      pintar();
+      document.addEventListener('prospecta:mudou', pintar);
+
+      document.getElementById('form-lead').addEventListener('submit', function (e) {
+        e.preventDefault();
+        var payload = {
+          name: document.getElementById('b-contato').value.trim() || document.getElementById('b-empresa').value.trim(),
+          company: document.getElementById('b-empresa').value.trim(),
+          email: document.getElementById('b-email').value.trim(),
+          phone: document.getElementById('b-telefone').value.trim() || null,
+          source: document.getElementById('b-segmento').value,
+          value: Number(document.getElementById('b-valor').value || 0),
+          status: document.getElementById('b-status').value,
+          note: document.getElementById('b-obs').value.trim() || null
+        };
+        D.criarLead(payload).then(function () {
+          document.getElementById('form-lead').reset();
+          window.Prospecta.closeModals();
+          window.Prospecta.toast('Lead adicionado', payload.company + ' entrou na base.');
+        }).catch(function (err) { window.Prospecta.toast('Erro ao adicionar', err.message); });
+      });
+
+      document.addEventListener('change', function (e) {
+        var sel = e.target.closest('[data-status-lead]');
+        if (!sel) return;
+        D.atualizarLead(sel.getAttribute('data-status-lead'), { status: sel.value })
+          .then(function () { window.Prospecta.toast('Status atualizado', 'O lead agora está como ' + sel.options[sel.selectedIndex].text + '.'); })
+          .catch(function (err) { window.Prospecta.toast('Erro', err.message); });
+      });
+
+      document.addEventListener('click', function (e) {
+        var del = e.target.closest('[data-excluir-lead]');
+        if (del) {
+          if (!confirm('Excluir este lead?')) return;
+          D.excluirLead(del.getAttribute('data-excluir-lead'))
+            .then(function () { window.Prospecta.toast('Lead excluído', 'O registro foi removido.'); })
+            .catch(function (err) { window.Prospecta.toast('Erro', err.message); });
+        }
+      });
+
+      var exp = document.querySelector('[data-exportar-leads]');
+      if (exp) exp.addEventListener('click', function () {
+        var linhas = [['empresa', 'contato', 'email', 'telefone', 'segmento', 'valor', 'status']].concat(D.leads().map(function (l) {
+          return [l.company, l.name, l.email, l.phone, l.source, l.value, l.status];
+        }));
+        baixar('leads.csv', linhas.map(function (l) { return l.map(function (v) { return '"' + String(v == null ? '' : v).replace(/"/g, '""') + '"'; }).join(','); }).join('\n'));
+        window.Prospecta.toast('Exportação concluída', D.leads().length + ' leads exportados.');
+      });
+
+      // Importação CSV real
+      var input = document.querySelector('[data-import-file]');
+      var run = document.querySelector('[data-import-run]');
+      var statusEl = document.querySelector('[data-import-status]');
+      if (input) input.addEventListener('change', function () {
+        var file = input.files && input.files[0];
+        csvRows = [];
+        if (!file) return;
+        document.querySelector('[data-import-nome]').textContent = file.name;
+        var reader = new FileReader();
+        reader.onload = function () {
+          var texto = String(reader.result || '').replace(/^\uFEFF/, '');
+          var linhas = texto.split(/\r?\n/).filter(function (l) { return l.trim(); });
+          if (!linhas.length) { statusEl.textContent = 'Arquivo vazio.'; return; }
+          var head = linhas[0].split(/[,;]/).map(function (h) { return h.trim().toLowerCase(); });
+          var temCabecalho = head.indexOf('email') >= 0 || head.indexOf('e-mail') >= 0;
+          var col = function (row, nomes) { for (var i = 0; i < nomes.length; i++) { var k = head.indexOf(nomes[i]); if (k >= 0) return (row[k] || '').trim(); } return ''; };
+          var body = temCabecalho ? linhas.slice(1) : linhas;
+          body.forEach(function (linha) {
+            var row = linha.split(/[,;]/);
+            var obj = temCabecalho ? {
+              company: col(row, ['empresa', 'company']),
+              name: col(row, ['contato', 'nome', 'name']),
+              email: col(row, ['email', 'e-mail']),
+              phone: col(row, ['telefone', 'phone', 'whatsapp']),
+              source: col(row, ['segmento', 'origem', 'source']),
+              value: Number((col(row, ['valor', 'value']) || '0').replace(',', '.')) || 0
+            } : { company: (row[0] || '').trim(), name: (row[1] || '').trim(), email: (row[2] || '').trim(), phone: (row[3] || '').trim(), source: (row[4] || '').trim(), value: Number((row[5] || '0').replace(',', '.')) || 0 };
+            if (obj.email && obj.email.indexOf('@') > 0) csvRows.push(obj);
+            else if (obj.email || obj.company) csvRows.push(Object.assign({ invalido: true }, obj));
+          });
+          statusEl.textContent = csvRows.length + ' linha(s) lida(s) · ' + csvRows.filter(function (r) { return !r.invalido; }).length + ' válida(s).';
+          run.disabled = !csvRows.some(function (r) { return !r.invalido; });
+        };
+        reader.readAsText(file, 'utf-8');
+      });
+      if (run) run.addEventListener('click', function () {
+        var validos = csvRows.filter(function (r) { return !r.invalido; });
+        var ok = 0, falhas = 0;
+        run.disabled = true;
+        statusEl.textContent = 'Importando 0 de ' + validos.length + '…';
+        validos.reduce(function (p, lead) {
+          return p.then(function () {
+            return D.criarLead({
+              name: lead.name || lead.company, company: lead.company || null, email: lead.email,
+              phone: lead.phone || null, source: lead.source || null, value: lead.value || 0, status: 'novo'
+            }).then(function () { ok += 1; }, function () { falhas += 1; });
+          }).then(function () { statusEl.textContent = 'Importando ' + (ok + falhas) + ' de ' + validos.length + '…'; });
+        }, Promise.resolve()).then(function () {
+          statusEl.textContent = ok + ' lead(s) importado(s)' + (falhas ? ' · ' + falhas + ' falha(s)' : '') + '.';
+          window.Prospecta.toast('Importação concluída', ok + ' lead(s) adicionado(s)' + (falhas ? ', ' + falhas + ' com erro' : '') + '.');
+          csvRows = [];
+        });
+      });
+
+      // Pré-seleção de lead ao vir de “Contratar”
+      var params = new URLSearchParams(location.search);
+      if (params.get('lead')) location.hash = '';
+    });
+  })();
+  </script>
 </body>
 </html>

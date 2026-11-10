@@ -114,10 +114,10 @@
       </a>
     </nav>
     <a class="sidebar__foot" href="#" data-logout>
-      <span class="avatar">RM</span>
+      <span class="avatar">U</span>
       <span class="sidebar__foot-info">
-        <span class="sidebar__foot-name">Rafael Mendes</span>
-        <span class="sidebar__foot-mail">Admin · sair</span>
+        <span class="sidebar__foot-name">Conta</span>
+        <span class="sidebar__foot-mail">—</span>
       </span>
     </a>
   </aside>
@@ -529,8 +529,8 @@
         var lista = D.usuarios();
         var u = lista.filter(function (x) { return x.id === id; })[0];
         if (!u) return;
-        if (u.papel === "admin" && u.email === "rafael@agenciamendes.com") {
-          window.Prospecta.toast("Ação bloqueada", "O administrador principal não pode ser bloqueado.");
+        if (u.papel === "admin") {
+          window.Prospecta.toast("Ação bloqueada", "O administrador não pode ser bloqueado.");
           return;
         }
         if (u.status === "bloqueado") { u.status = "ativo"; window.Prospecta.toast("Usuário desbloqueado", u.nome + " voltou a ter acesso."); }

@@ -168,12 +168,12 @@
       });
 
       var _demo=document.getElementById('adm-demo'); if(_demo) _demo.addEventListener("click", async function () {
-        document.getElementById("adm-email").value = "rafael@agenciamendes.com";
-        document.getElementById("adm-senha").value = "demo1234";
+        document.getElementById("adm-email").value = "";
+        document.getElementById("adm-senha").value = "";
         // Demo real: exige usuário seedado no banco (npm run db:seed) com a senha definida em ADMIN_PASSWORD.
         // Em modo local/offline, usa fallback legado.
         try {
-          if (D.modo && D.modo() === 'local' && D.entrarAdmin) { if (await D.entrarAdmin("rafael@agenciamendes.com")) location.href = destino; return; }
+          if (D.modo && D.modo() === 'local' && D.entrarAdmin) { if (await D.entrarAdmin("")) location.href = destino; return; }
         } catch(e){}
         erroTxt.textContent = "Para entrar: configure o banco (Neon), rode migrations/seed e use a senha de ADMIN_PASSWORD.";
         erro.style.display = "";

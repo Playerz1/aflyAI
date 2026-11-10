@@ -72,10 +72,10 @@
       </a>
     </nav>
     <a class="sidebar__foot" href="#" data-logout>
-      <span class="avatar">RM</span>
+      <span class="avatar">U</span>
       <span class="sidebar__foot-info">
-        <span class="sidebar__foot-name">Rafael Mendes</span>
-        <span class="sidebar__foot-mail">Admin · sair</span>
+        <span class="sidebar__foot-name">Conta</span>
+        <span class="sidebar__foot-mail">—</span>
       </span>
     </a>
   </aside>
@@ -101,8 +101,8 @@
         <span class="icon-btn__dot"></span>
       </button>
       <button class="user-menu" aria-label="Menu do usuário">
-        <span class="avatar avatar--sm">RM</span>
-        <span class="user-menu__name">Rafael</span>
+        <span class="avatar avatar--sm">U</span>
+        <span class="user-menu__name">Conta</span>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
       </button>
     </header>
@@ -148,16 +148,16 @@
         <article class="card kpi">
           <div class="kpi__top">
             <span class="kpi__icon kpi__icon--success"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg></span>
-            <span class="trend trend--up" data-kpi-tempo>1h 48m</span>
+            <span class="trend trend--flat" data-kpi-tempo>—</span>
           </div>
-          <div class="kpi__label">Tempo médio de resposta</div>
-          <div class="kpi__value">1h 48m</div>
-          <div class="kpi__meta">meta: até 2h</div>
+          <div class="kpi__label">Tickets resolvidos</div>
+          <div class="kpi__value" data-kpi-resolvidos>0</div>
+          <div class="kpi__meta">total histórico</div>
         </article>
         <article class="card kpi">
           <div class="kpi__top">
             <span class="kpi__icon kpi__icon--primary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3 20a6 6 0 0 1 12 0"/></svg></span>
-            <span class="trend trend--flat" data-kpi-novos>+2</span>
+            <span class="trend trend--flat" data-kpi-novos>0</span>
           </div>
           <div class="kpi__label">Usuários ativos</div>
           <div class="kpi__value" data-kpi-usuarios>0</div>
@@ -245,8 +245,13 @@
         document.querySelectorAll("[data-badge-tickets]").forEach(function (b) { b.textContent = abertos.length; });
         document.querySelector("[data-kpi-abertos]").textContent = abertos.length;
         document.querySelector("[data-kpi-abertos-meta]").textContent = abertos.length === 1 ? "1 aguardando primeira resposta" : abertos.length + " aguardando primeira resposta";
+        var resolvidos = tickets.filter(function (t) { return t.status === "resolvido"; });
+        var hoje = new Date();
+        var respondidosHoje = respondidos.filter(function (t) { var d = new Date(t.atualizado || t.criado); return d.toDateString() === hoje.toDateString(); });
         document.querySelector("[data-kpi-respondidos]").textContent = respondidos.length;
-        document.querySelector("[data-kpi-hoje]").textContent = "+" + respondidos.length;
+        document.querySelector("[data-kpi-hoje]").textContent = "+" + respondidosHoje.length;
+        document.querySelector("[data-kpi-resolvidos]").textContent = resolvidos.length;
+        document.querySelector("[data-kpi-tempo]").textContent = tickets.length + " tickets";
         document.querySelector("[data-kpi-usuarios]").textContent = ativos.length;
         document.querySelector("[data-kpi-usuarios-meta]").textContent = convites.length + " convite" + (convites.length === 1 ? "" : "s") + " pendente" + (convites.length === 1 ? "" : "s");
 

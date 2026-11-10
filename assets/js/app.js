@@ -105,11 +105,21 @@
   }
 
   function filterRows(group, value) {
+    document.querySelectorAll('[data-row-group="' + group + '"]').forEach(function (table) {
+      table.setAttribute("data-active-filter", value || "all");
+    });
     document.querySelectorAll('[data-row-group="' + group + '"] tr[data-status]').forEach(function (row) {
       var match = !value || value === "all" || row.getAttribute("data-status") === value;
       row.classList.toggle("hide", !match);
     });
   }
+
+  // Reaplica o filtro ativo depois de renderizar linhas dinâmicas
+  window.ProspectaFiltro = function (group) {
+    var table = document.querySelector('[data-row-group="' + group + '"]');
+    if (!table) return;
+    filterRows(group, table.getAttribute("data-active-filter") || "all");
+  };
 
   /* ---------- Busca em tabela (client-side) ---------- */
   function initTableSearch() {
@@ -212,6 +222,9 @@
   function initCounters() {
     var els = document.querySelectorAll("[data-count]");
     if (!els.length || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    // valores vindos da API são renderizados diretamente (sem animação de contagem)
+    if (document.body && document.body.getAttribute("data-dados-reais") === "1") return;
 
     var observer = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {

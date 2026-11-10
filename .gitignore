@@ -30,3 +30,5 @@ yarn-error.log*
 # Vercel static build output
 public/
 
+.vercel
+.env*

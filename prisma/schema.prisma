@@ -5,6 +5,7 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 enum UserRole {
@@ -37,6 +38,50 @@ enum MessageAuthor {
   admin
 }
 
+enum LeadStatus {
+  novo
+  contato
+  qualificado
+  proposta
+  fechado
+  perdido
+}
+
+enum ContractStatus {
+  rascunho
+  ativo
+  vencido
+  cancelado
+}
+
+enum PaymentStatus {
+  pendente
+  pago
+  atrasado
+  estornado
+}
+
+enum SiteStatus {
+  rascunho
+  publicado
+  arquivado
+}
+
+enum ActivityType {
+  lead_created
+  lead_contacted
+  lead_qualified
+  contract_created
+  contract_signed
+  payment_received
+  payment_overdue
+  site_published
+  user_created
+  user_blocked
+  ticket_created
+  ticket_resolved
+}
+
 model User {
   id           String     @id @default(cuid())
   seq          Int        @unique @default(autoincrement()) // stable numeric ref for UI
@@ -55,6 +100,11 @@ model User {
 
   ticketsCreated Ticket[]        @relation("TicketCreator")
   messages       TicketMessage[] @relation("UserMessages")
+  leads          Lead[]          @relation("LeadCreator")
+  contracts      Contract[]      @relation("ContractCreator")
+  sitesCreated   Site[]          @relation("SiteCreator")
+  sitesOwned     Site[]          @relation("SiteClient")
+  activities     Activity[]      @relation("ActivityUser")
 
   @@index([email])
   @@index([status])
@@ -104,4 +154,120 @@ model TicketMessage {
   @@index([ticketId])
   @@index([createdAt])
   @@map("ticket_messages")
+}
+
+model Lead {
+  id          String     @id @default(cuid())
+  name        String
+  email       String     @unique
+  phone       String?
+  company     String?
+  status      LeadStatus @default(novo)
+  source      String?
+  value       Decimal    @db.Decimal(10, 2) @default(0)
+  note        String?
+  createdById String?
+  createdBy   User?      @relation("LeadCreator", fields: [createdById], references: [id], onDelete: SetNull)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  lastContact DateTime?
+
+  contracts  Contract[]
+  activities Activity[]
+
+  @@index([status])
+  @@index([createdById])
+  @@map("leads")
+}
+
+model Contract {
+  id          String         @id @default(cuid())
+  clientName  String
+  clientEmail String
+  service     String
+  value       Decimal        @db.Decimal(10, 2) @default(0)
+  status      ContractStatus @default(rascunho)
+  signedAt    DateTime?
+  expiresAt   DateTime?
+  leadId      String?
+  lead        Lead?          @relation(fields: [leadId], references: [id], onDelete: SetNull)
+  createdById String?
+  createdBy   User?          @relation("ContractCreator", fields: [createdById], references: [id], onDelete: SetNull)
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+
+  payments   Payment[]
+  activities Activity[]
+
+  @@index([status])
+  @@index([clientEmail])
+  @@index([leadId])
+  @@index([createdById])
+  @@map("contracts")
+}
+
+model Payment {
+  id         String        @id @default(cuid())
+  contractId String
+  contract   Contract      @relation(fields: [contractId], references: [id], onDelete: Cascade)
+  value      Decimal       @db.Decimal(10, 2) @default(0)
+  status     PaymentStatus @default(pendente)
+  dueDate    DateTime?
+  paidAt     DateTime?
+  method     String?
+  note       String?
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
+
+  @@index([contractId])
+  @@index([status])
+  @@index([dueDate])
+  @@map("payments")
+}
+
+model Site {
+  id          String     @id @default(cuid())
+  name        String
+  domain      String     @unique
+  subdomain   String     @unique
+  status      SiteStatus @default(rascunho)
+  plan        String     @default("gratis")
+  createdById String?
+  createdBy   User?      @relation("SiteCreator", fields: [createdById], references: [id], onDelete: SetNull)
+  clientId    String?
+  client      User?      @relation("SiteClient", fields: [clientId], references: [id], onDelete: SetNull)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  publishedAt DateTime?
+
+  activities Activity[]
+
+  @@index([status])
+  @@index([createdById])
+  @@index([clientId])
+  @@map("sites")
+}
+
+model Activity {
+  id          String       @id @default(cuid())
+  type        ActivityType
+  title       String
+  description String?
+  userId      String?
+  user        User?        @relation("ActivityUser", fields: [userId], references: [id], onDelete: SetNull)
+  leadId      String?
+  lead        Lead?        @relation(fields: [leadId], references: [id], onDelete: SetNull)
+  contractId  String?
+  contract    Contract?    @relation(fields: [contractId], references: [id], onDelete: SetNull)
+  siteId      String?
+  site        Site?        @relation(fields: [siteId], references: [id], onDelete: SetNull)
+  createdAt   DateTime     @default(now())
+
+  @@index([type])
+  @@index([userId])
+  @@index([leadId])
+  @@index([contractId])
+  @@index([siteId])
+  @@index([createdAt])
+  @@map("activities")
 }

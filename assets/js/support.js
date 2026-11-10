@@ -10,7 +10,6 @@ window.Suporte = (function () {
 
   var KEY = "prospecta:tickets";
   var SEQ = "prospecta:ticket-seq";
-  var EU = { nome: "Rafael Mendes", iniciais: "RM", plano: "Pro" };
 
   var MOTIVOS = {
     duvida: { rotulo: "Dúvida de uso", auto: "Perfeito! Já recebi sua dúvida. Um especialista da Prospecta vai olhar aqui e te responder por este chat em instantes." },
@@ -25,6 +24,10 @@ window.Suporte = (function () {
 
   function D() { return window.Dados; }
   function apiAtiva() { return D() && D().modo && D().modo() === 'api'; }
+  function getEU() {
+    var me = D() && D().eu ? D().eu() : null;
+    return me || { nome: '', iniciais: '', plano: '', email: '' };
+  }
 
   /* ---------------- storage/cache ---------------- */
   function carregar() {
@@ -133,7 +136,7 @@ window.Suporte = (function () {
     var texto = dados.assunto + (dados.descricao ? "\n\n" + dados.descricao : "");
     if (apiAtiva() && D() && D().criarTicket) {
       try {
-        var ticket = await D().criarTicket({ assunto: dados.assunto, descricao: dados.descricao || '', motivo: dados.motivo, motivoRotulo: m.rotulo, prioridade: dados.prioridade, origem: (document.querySelector(".topbar__title") || {}).textContent || "Dashboard", cliente: { nome: EU.nome, iniciais: EU.iniciais, email: "", plano: EU.plano } });
+        var ticket = await D().criarTicket({ assunto: dados.assunto, descricao: dados.descricao || '', motivo: dados.motivo, motivoRotulo: m.rotulo, prioridade: dados.prioridade, origem: (document.querySelector(".topbar__title") || {}).textContent || "Dashboard", cliente: { nome: getEU().nome, iniciais: getEU().iniciais, email: getEU().email, plano: getEU().plano } });
         if (window.Prospecta && window.Prospecta.toast) window.Prospecta.toast("Ticket #" + ticket.id + " criado!", "Nosso time responde por aqui mesmo.");
         irParaChat(ticket.id);
         // Sem auto-resposta em produção (admin responde). Mantém UX limpa.
@@ -145,7 +148,7 @@ window.Suporte = (function () {
     }
     // fallback local dev
     var id = proximoId();
-    var ticket = { id: id, assunto: dados.assunto, motivo: dados.motivo, motivoRotulo: m.rotulo, prioridade: dados.prioridade, status: "aberto", cliente: { nome: EU.nome, iniciais: EU.iniciais, email: "rafael@agenciamendes.com", plano: EU.plano }, origem: (document.querySelector(".topbar__title") || {}).textContent || "Dashboard", criado: agora.toISOString(), atualizado: agora.toISOString(), mensagens: [{ id: 1, autor: "cliente", texto: texto, em: agora.toISOString(), lida: true }] };
+    var ticket = { id: id, assunto: dados.assunto, motivo: dados.motivo, motivoRotulo: m.rotulo, prioridade: dados.prioridade, status: "aberto", cliente: { nome: getEU().nome, iniciais: getEU().iniciais, email: getEU().email, plano: getEU().plano }, origem: (document.querySelector(".topbar__title") || {}).textContent || "Dashboard", criado: agora.toISOString(), atualizado: agora.toISOString(), mensagens: [{ id: 1, autor: "cliente", texto: texto, em: agora.toISOString(), lida: true }] };
     var list = carregar(); list.unshift(ticket); salvar(list);
     if (window.Prospecta && window.Prospecta.toast) window.Prospecta.toast("Ticket #" + id + " criado!", "Nosso time responde por aqui mesmo.");
     irParaChat(id);
@@ -184,7 +187,7 @@ window.Suporte = (function () {
     html += '<div class="msg msg--system">Ticket <b>#' + t.id + "</b> criado · motivo: <b>" + esc(t.motivoRotulo || (MOTIVOS[t.motivo] ? MOTIVOS[t.motivo].rotulo : '') || t.motivo || '') + "</b></div>";
     (t.mensagens || []).forEach(function (m) {
       var cls = m.autor === "cliente" ? "msg--out" : "msg--in";
-      var quem = m.autor === "cliente" ? "Você" : (m.autor === "admin" ? "Admin · Jean" : "Suporte Prospecta");
+      var quem = m.autor === "cliente" ? "Você" : (m.autor === "admin" ? "Admin" : "Suporte Prospecta");
       html += '<div class="msg ' + cls + '">' + esc(m.texto) + '<span class="msg__meta">' + quem + " · " + hora(m.em) + "</span></div>";
     });
     if (state.typing) html += '<div class="msg msg--in typing"><i></i><i></i><i></i></div>';

@@ -89,10 +89,7 @@ window.Dados = (function () {
     try { localStorage.setItem(key, JSON.stringify(valor)); } catch (e) {}
     emit(key);
   }
-  var USUARIOS_SEED = [
-    { id: 1, _id: 'local-1', nome: "Rafael Mendes", iniciais: "RM", email: "rafael@agenciamendes.com", plano: "Pro", cargo: "Proprietário", status: "ativo", papel: "admin", tickets: 4, criado: "2025-03-04T10:12:00", ultimo: "2026-11-08T09:42:00" },
-    { id: 2, _id: 'local-2', nome: "Ana Lima", iniciais: "AL", email: "ana@agenciamendes.com", plano: "Pro", cargo: "Comercial", status: "ativo", papel: "membro", tickets: 1, criado: "2025-04-18T14:30:00", ultimo: "2026-11-08T08:15:00" }
-  ];
+  var USUARIOS_SEED = [];
   function localUsuarios() { var l = lerLocal(K_USERS, null); if (!Array.isArray(l)||!l.length){ gravarLocal(K_USERS, USUARIOS_SEED); return USUARIOS_SEED.slice(); } return l; }
   function localTickets() { var l = lerLocal(K_TICKETS, null); return Array.isArray(l) ? l : []; }
 

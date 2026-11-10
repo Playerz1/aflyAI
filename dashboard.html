@@ -47,7 +47,7 @@
           <path d="M11 8v6M8 11h6" />
         </svg>
         Prospectar
-        <span class="nav__badge">12</span>
+        <span class="nav__badge" data-badge-leads>0</span>
       </a>
       <a class="nav__item" href="contratos.html" data-nav="contratos">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
@@ -56,7 +56,7 @@
           <path d="M9 13h6M9 17h4" />
         </svg>
         Contratos
-        <span class="nav__badge nav__badge--soft">4</span>
+        <span class="nav__badge nav__badge--soft" data-badge-contratos>0</span>
       </a>
 
       <div class="nav__label">Produto</div>
@@ -159,8 +159,8 @@
       <!-- Cabeçalho -->
       <div class="page-head">
         <div>
-          <h1 class="page-head__title">Olá, Rafael 👋</h1>
-          <p class="page-head__sub">Aqui está o resumo da sua operação hoje, 8 de novembro.</p>
+          <h1 class="page-head__title">Olá, <span id="dashboard-nome">Usuário</span> 👋</h1>
+          <p class="page-head__sub">Aqui está o resumo da sua operação <span id="dashboard-data"></span>.</p>
         </div>
         <div class="page-actions">
           <a class="btn btn--outline" href="sites.html">
@@ -189,14 +189,11 @@
                 <path d="m20 20-3.5-3.5" />
               </svg>
             </span>
-            <span class="trend trend--up"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                stroke-linecap="round" stroke-linejoin="round">
-                <path d="M7 17 17 7M9 7h8v8" />
-              </svg>18%</span>
+            <span class="trend trend--flat" data-kpi-leads-novos>0 novos</span>
           </div>
           <div class="kpi__label">Leads prospectados</div>
-          <div class="kpi__value" data-count="1284">1.284</div>
-          <div class="kpi__meta">+196 nos últimos 30 dias</div>
+          <div class="kpi__value" data-dash="leads">0</div>
+          <div class="kpi__meta">Base da conta</div>
         </article>
 
         <article class="card kpi">
@@ -208,14 +205,11 @@
                 <path d="m9 15 2 2 4-4" />
               </svg>
             </span>
-            <span class="trend trend--up"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                stroke-linecap="round" stroke-linejoin="round">
-                <path d="M7 17 17 7M9 7h8v8" />
-              </svg>9%</span>
+            <span class="trend trend--flat" data-kpi-total-contratos>0 no total</span>
           </div>
           <div class="kpi__label">Contratos ativos</div>
-          <div class="kpi__value" data-count="38">38</div>
-          <div class="kpi__meta">R$ 46.900 em receita recorrente</div>
+          <div class="kpi__value" data-dash="contratos-ativos">0</div>
+          <div class="kpi__meta"><span data-dash="mrr">R$ 0,00</span> em contratos ativos</div>
         </article>
 
         <article class="card kpi">
@@ -226,14 +220,11 @@
                 <circle cx="12" cy="12" r="9" />
               </svg>
             </span>
-            <span class="trend trend--down"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                stroke-linecap="round" stroke-linejoin="round">
-                <path d="M7 7l10 10M17 9v8H9" />
-              </svg>3%</span>
+            <span class="trend trend--flat" data-kpi-fechados>0 fechados</span>
           </div>
           <div class="kpi__label">Taxa de conversão</div>
-          <div class="kpi__value"><span data-count="24.6" data-decimals="1">24,6</span>%</div>
-          <div class="kpi__meta">Meta do mês: 30%</div>
+          <div class="kpi__value"><span data-dash="conversao">0</span>%</div>
+          <div class="kpi__meta">Leads fechados ÷ leads recebidos</div>
         </article>
 
         <article class="card kpi">
@@ -246,14 +237,11 @@
                 <circle cx="9" cy="6.5" r=".6" fill="currentColor" />
               </svg>
             </span>
-            <span class="trend trend--up"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                stroke-linecap="round" stroke-linejoin="round">
-                <path d="M7 17 17 7M9 7h8v8" />
-              </svg>6</span>
+            <span class="trend trend--flat" data-kpi-sites-rascunho>0 em rascunho</span>
           </div>
           <div class="kpi__label">Sites publicados</div>
-          <div class="kpi__value" data-count="57">57</div>
-          <div class="kpi__meta">3 aguardando publicação</div>
+          <div class="kpi__value" data-dash="sites-publicados">0</div>
+          <div class="kpi__meta"><span data-dash="sites-total">0</span> sites no total</div>
         </article>
       </div>
 
@@ -265,8 +253,8 @@
           </svg>
         </span>
         <div>
-          <div class="banner__title">12 leads novos esperando contato</div>
-          <div class="banner__text">Você tem leads com alta pontuação de fit. Responda em até 24h para dobrar a chance
+          <div class="banner__title" data-banner-leads>Tudo em dia: nenhum lead aguardando contato</div>
+          <div class="banner__text">Leads com status “novo” aguardam primeiro contato. Responda rápido para aumentar a chance
             de fechar.</div>
         </div>
         <div class="banner__actions">
@@ -297,56 +285,13 @@
               <span><i style="background:#4f46e5"></i>Leads</span>
               <span><i style="background:#e0e3fb"></i>Contratos</span>
             </div>
-            <div class="chart">
-              <div class="chart__col" title="Jan · 62 leads">
-                <div class="chart__bar" style="height:38%"></div>
-                <div class="chart__bar chart__bar--alt" style="height:12%"></div><div class="chart__label">Jan</div>
-              </div>
-              <div class="chart__col" title="Fev · 74 leads">
-                <div class="chart__bar" style="height:46%"></div>
-                <div class="chart__bar chart__bar--alt" style="height:15%"></div><div class="chart__label">Fev</div>
-              </div>
-              <div class="chart__col" title="Mar · 58 leads">
-                <div class="chart__bar" style="height:34%"></div>
-                <div class="chart__bar chart__bar--alt" style="height:11%"></div><div class="chart__label">Mar</div>
-              </div>
-              <div class="chart__col" title="Abr · 96 leads">
-                <div class="chart__bar" style="height:60%"></div>
-                <div class="chart__bar chart__bar--alt" style="height:20%"></div><div class="chart__label">Abr</div>
-              </div>
-              <div class="chart__col" title="Mai · 88 leads">
-                <div class="chart__bar" style="height:55%"></div>
-                <div class="chart__bar chart__bar--alt" style="height:19%"></div><div class="chart__label">Mai</div>
-              </div>
-              <div class="chart__col" title="Jun · 110 leads">
-                <div class="chart__bar" style="height:70%"></div>
-                <div class="chart__bar chart__bar--alt" style="height:24%"></div><div class="chart__label">Jun</div>
-              </div>
-              <div class="chart__col" title="Jul · 102 leads">
-                <div class="chart__bar" style="height:64%"></div>
-                <div class="chart__bar chart__bar--alt" style="height:22%"></div><div class="chart__label">Jul</div>
-              </div>
-              <div class="chart__col" title="Ago · 128 leads">
-                <div class="chart__bar" style="height:80%"></div>
-                <div class="chart__bar chart__bar--alt" style="height:29%"></div><div class="chart__label">Ago</div>
-              </div>
-              <div class="chart__col" title="Set · 118 leads">
-                <div class="chart__bar" style="height:74%"></div>
-                <div class="chart__bar chart__bar--alt" style="height:26%"></div><div class="chart__label">Set</div>
-              </div>
-              <div class="chart__col" title="Out · 142 leads">
-                <div class="chart__bar" style="height:89%"></div>
-                <div class="chart__bar chart__bar--alt" style="height:33%"></div><div class="chart__label">Out</div>
-              </div>
-              <div class="chart__col" title="Nov · 156 leads">
-                <div class="chart__bar" style="height:97%"></div>
-                <div class="chart__bar chart__bar--alt" style="height:36%"></div><div class="chart__label">Nov</div>
-              </div>
+            <div class="chart" data-dash-chart>
+              <!-- Barras montadas com os dados reais de /api/leads e /api/contracts -->
             </div>
             </div>
           <div class="card__foot">
-            <span>Receita do mês: <b style="color:var(--text)">R$ 46.900</b></span>
-            <span class="trend trend--up">+9% vs. mês anterior</span>
+            <span>Contratos no período: <b style="color:var(--text)" data-chart-contratos>0</b></span>
+            <span>Leads no período: <b style="color:var(--text)" data-chart-leads>0</b></span>
           </div>
         </section>
 
@@ -356,42 +301,8 @@
               <div class="card__title">Funil de vendas</div>
               <a class="link t-12" href="prospectar.html">Detalhes</a>
             </div>
-            <div class="card__body">
-              <div class="hbar">
-                <div class="hbar__top"><span class="hbar__label">Prospectados</span><span
-                    class="hbar__value">1.284</span></div>
-                <div class="progress">
-                  <div class="progress__bar" style="width:100%"></div>
-                </div>
-              </div>
-              <div class="hbar">
-                <div class="hbar__top"><span class="hbar__label">Contatados</span><span class="hbar__value">742</span>
-                </div>
-                <div class="progress">
-                  <div class="progress__bar" style="width:58%"></div>
-                </div>
-              </div>
-              <div class="hbar">
-                <div class="hbar__top"><span class="hbar__label">Qualificados</span><span class="hbar__value">316</span>
-                </div>
-                <div class="progress">
-                  <div class="progress__bar progress__bar--info" style="width:25%"></div>
-                </div>
-              </div>
-              <div class="hbar">
-                <div class="hbar__top"><span class="hbar__label">Propostas</span><span class="hbar__value">118</span>
-                </div>
-                <div class="progress">
-                  <div class="progress__bar progress__bar--warn" style="width:9%"></div>
-                </div>
-              </div>
-              <div class="hbar">
-                <div class="hbar__top"><span class="hbar__label">Fechados</span><span class="hbar__value">38</span>
-                </div>
-                <div class="progress">
-                  <div class="progress__bar progress__bar--success" style="width:3%"></div>
-                </div>
-              </div>
+            <div class="card__body" data-dash-funil>
+              <!-- Funil calculado com os leads reais da conta -->
             </div>
           </section>
 
@@ -399,31 +310,8 @@
             <div class="card__head">
               <div class="card__title">Top desempenho</div>
             </div>
-            <div class="card__body card__body--flush">
-              <div class="list-row">
-                <span class="avatar avatar--green avatar--sm">AL</span>
-                <div class="list-row__body">
-                  <div class="list-row__title">Ana Lima</div>
-                  <div class="list-row__meta">18 contratos</div>
-                </div>
-                <div class="list-row__right"><span class="trend trend--up">+5</span></div>
-              </div>
-              <div class="list-row">
-                <span class="avatar avatar--sky avatar--sm">CM</span>
-                <div class="list-row__body">
-                  <div class="list-row__title">Carlos Moreira</div>
-                  <div class="list-row__meta">14 contratos</div>
-                </div>
-                <div class="list-row__right"><span class="trend trend--up">+3</span></div>
-              </div>
-              <div class="list-row">
-                <span class="avatar avatar--violet avatar--sm">JS</span>
-                <div class="list-row__body">
-                  <div class="list-row__title">Juliana Souza</div>
-                  <div class="list-row__meta">6 contratos</div>
-                </div>
-                <div class="list-row__right"><span class="trend trend--flat">0</span></div>
-              </div>
+            <div class="card__body card__body--flush" data-dash-top>
+              <!-- Ranking montado com contratos e leads reais por responsável -->
             </div>
             <div class="card__foot"><a class="link" href="equipes.html">Gerenciar equipe →</a></div>
           </section>
@@ -447,109 +335,22 @@
                   <th>Status</th>
                 </tr>
               </thead>
-              <tbody>
-                <tr>
-                  <td>
-                    <div class="cell-user"><span class="avatar avatar--sq avatar--sm">PT</span>
-                      <div>
-                        <div class="cell-user__name">Padaria Trigo D'ouro</div>
-                        <div class="cell-user__sub">São Paulo · SP</div>
-                      </div>
-                    </div>
-                  </td>
-                  <td>Site + Landing</td>
-                  <td class="num">R$ 2.400</td>
-                  <td><span class="badge badge--success">Ativo</span></td>
-                </tr>
-                <tr>
-                  <td>
-                    <div class="cell-user"><span class="avatar avatar--sq avatar--green avatar--sm">CB</span>
-                      <div>
-                        <div class="cell-user__name">Clínica Bem Viver</div>
-                        <div class="cell-user__sub">Belo Horizonte · MG</div>
-                      </div>
-                    </div>
-                  </td>
-                  <td>Site institucional</td>
-                  <td class="num">R$ 1.850</td>
-                  <td><span class="badge badge--success">Ativo</span></td>
-                </tr>
-                <tr>
-                  <td>
-                    <div class="cell-user"><span class="avatar avatar--sq avatar--amber avatar--sm">AB</span>
-                      <div>
-                        <div class="cell-user__name">AutoBox Veículos</div>
-                        <div class="cell-user__sub">Curitiba · PR</div>
-                      </div>
-                    </div>
-                  </td>
-                  <td>E-commerce</td>
-                  <td class="num">R$ 4.900</td>
-                  <td><span class="badge badge--warn">Pendente</span></td>
-                </tr>
-                <tr>
-                  <td>
-                    <div class="cell-user"><span class="avatar avatar--sq avatar--sky avatar--sm">MS</span>
-                      <div>
-                        <div class="cell-user__name">Studio Melo</div>
-                        <div class="cell-user__sub">Recife · PE</div>
-                      </div>
-                    </div>
-                  </td>
-                  <td>Portfólio</td>
-                  <td class="num">R$ 1.200</td>
-                  <td><span class="badge badge--info">Em revisão</span></td>
-                </tr>
+              <tbody data-dash-contratos>
+                <!-- Preenchido com os contratos reais de /api/contracts -->
               </tbody>
             </table>
           </div>
+          <div class="card__body" data-dash-contratos-vazio></div>
         </section>
 
         <aside class="card">
           <div class="card__head">
             <div class="card__title">Atividade</div>
           </div>
-          <div class="card__body card__body--flush">
-            <div class="list-row">
-              <span class="kpi__icon kpi__icon--success" style="width:34px;height:34px;border-radius:10px"><svg
-                  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="m5 13 4 4L19 7" />
-                </svg></span>
-              <div class="list-row__body">
-                <div class="list-row__title">Contrato assinado</div>
-                <div class="list-row__meta">Padaria Trigo D'ouro · há 12 min</div>
-              </div>
-            </div>
-            <div class="list-row">
-              <span class="kpi__icon kpi__icon--primary" style="width:34px;height:34px;border-radius:10px"><svg
-                  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                  <rect x="3" y="4" width="18" height="16" rx="2" />
-                  <path d="M3 9h18" />
-                </svg></span>
-              <div class="list-row__body">
-                <div class="list-row__title">Site publicado</div>
-                <div class="list-row__meta">clinicabemviver.prospecta.site · há 1h</div>
-              </div>
-            </div>
-            <div class="list-row">
-              <span class="kpi__icon kpi__icon--info" style="width:34px;height:34px;border-radius:10px"><svg
-                  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M12 5v14M5 12h14" />
-                </svg></span>
-              <div class="list-row__body">
-                <div class="list-row__title">24 leads importados</div>
-                <div class="list-row__meta">Extensão Chrome · há 3h</div>
-              </div>
-            </div>
-            <div class="list-row">
-              <span class="avatar avatar--rose avatar--sm">LM</span>
-              <div class="list-row__body">
-                <div class="list-row__title">Lucas entrou na equipe</div>
-                <div class="list-row__meta">Cargo: Comercial · há 5h</div>
-              </div>
-            </div>
+          <div class="card__body card__body--flush" data-dash-atividades>
+            <!-- Feed real de /api/activities -->
           </div>
-          <div class="card__foot"><span>Últimas 24 horas</span></div>
+          <div class="card__foot"><span>Últimas atividades da conta</span></div>
         </aside>
       </div>
     </main>
@@ -576,6 +377,152 @@
   <script src="assets/js/store.js"></script>
   <script src="assets/js/app.js"></script>
   <script src="assets/js/support.js"></script>
+  <script>
+    /* Dashboard: todos os números vindos das APIs reais (leads, contratos, sites, atividades) */
+    (function () {
+      var D = window.Dados;
+      if (!D || !D.pronto) return;
+
+      function set(sel, value) {
+        document.querySelectorAll(sel).forEach(function (el) { el.textContent = value; });
+      }
+      function pct(part, total) { return total ? Math.round((part / total) * 100) : 0; }
+      function statusBadge(status) {
+        var map = { ativo: ['success', 'Ativo'], rascunho: ['warn', 'Rascunho'], vencido: ['danger', 'Vencido'], cancelado: ['neutral', 'Cancelado'] };
+        var b = map[status] || ['neutral', status];
+        return '<span class="badge badge--' + b[0] + '">' + D.esc(b[1]) + '</span>';
+      }
+
+      function pintar() {
+        var leads = D.leads();
+        var contratos = D.contratos();
+        var sites = D.sites();
+        var atividades = D.atividades();
+
+        var ativos = contratos.filter(function (c) { return c.status === 'ativo'; });
+        var mrr = ativos.reduce(function (s, c) { return s + Number(c.value || 0); }, 0);
+        var fechados = leads.filter(function (l) { return l.status === 'fechado'; }).length;
+        var novos = leads.filter(function (l) { return l.status === 'novo'; }).length;
+        var publicados = sites.filter(function (s) { return s.status === 'publicado'; }).length;
+        var rascunhos = sites.filter(function (s) { return s.status === 'rascunho'; }).length;
+
+        set('[data-dash="leads"]', D.num(leads.length));
+        set('[data-kpi-leads-novos]', novos + (novos === 1 ? ' novo' : ' novos'));
+        set('[data-dash="contratos-ativos"]', D.num(ativos.length));
+        set('[data-kpi-total-contratos]', D.num(contratos.length) + ' no total');
+        set('[data-dash="mrr"]', D.dinheiro(mrr));
+        set('[data-dash="conversao"]', (leads.length ? ((fechados / leads.length) * 100).toFixed(1) : '0').replace('.', ','));
+        set('[data-kpi-fechados]', fechados + ' fechados');
+        set('[data-dash="sites-publicados"]', D.num(publicados));
+        set('[data-dash="sites-total"]', D.num(sites.length));
+        set('[data-kpi-sites-rascunho]', rascunhos + ' em rascunho');
+        set('[data-badge-leads]', D.num(leads.length));
+        set('[data-badge-contratos]', D.num(contratos.length));
+        set('#dashboard-data', new Date().toLocaleDateString('pt-BR', { day: 'numeric', month: 'long' }));
+
+        var banner = document.querySelector('[data-banner-leads]');
+        if (banner) banner.textContent = novos
+          ? novos + (novos === 1 ? ' lead novo esperando contato' : ' leads novos esperando contato')
+          : 'Tudo em dia: nenhum lead aguardando contato';
+
+        // Gráfico: 6 meses de leads e contratos
+        var chart = document.querySelector('[data-dash-chart]');
+        if (chart) {
+          var meses = [];
+          var hoje = new Date();
+          for (var i = 5; i >= 0; i--) {
+            var d = new Date(hoje.getFullYear(), hoje.getMonth() - i, 1);
+            meses.push({ key: d.getFullYear() + '-' + d.getMonth(), label: d.toLocaleDateString('pt-BR', { month: 'short' }).replace('.', ''), leads: 0, contratos: 0 });
+          }
+          function index(iso) {
+            var d = new Date(iso);
+            var key = d.getFullYear() + '-' + d.getMonth();
+            for (var k = 0; k < meses.length; k++) { if (meses[k].key === key) return k; }
+            return -1;
+          }
+          leads.forEach(function (l) { var k = index(l.createdAt); if (k >= 0) meses[k].leads++; });
+          contratos.forEach(function (c) { var k = index(c.createdAt); if (k >= 0) meses[k].contratos++; });
+          var max = Math.max.apply(null, meses.map(function (m) { return Math.max(m.leads, m.contratos); }).concat([1]));
+          chart.innerHTML = meses.map(function (m) {
+            return '<div class="chart__col" title="' + m.label + ' · ' + m.leads + ' leads · ' + m.contratos + ' contratos">' +
+              '<div class="chart__bar" style="height:' + Math.round((m.leads / max) * 100) + '%"></div>' +
+              '<div class="chart__bar chart__bar--alt" style="height:' + Math.round((m.contratos / max) * 100) + '%"></div>' +
+              '<div class="chart__label">' + m.label + '</div></div>';
+          }).join('');
+          set('[data-chart-leads]', D.num(meses.reduce(function (s, m) { return s + m.leads; }, 0)));
+          set('[data-chart-contratos]', D.num(meses.reduce(function (s, m) { return s + m.contratos; }, 0)));
+        }
+
+        // Funil
+        var funil = document.querySelector('[data-dash-funil]');
+        if (funil) {
+          var etapas = [
+            ['Prospectados', leads.length, ''],
+            ['Contatados', leads.filter(function (l) { return ['contato', 'qualificado', 'proposta', 'fechado'].indexOf(l.status) >= 0; }).length, ''],
+            ['Qualificados', leads.filter(function (l) { return ['qualificado', 'proposta', 'fechado'].indexOf(l.status) >= 0; }).length, 'progress__bar--info'],
+            ['Propostas', leads.filter(function (l) { return ['proposta', 'fechado'].indexOf(l.status) >= 0; }).length, 'progress__bar--warn'],
+            ['Fechados', fechados, 'progress__bar--success']
+          ];
+          funil.innerHTML = etapas.map(function (e) {
+            return '<div class="hbar"><div class="hbar__top"><span class="hbar__label">' + e[0] + '</span>' +
+              '<span class="hbar__value">' + D.num(e[1]) + '</span></div>' +
+              '<div class="progress"><div class="progress__bar ' + e[2] + '" style="width:' + pct(e[1], leads.length || 1) + '%"></div></div></div>';
+          }).join('');
+        }
+
+        // Top desempenho por responsável
+        var top = document.querySelector('[data-dash-top]');
+        if (top) {
+          var porUsuario = {};
+          contratos.forEach(function (c) {
+            var k = c.createdById || 'sem'; porUsuario[k] = porUsuario[k] || { nome: (c.createdById ? 'Usuário ' + String(c.createdById).slice(-6) : 'Sem responsável'), contratos: 0, valor: 0 };
+            porUsuario[k].contratos++; porUsuario[k].valor += Number(c.value || 0);
+          });
+          var lista = Object.keys(porUsuario).map(function (k) { return porUsuario[k]; }).sort(function (a, b) { return b.valor - a.valor; }).slice(0, 3);
+          top.innerHTML = lista.length ? lista.map(function (u, i) {
+            return '<div class="list-row"><span class="avatar ' + ['avatar--green', 'avatar--sky', 'avatar--violet'][i % 3] + ' avatar--sm">' + D.esc(D.iniciais(u.nome)) + '</span>' +
+              '<div class="list-row__body"><div class="list-row__title">' + D.esc(u.nome) + '</div>' +
+              '<div class="list-row__meta">' + u.contratos + ' contrato' + (u.contratos === 1 ? '' : 's') + '</div></div>' +
+              '<div class="list-row__right"><span class="trend trend--up">' + D.dinheiro(u.valor) + '</span></div></div>';
+          }).join('') : '<div class="empty"><div class="empty__title">Sem contratos ainda</div><div class="empty__text">Assim que houver contratos, o ranking aparece aqui.</div></div>';
+        }
+
+        // Contratos recentes
+        var tbody = document.querySelector('[data-dash-contratos]');
+        if (tbody) {
+          var recentes = contratos.slice(0, 4);
+          tbody.innerHTML = recentes.length ? recentes.map(function (c) {
+            return '<tr><td><div class="cell-user"><span class="avatar avatar--sq avatar--sm">' + D.esc(D.iniciais(c.clientName)) + '</span>' +
+              '<div><div class="cell-user__name">' + D.esc(c.clientName) + '</div><div class="cell-user__sub">' + D.esc(c.clientEmail) + '</div></div></div></td>' +
+              '<td>' + D.esc(c.service) + '</td><td class="num">' + D.dinheiro(c.value) + '</td><td>' + statusBadge(c.status) + '</td></tr>';
+          }).join('') : '';
+          var vazioDash = document.querySelector('[data-dash-contratos-vazio]');
+          if (vazioDash) vazioDash.innerHTML = recentes.length ? '' : '<div class="empty"><div class="empty__title">Nenhum contrato cadastrado</div><div class="empty__text">Crie o primeiro contrato em Contratos.</div></div>';
+        }
+
+        // Atividades
+        var feed = document.querySelector('[data-dash-atividades]');
+        if (feed) {
+          var icones = { lead_created: ['primary', '<path d="M12 5v14M5 12h14"/>'], contract_signed: ['success', '<path d="m5 13 4 4L19 7"/>'], contract_created: ['primary', '<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/>'], payment_received: ['success', '<path d="m5 13 4 4L19 7"/>'], site_published: ['info', '<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/>'] };
+          feed.innerHTML = atividades.length ? atividades.slice(0, 6).map(function (a) {
+            var ic = icones[a.type] || ['info', '<circle cx="12" cy="12" r="9"/>'];
+            return '<div class="list-row"><span class="kpi__icon kpi__icon--' + ic[0] + '" style="width:34px;height:34px;border-radius:10px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">' + ic[1] + '</svg></span>' +
+              '<div class="list-row__body"><div class="list-row__title">' + D.esc(a.title) + '</div>' +
+              '<div class="list-row__meta">' + D.esc(a.description || '') + ' · ' + D.haQuanto(a.createdAt) + '</div></div></div>';
+          }).join('') : '<div class="empty"><div class="empty__title">Nenhuma atividade</div><div class="empty__text">As ações de leads, contratos, pagamentos e sites aparecem aqui.</div></div>';
+        }
+      }
+
+      D.pronto().then(function () {
+        var me = D.eu ? D.eu() : null;
+        var el = document.getElementById('dashboard-nome');
+        if (el && me && me.nome) el.textContent = me.nome;
+        document.body.setAttribute('data-dados-reais', '1');
+        pintar();
+        document.addEventListener('prospecta:mudou', pintar);
+      });
+    })();
+  </script>
 </body>
 
 </html>

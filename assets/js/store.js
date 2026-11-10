@@ -18,6 +18,11 @@ window.Dados = (function () {
   var state = {
     users: [],
     tickets: [],
+    leads: [],
+    contracts: [],
+    payments: [],
+    sites: [],
+    activities: [],
     me: null,
     ready: false,
     mode: "unknown", // 'api' | 'local'
@@ -89,10 +94,7 @@ window.Dados = (function () {
     try { localStorage.setItem(key, JSON.stringify(valor)); } catch (e) {}
     emit(key);
   }
-  var USUARIOS_SEED = [
-    { id: 1, _id: 'local-1', nome: "Rafael Mendes", iniciais: "RM", email: "rafael@agenciamendes.com", plano: "Pro", cargo: "Proprietário", status: "ativo", papel: "admin", tickets: 4, criado: "2025-03-04T10:12:00", ultimo: "2026-11-08T09:42:00" },
-    { id: 2, _id: 'local-2', nome: "Ana Lima", iniciais: "AL", email: "ana@agenciamendes.com", plano: "Pro", cargo: "Comercial", status: "ativo", papel: "membro", tickets: 1, criado: "2025-04-18T14:30:00", ultimo: "2026-11-08T08:15:00" }
-  ];
+  var USUARIOS_SEED = [];
   function localUsuarios() { var l = lerLocal(K_USERS, null); if (!Array.isArray(l)||!l.length){ gravarLocal(K_USERS, USUARIOS_SEED); return USUARIOS_SEED.slice(); } return l; }
   function localTickets() { var l = lerLocal(K_TICKETS, null); return Array.isArray(l) ? l : []; }
 
@@ -129,11 +131,21 @@ window.Dados = (function () {
         var tasks = [];
         if (state.me.papel === 'admin') tasks.push(api('/api/users').then(function(r){ state.users = (r.users||[]).map(mapUser); }));
         tasks.push(api('/api/tickets').then(function(r){ state.tickets = r.tickets || []; }));
+        tasks.push(api('/api/leads').then(function(r){ state.leads = r.leads || []; }));
+        tasks.push(api('/api/contracts').then(function(r){ state.contracts = r.contracts || []; }));
+        tasks.push(api('/api/payments').then(function(r){ state.payments = r.payments || []; }));
+        tasks.push(api('/api/sites').then(function(r){ state.sites = r.sites || []; }));
+        tasks.push(api('/api/activities?limit=30').then(function(r){ state.activities = r.activities || []; }));
         await Promise.all(tasks);
       } catch (e) { console.warn('[Dados] refresh api falhou', e); }
     } else if (state.mode === 'local') {
       state.users = localUsuarios();
       state.tickets = localTickets();
+      state.leads = [];
+      state.contracts = [];
+      state.payments = [];
+      state.sites = [];
+      state.activities = [];
     }
     state.ready = true;
     if (readyResolve) { readyResolve(state); readyResolve = null; }
@@ -150,6 +162,11 @@ window.Dados = (function () {
   // ---- Sync getters (cache) ----
   function usuarios() { return state.users.slice(); }
   function tickets() { return state.tickets.slice(); }
+  function leads() { return state.leads.slice(); }
+  function contratos() { return state.contracts.slice(); }
+  function pagamentos() { return state.payments.slice(); }
+  function sites() { return state.sites.slice(); }
+  function atividades() { return state.activities.slice(); }
   function ehAdmin() { return !!(state.me && state.me.papel === 'admin'); }
   function eu() { return state.me; }
 
@@ -191,15 +208,115 @@ window.Dados = (function () {
     Object.assign(cur, patch); if (state.mode === 'local') gravarLocal(K_USERS, state.users); emit('users'); return cur;
   }
 
+  // ---- Business records (leads / contratos / pagamentos / sites / atividades) ----
+  async function carregar(colecao) {
+    var map = { leads: ['/api/leads', 'leads'], contracts: ['/api/contracts', 'contracts'], payments: ['/api/payments', 'payments'], sites: ['/api/sites', 'sites'], activities: ['/api/activities?limit=30', 'activities'] };
+    var conf = map[colecao];
+    if (!conf) throw new Error('Coleção desconhecida: ' + colecao);
+    var r = await api(conf[0]);
+    state[colecao] = r[conf[1]] || [];
+    emit(colecao);
+    return state[colecao];
+  }
+
+  async function criarLead(payload) {
+    var r = await api('/api/leads', { method: 'POST', body: payload });
+    state.leads.unshift(r.lead); emit('leads');
+    carregar('activities').catch(function () {});
+    return r.lead;
+  }
+  async function atualizarLead(id, patch) {
+    var r = await api('/api/leads/' + id, { method: 'PATCH', body: patch });
+    state.leads = state.leads.map(function (x) { return x.id === id ? r.lead : x; });
+    emit('leads'); return r.lead;
+  }
+  async function excluirLead(id) {
+    await api('/api/leads/' + id, { method: 'DELETE' });
+    state.leads = state.leads.filter(function (x) { return x.id !== id; });
+    emit('leads');
+  }
+  async function criarContrato(payload) {
+    var r = await api('/api/contracts', { method: 'POST', body: payload });
+    state.contracts.unshift(r.contract); emit('contracts');
+    carregar('activities').catch(function () {});
+    return r.contract;
+  }
+  async function atualizarContrato(id, patch) {
+    var r = await api('/api/contracts/' + id, { method: 'PATCH', body: patch });
+    state.contracts = state.contracts.map(function (x) { return x.id === id ? r.contract : x; });
+    emit('contracts'); return r.contract;
+  }
+  async function excluirContrato(id) {
+    await api('/api/contracts/' + id, { method: 'DELETE' });
+    state.contracts = state.contracts.filter(function (x) { return x.id !== id; });
+    emit('contracts');
+  }
+  async function criarPagamento(payload) {
+    var r = await api('/api/payments', { method: 'POST', body: payload });
+    state.payments.unshift(r.payment); emit('payments');
+    carregar('activities').catch(function () {});
+    return r.payment;
+  }
+  async function atualizarPagamento(id, patch) {
+    var r = await api('/api/payments/' + id, { method: 'PATCH', body: patch });
+    state.payments = state.payments.map(function (x) { return x.id === id ? r.payment : x; });
+    emit('payments'); return r.payment;
+  }
+  async function excluirPagamento(id) {
+    await api('/api/payments/' + id, { method: 'DELETE' });
+    state.payments = state.payments.filter(function (x) { return x.id !== id; });
+    emit('payments');
+  }
+  async function criarSite(payload) {
+    var r = await api('/api/sites', { method: 'POST', body: payload });
+    state.sites.unshift(r.site); emit('sites');
+    carregar('activities').catch(function () {});
+    return r.site;
+  }
+  async function atualizarSite(id, patch) {
+    var r = await api('/api/sites/' + id, { method: 'PATCH', body: patch });
+    state.sites = state.sites.map(function (x) { return x.id === id ? r.site : x; });
+    emit('sites'); return r.site;
+  }
+  async function excluirSite(id) {
+    await api('/api/sites/' + id, { method: 'DELETE' });
+    state.sites = state.sites.filter(function (x) { return x.id !== id; });
+    emit('sites');
+  }
+
+  // ---- Formatação consistente (pt-BR) ----
+  function num(valor) { return Number(valor || 0).toLocaleString('pt-BR'); }
+  function dinheiro(valor) { return 'R$ ' + Number(valor || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+  function data(iso) { if (!iso) return '—'; var d = new Date(iso); return isNaN(d) ? '—' : d.toLocaleDateString('pt-BR'); }
+  function dataCurta(iso) { return data(iso); }
+  function iniciais(nome) { return String(nome || '').trim().split(/\s+/).filter(Boolean).map(function (p) { return p[0]; }).slice(0, 2).join('').toUpperCase() || '?'; }
+
   async function salvarTickets(list) {
     state.tickets = Array.isArray(list) ? list.slice() : state.tickets;
     if (state.mode === 'local') gravarLocal(K_TICKETS, state.tickets);
     emit('tickets');
   }
 
+  // Converte o payload da UI (pt-BR) para o contrato da API /api/tickets (EN)
+  function toApiTicket(payload) {
+    payload = payload || {};
+    var body = {
+      subject: String(payload.subject || payload.assunto || '').trim(),
+      description: payload.description !== undefined ? payload.description : (payload.descricao || ''),
+      reason: payload.reason || payload.motivo || 'outro',
+      priority: payload.priority || payload.prioridade || 'media',
+      origin: payload.origin || payload.origem || 'Dashboard',
+    };
+    if (payload.reasonLabel || payload.motivoRotulo) body.reasonLabel = payload.reasonLabel || payload.motivoRotulo;
+    if (payload.status) body.status = payload.status;
+    return body;
+  }
+
   async function criarTicket(payload) {
     if (state.mode === 'api') {
-      var r = await api('/api/tickets', { method: 'POST', body: payload });
+      var body = toApiTicket(payload);
+      if (!body.subject || body.subject.length < 2) throw new Error('Escreva uma dúvida com pelo menos 2 caracteres.');
+      var r = await api('/api/tickets', { method: 'POST', body: body });
       state.tickets.unshift(r.ticket); emit('tickets'); return r.ticket;
     }
     var t = Object.assign({ id: Date.now(), criado: new Date().toISOString(), atualizado: new Date().toISOString(), mensagens: [] }, payload);
@@ -208,7 +325,14 @@ window.Dados = (function () {
 
   async function atualizarTicket(id, patch) {
     if (state.mode === 'api') {
-      var r = await api('/api/tickets/' + id, { method: 'PATCH', body: patch });
+      // a API aceita apenas status/priority/subject (em inglês)
+      var body = {};
+      if (patch.status !== undefined) body.status = patch.status;
+      if (patch.priority !== undefined) body.priority = patch.priority;
+      if (patch.prioridade !== undefined) body.priority = patch.prioridade;
+      if (patch.subject !== undefined) body.subject = patch.subject;
+      if (!Object.keys(body).length) return state.tickets.filter(function(x){ return Number(x.id)===Number(id); })[0] || null;
+      var r = await api('/api/tickets/' + id, { method: 'PATCH', body: body });
       state.tickets = state.tickets.map(function(x){ return Number(x.id)===Number(r.ticket.id) ? r.ticket : x; });
       emit('tickets'); return r.ticket;
     }
@@ -219,7 +343,7 @@ window.Dados = (function () {
 
   async function enviarMensagem(ticketId, text, extra) {
     if (state.mode === 'api') {
-      var r = await api('/api/tickets/' + ticketId + '/messages', { method: 'POST', body: Object.assign({ text: text }, extra || {}) });
+      var r = await api('/api/tickets/' + ticketId + '/messages', { method: 'POST', body: Object.assign({ text: String(text || '').trim() }, extra || {}) });
       state.tickets = state.tickets.map(function(x){ return Number(x.id)===Number(r.ticket.id) ? r.ticket : x; });
       emit('tickets'); return r.ticket;
     }
@@ -267,7 +391,14 @@ window.Dados = (function () {
   return {
     // sync (cache)
     usuarios: usuarios, tickets: tickets, ehAdmin: ehAdmin, eu: eu,
+    leads: leads, contratos: contratos, pagamentos: pagamentos, sites: sites, atividades: atividades,
     esc: esc, hora: hora, haQuanto: haQuanto, ultimaMensagem: ultimaMensagem, naoLidas: naoLidas, proximoId: proximoId,
+    num: num, dinheiro: dinheiro, data: data, dataCurta: dataCurta, iniciais: iniciais,
+    carregar: carregar,
+    criarLead: criarLead, atualizarLead: atualizarLead, excluirLead: excluirLead,
+    criarContrato: criarContrato, atualizarContrato: atualizarContrato, excluirContrato: excluirContrato,
+    criarPagamento: criarPagamento, atualizarPagamento: atualizarPagamento, excluirPagamento: excluirPagamento,
+    criarSite: criarSite, atualizarSite: atualizarSite, excluirSite: excluirSite,
     // async
     pronto: pronto, refresh: refresh, sessao: sessao, login: login, entrarAdmin: entrarAdmin, sairAdmin: sairAdmin,
     criarUsuario: criarUsuario, atualizarUsuario: atualizarUsuario, salvarUsuarios: salvarUsuarios,

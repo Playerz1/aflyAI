@@ -5,7 +5,7 @@
     "description":  "Prospecta SaaS - static frontend with Vercel serverless API and Neon PostgreSQL",
     "scripts":  {
                     "dev":  "node .serve.cjs 5174",
-                    "build":  "prisma generate \u0026\u0026 node scripts/vercel-static.mjs",
+                    "build":  "prisma generate && node scripts/vercel-static.mjs",
                     "postinstall":  "prisma generate",
                     "db:generate":  "prisma generate",
                     "db:migrate":  "prisma migrate dev",
