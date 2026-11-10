@@ -220,6 +220,8 @@ window.Suporte = (function () {
       if (ultima) { try { ultima.scrollIntoView({ block: "end" }); } catch (e) { ultima.scrollIntoView(false); } }
       setTimeout(done, 60);
       setTimeout(done, 260);
+      // sobe um pouco a última mensagem para não ficar colada na borda
+      setTimeout(function () { if (chat.parentElement) chat.parentElement.scrollTop -= 14; }, 300);
     })();
   }
 
