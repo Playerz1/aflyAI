@@ -29,6 +29,25 @@ const createSchema = z.object({
   origin: z.string().max(120).optional().default('Dashboard'),
 });
 
+// Aceita também o formato pt-BR vindo da UI (assunto/descricao/motivo/motivoRotulo/prioridade/origem).
+// Serve de garantia enquanto navegadores ainda tiverem o store antigo em cache.
+function normalizeTicketBody(raw) {
+  if (!raw || typeof raw !== 'object') return raw;
+  if (raw.subject === undefined && raw.assunto !== undefined) {
+    const out = {
+      subject: String(raw.assunto || '').trim(),
+      description: raw.descricao !== undefined ? String(raw.descricao || '') : '',
+      reason: raw.motivo || 'outro',
+      priority: raw.prioridade || 'media',
+      origin: raw.origem || 'Dashboard',
+    };
+    if (raw.motivoRotulo) out.reasonLabel = String(raw.motivoRotulo).slice(0, 120);
+    if (raw.status) out.status = raw.status;
+    return out;
+  }
+  return raw;
+}
+
 const patchSchema = z.object({
   status: z.enum(['aberto', 'respondido', 'resolvido']).optional(),
   priority: z.enum(['baixa', 'media', 'alta']).optional(),
@@ -118,7 +137,7 @@ module.exports = async function handler(req, res) {
 
     if (req.method === 'POST') {
       if (id && action === 'message') return enviarMensagem(req, res, user, id);
-      const body = createSchema.parse(await readJson(req));
+      const body = createSchema.parse(normalizeTicketBody(await readJson(req)));
       const reasonLabel = body.reasonLabel || MOTIVOS[body.reason] || 'Outro assunto';
       const text = body.description ? `${body.subject}\n\n${body.description}` : body.subject;
       const ticket = await prisma.ticket.create({
@@ -147,7 +166,12 @@ module.exports = async function handler(req, res) {
       if (found.error === 404) return json(res, 404, { error: 'Ticket não encontrado' });
       if (found.error === 403) return json(res, 403, { error: 'Acesso negado' });
 
-      const body = patchSchema.parse(await readJson(req));
+      const patchRaw = await readJson(req);
+      const body = patchSchema.parse({
+        status: patchRaw.status,
+        priority: patchRaw.priority !== undefined ? patchRaw.priority : patchRaw.prioridade,
+        subject: patchRaw.subject !== undefined ? patchRaw.subject : patchRaw.assunto,
+      });
       const data = {};
       if (body.status !== undefined) {
         if (!isAdmin && body.status !== 'aberto') return json(res, 403, { error: 'Acesso negado' });
