@@ -226,8 +226,8 @@
     <div><strong data-toast-title>Feito!</strong><small data-toast-text></small></div>
   </div>
 
-  <script src="assets/js/store.js?v=44c07e4-pad"></script>
-  <script src="assets/js/app.js?v=44c07e4-pad"></script>
+  <script src="assets/js/store.js?v=825fa3e-poll"></script>
+  <script src="assets/js/app.js?v=825fa3e-poll"></script>
   <script>
     /* ============ Admin · Centro de tickets ============ */
     (function () {
@@ -477,6 +477,27 @@
       });
 
       document.addEventListener("prospecta:mudou", function () { pintarLista(); if (atual) { var t=D.tickets().filter(function(x){return Number(x.id)===atual;})[0]; if(t){ pintarConversa(); } } });
+
+      // tempo ao vivo: busca novas mensagens do cliente a cada 5s (só repinta quando muda)
+      var pollTimer = null;
+      function assinatura() {
+        return D.tickets().map(function (t) {
+          return t.id + ":" + (t.mensagens || []).length + ":" + t.status;
+        }).join("|");
+      }
+      function iniciarPolling() {
+        if (pollTimer) return;
+        pollTimer = setInterval(function () {
+          if (!(D.modo && D.modo() === 'api')) return;
+          var antes = assinatura();
+          D.refresh().then(function () {
+            if (assinatura() !== antes) { pintarLista(); if (atual) { abrirDetalhesRapidos(D.tickets().filter(function(x){return Number(x.id)===atual;})[0]); pintarConversa(); } }
+          }).catch(function(){});
+        }, 5000);
+      }
+      iniciarPolling();
+      window.addEventListener("beforeunload", function () { if (pollTimer) clearInterval(pollTimer); });
+
       pintarLista();
       if (atual) abrir(atual);
       else { var primeiro = visiveis()[0]; if (primeiro) abrir(Number(primeiro.id)); }
