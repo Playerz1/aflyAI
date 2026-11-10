@@ -210,7 +210,17 @@ window.Suporte = (function () {
       html += '<div class="msg ' + cls + '">' + esc(m.texto) + '<span class="msg__meta">' + quem + " · " + hora(m.em) + "</span></div>";
     });
     if (state.typing) html += '<div class="msg msg--in typing"><i></i><i></i><i></i></div>';
-    chat.innerHTML = html; chat.parentElement.scrollTop = chat.parentElement.scrollHeight;
+    chat.innerHTML = html;
+    // rola para a última mensagem de forma confiável (desktop e mobile)
+    (function rolarFim() {
+      var done = function () { chat.parentElement.scrollTop = chat.parentElement.scrollHeight; };
+      requestAnimationFrame(done);
+      var msgs = chat.querySelectorAll(".msg");
+      var ultima = msgs[msgs.length - 1];
+      if (ultima) { try { ultima.scrollIntoView({ block: "end" }); } catch (e) { ultima.scrollIntoView(false); } }
+      setTimeout(done, 60);
+      setTimeout(done, 260);
+    })();
   }
 
   function fechar() { pararPolling(); var p = painel(); if (p) p.classList.remove("is-open"); }

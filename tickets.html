@@ -226,8 +226,8 @@
     <div><strong data-toast-title>Feito!</strong><small data-toast-text></small></div>
   </div>
 
-  <script src="assets/js/store.js?v=7bca3d8-q"></script>
-  <script src="assets/js/app.js?v=7bca3d8-q"></script>
+  <script src="assets/js/store.js?v=c32d255-scroll"></script>
+  <script src="assets/js/app.js?v=c32d255-scroll"></script>
   <script>
     /* ============ Admin · Centro de tickets ============ */
     (function () {
@@ -384,7 +384,20 @@
             '<span class="msg__meta">' + autor + " · " + D.hora(m.em) + "</span></div>";
         });
         elStream.innerHTML = html;
-        elStream.scrollTop = elStream.scrollHeight;
+        rolarFim();
+      }
+
+      // garante a última mensagem visível mesmo antes de qualquer interação
+      function rolarFim() {
+        requestAnimationFrame(function () {
+          elStream.scrollTop = elStream.scrollHeight;
+          var msgs = elStream.querySelectorAll(".msg");
+          var ultima = msgs[msgs.length - 1];
+          if (ultima) { try { ultima.scrollIntoView({ block: "end" }); } catch (e) { ultima.scrollIntoView(false); } }
+          requestAnimationFrame(function () { elStream.scrollTop = elStream.scrollHeight; });
+        });
+        setTimeout(function () { elStream.scrollTop = elStream.scrollHeight; }, 60);
+        setTimeout(function () { elStream.scrollTop = elStream.scrollHeight; }, 260);
       }
 
       function responder() {
