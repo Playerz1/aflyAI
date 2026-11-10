@@ -1,25 +1,18 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#0a0a0a">
   <title>Dashboard · Prospecta</title>
-  <meta name="description"
-    content="Prospecta — plataforma para prospectar leads, fechar contratos e criar sites em minutos.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%23ef4444'/%3E%3Ctext x='16' y='22' font-family='Arial' font-size='17' font-weight='bold' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
-    rel="stylesheet">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%23ef4444'/%3E%3Ctext x='16' y='22' font-family='Arial' font-size='17' font-weight='bold' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/global.css">
 </head>
-
 <body data-page="dashboard">
 
-  <!-- ================= SIDEBAR ================= -->
   <aside class="sidebar" id="sidebar">
     <a class="sidebar__brand" href="dashboard.html">
       <span class="brand__logo">P</span>
@@ -28,7 +21,6 @@
         <span class="brand__plan">Plano Pro</span>
       </span>
     </a>
-
     <nav class="sidebar__nav">
       <div class="nav__label">Principal</div>
       <a class="nav__item" href="dashboard.html" data-nav="dashboard">
@@ -47,7 +39,6 @@
           <path d="M11 8v6M8 11h6" />
         </svg>
         Prospectar
-        <span class="nav__badge" data-badge-leads>0</span>
       </a>
       <a class="nav__item" href="contratos.html" data-nav="contratos">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
@@ -56,42 +47,19 @@
           <path d="M9 13h6M9 17h4" />
         </svg>
         Contratos
-        <span class="nav__badge nav__badge--soft" data-badge-contratos>0</span>
       </a>
-
-      <div class="nav__label">Produto</div>
-      <a class="nav__item" href="sites.html" data-nav="sites">
+      <a class="nav__item" href="tickets.html" data-nav="tickets">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="3" y="4" width="18" height="16" rx="2" />
-          <path d="M3 9h18" />
-          <circle cx="6.5" cy="6.5" r=".6" fill="currentColor" />
-          <circle cx="9" cy="6.5" r=".6" fill="currentColor" />
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+          <path d="M8 9h8M8 13h5" />
         </svg>
-        Sites
+        Tickets
       </a>
-      <a class="nav__item" href="equipes.html" data-nav="equipes">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="9" cy="8" r="3.2" />
-          <path d="M3 20a6 6 0 0 1 12 0" />
-          <circle cx="17.5" cy="9.5" r="2.4" />
-          <path d="M16 20a4.5 4.5 0 0 1 5-4.4" />
-        </svg>
-        Equipes
-      </a>
-      <a class="nav__item" href="extensao.html" data-nav="extensao">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L4 17v3h3l5.3-5.3a4 4 0 0 0 5.4-5.4l-2.3 2.3-2.7-2.7z" />
-        </svg>
-        Extensão
-        <span class="nav__badge nav__badge--soft">Novo</span>
-      </a>
-
       <div class="nav__label">Conta</div>
       <a class="nav__item" href="configuracoes.html" data-nav="configuracoes">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="12" cy="12" r="3.2" />
-          <path
-            d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z" />
+          <path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z" />
         </svg>
         Configuração
       </a>
@@ -103,18 +71,11 @@
         </svg>
         Ajuda
       </button>
-          <a class="nav__item" href="#" data-logout-link>
+      <a class="nav__item" href="#" data-logout-link>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></svg>
         Sair
       </a>
     </nav>
-
-    <div class="sidebar__promo">
-      <h4>Desbloqueie o Pro</h4>
-      <p>Leads ilimitados, sites com domínio próprio e automações.</p>
-      <a class="btn btn--primary btn--sm btn--block" href="configuracoes.html#plano">Ver planos</a>
-    </div>
-
     <a class="sidebar__foot" href="configuracoes.html">
       <span class="avatar">U</span>
       <span class="sidebar__foot-info">
@@ -126,7 +87,6 @@
 
   <div class="overlay" data-overlay></div>
 
-  <!-- ================= MAIN ================= -->
   <div class="main">
     <header class="topbar">
       <button class="icon-btn menu-btn" data-menu-toggle aria-label="Abrir menu" aria-expanded="false">
@@ -170,229 +130,104 @@
     </header>
 
     <main class="content">
-      <!-- Cabeçalho -->
       <div class="page-head">
         <div>
           <h1 class="page-head__title">Olá, <span id="dashboard-nome">Usuário</span> 👋</h1>
           <p class="page-head__sub">Aqui está o resumo da sua operação <span id="dashboard-data"></span>.</p>
         </div>
-        <div class="page-actions">
-          <a class="btn btn--outline" href="sites.html">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="3" y="4" width="18" height="16" rx="2" />
-              <path d="M3 9h18M8 4v5" />
-            </svg>
-            Criar site
-          </a>
-          <a class="btn btn--primary" href="prospectar.html">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 5v14M5 12h14" />
-            </svg>
-            Prospectar leads
-          </a>
-        </div>
       </div>
 
-      <!-- KPIs -->
+      <!-- 4 Cards KPI -->
       <div class="grid grid--4">
-        <article class="card kpi">
-          <div class="kpi__top">
-            <span class="kpi__icon kpi__icon--primary">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="11" cy="11" r="7" />
-                <path d="m20 20-3.5-3.5" />
-              </svg>
-            </span>
-            <span class="trend trend--flat" data-kpi-leads-novos>0 novos</span>
-          </div>
-          <div class="kpi__label">Leads prospectados</div>
-          <div class="kpi__value" data-dash="leads">0</div>
-          <div class="kpi__meta">Base da conta</div>
-        </article>
-
         <article class="card kpi">
           <div class="kpi__top">
             <span class="kpi__icon kpi__icon--success">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z" />
-                <path d="M14 3v5h5" />
-                <path d="m9 15 2 2 4-4" />
+                <path d="m5 13 4 4L19 7"/>
               </svg>
             </span>
-            <span class="trend trend--flat" data-kpi-total-contratos>0 no total</span>
           </div>
-          <div class="kpi__label">Contratos ativos</div>
-          <div class="kpi__value" data-dash="contratos-ativos">0</div>
-          <div class="kpi__meta"><span data-dash="mrr">R$ 0,00</span> em contratos ativos</div>
+          <div class="kpi__label">Faturamento Total</div>
+          <div class="kpi__value" data-dash="faturamento-total">R$ 0,00</div>
+          <div class="kpi__meta">Histórico completo</div>
+        </article>
+
+        <article class="card kpi">
+          <div class="kpi__top">
+            <span class="kpi__icon kpi__icon--primary">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+              </svg>
+            </span>
+          </div>
+          <div class="kpi__label">Recorrência Mensal (MRR)</div>
+          <div class="kpi__value" data-dash="mrr">R$ 0,00</div>
+          <div class="kpi__meta">Contratos ativos mensais</div>
         </article>
 
         <article class="card kpi">
           <div class="kpi__top">
             <span class="kpi__icon kpi__icon--warn">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M12 7v5l3 2" />
-                <circle cx="12" cy="12" r="9" />
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <path d="M14 2v6h6"/>
+                <path d="m9 15 2 2 4-4"/>
               </svg>
             </span>
-            <span class="trend trend--flat" data-kpi-fechados>0 fechados</span>
           </div>
-          <div class="kpi__label">Taxa de conversão</div>
-          <div class="kpi__value"><span data-dash="conversao">0</span>%</div>
-          <div class="kpi__meta">Leads fechados ÷ leads recebidos</div>
+          <div class="kpi__label">Tickets Abertos</div>
+          <div class="kpi__value" data-dash="tickets-abertos">0</div>
+          <div class="kpi__meta">Aguardando resposta</div>
         </article>
 
         <article class="card kpi">
           <div class="kpi__top">
             <span class="kpi__icon kpi__icon--info">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="3" y="4" width="18" height="16" rx="2" />
-                <path d="M3 9h18" />
-                <circle cx="6.5" cy="6.5" r=".6" fill="currentColor" />
-                <circle cx="9" cy="6.5" r=".6" fill="currentColor" />
+                <path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/>
+                <path d="M14 3v5h5"/>
+                <path d="m9 15 2 2 4-4"/>
               </svg>
             </span>
-            <span class="trend trend--flat" data-kpi-sites-rascunho>0 em rascunho</span>
           </div>
-          <div class="kpi__label">Sites publicados</div>
-          <div class="kpi__value" data-dash="sites-publicados">0</div>
-          <div class="kpi__meta"><span data-dash="sites-total">0</span> sites no total</div>
+          <div class="kpi__label">Vendas Total</div>
+          <div class="kpi__value" data-dash="vendas-total">0</div>
+          <div class="kpi__meta">Contratos fechados</div>
         </article>
       </div>
 
-      <!-- Banner -->
-      <div class="banner mt-24">
-        <span class="banner__icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M5 12h14M12 5l7 7-7 7" />
-          </svg>
-        </span>
-        <div>
-          <div class="banner__title" data-banner-leads>Tudo em dia: nenhum lead aguardando contato</div>
-          <div class="banner__text">Leads com status “novo” aguardam primeiro contato. Responda rápido para aumentar a chance
-            de fechar.</div>
+      <!-- Gráfico de Faturamento -->
+      <section class="card mt-24">
+        <div class="card__head">
+          <div>
+            <div class="card__title">Faturamento (últimos 12 meses)</div>
+            <div class="card__sub">Receita acumulada por mês</div>
+          </div>
+          <div class="row">
+            <div class="seg">
+              <button class="is-active" data-chart-period="12m">12m</button>
+              <button data-chart-period="6m">6m</button>
+            </div>
+          </div>
         </div>
-        <div class="banner__actions">
-          <a class="btn btn--primary btn--sm" href="prospectar.html">Ver leads</a>
-          <button class="btn btn--outline btn--sm" data-toast="Lembrete ativado|Você receberá um aviso às 9h.">Lembrar
-            depois</button>
+        <div class="card__body">
+          <div class="chart" data-dash-faturamento-chart style="height:280px"></div>
         </div>
-      </div>
-
-      <!-- Gráfico + pipeline -->
-      <div class="grid grid--sidebar mt-24" style="align-items:start">
-        <section class="card">
-          <div class="card__head">
-            <div>
-              <div class="card__title">Desempenho de vendas</div>
-              <div class="card__sub">Leads qualificados vs. contratos fechados</div>
-            </div>
-            <div class="row">
-              <div class="seg">
-                <button class="is-active">30d</button>
-                <button>90d</button>
-                <button>12m</button>
-              </div>
-            </div>
-          </div>
-          <div class="card__body">
-            <div class="chart__legend" style="margin-bottom:14px">
-              <span><i style="background:var(--primary)"></i>Leads</span>
-              <span><i style="background:var(--primary-soft)"></i>Contratos</span>
-            </div>
-            <div class="chart" data-dash-chart>
-              <!-- Barras montadas com os dados reais de /api/leads e /api/contracts -->
-            </div>
-            </div>
-          <div class="card__foot">
-            <span>Contratos no período: <b style="color:var(--text)" data-chart-contratos>0</b></span>
-            <span>Leads no período: <b style="color:var(--text)" data-chart-leads>0</b></span>
-          </div>
-        </section>
-
-        <aside class="stack" style="gap:0">
-          <section class="card">
-            <div class="card__head">
-              <div class="card__title">Funil de vendas</div>
-              <a class="link t-12" href="prospectar.html">Detalhes</a>
-            </div>
-            <div class="card__body" data-dash-funil>
-              <!-- Funil calculado com os leads reais da conta -->
-            </div>
-          </section>
-
-          <section class="card">
-            <div class="card__head">
-              <div class="card__title">Top desempenho</div>
-            </div>
-            <div class="card__body card__body--flush" data-dash-top>
-              <!-- Ranking montado com contratos e leads reais por responsável -->
-            </div>
-            <div class="card__foot"><a class="link" href="equipes.html">Gerenciar equipe →</a></div>
-          </section>
-        </aside>
-      </div>
-
-      <!-- Atividades + contratos recentes -->
-      <div class="grid grid--sidebar mt-24" style="align-items:start">
-        <section class="card">
-          <div class="card__head">
-            <div class="card__title">Contratos recentes</div>
-            <a class="link t-12" href="contratos.html">Ver todos</a>
-          </div>
-          <div class="table-wrap">
-            <table class="table table--compact table--cards">
-              <thead>
-                <tr>
-                  <th>Cliente</th>
-                  <th>Serviço</th>
-                  <th class="num">Valor</th>
-                  <th>Status</th>
-                </tr>
-              </thead>
-              <tbody data-dash-contratos>
-                <!-- Preenchido com os contratos reais de /api/contracts -->
-              </tbody>
-            </table>
-          </div>
-          <div class="card__body" data-dash-contratos-vazio></div>
-        </section>
-
-        <aside class="card">
-          <div class="card__head">
-            <div class="card__title">Atividade</div>
-          </div>
-          <div class="card__body card__body--flush" data-dash-atividades>
-            <!-- Feed real de /api/activities -->
-          </div>
-          <div class="card__foot"><span>Últimas atividades da conta</span></div>
-        </aside>
-      </div>
+      </section>
     </main>
   </div>
 
-  <!-- Toast -->
+  <div class="support" id="support" data-support aria-label="Central de ajuda" aria-hidden="true"></div>
 
-  <div class="support" id="support" data-support aria-label="Central de ajuda" aria-hidden="true">
-    <!-- Conteúdo montado por assets/js/support.js -->
-  </div>
-
-<div class="toast" id="toast" role="status" aria-live="polite">
-    <svg class="toast__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"
-      stroke-linejoin="round">
-      <circle cx="12" cy="12" r="9" />
-      <path d="m8.5 12 2.5 2.5 4.5-5" />
-    </svg>
-    <div>
-      <strong data-toast-title>Feito!</strong>
-      <small data-toast-text></small>
-    </div>
+  <div class="toast" id="toast" role="status" aria-live="polite">
+    <svg class="toast__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg>
+    <div><strong data-toast-title>Feito!</strong><small data-toast-text></small></div>
   </div>
 
   <script src="assets/js/store.js?v=825fa3e-poll"></script>
   <script src="assets/js/app.js?v=825fa3e-poll"></script>
   <script src="assets/js/support.js?v=825fa3e-poll"></script>
   <script>
-    /* Dashboard: todos os números vindos das APIs reais (leads, contratos, sites, atividades) */
     (function () {
       var D = window.Dados;
       if (!D || !D.pronto) return;
@@ -400,131 +235,70 @@
       function set(sel, value) {
         document.querySelectorAll(sel).forEach(function (el) { el.textContent = value; });
       }
-      function pct(part, total) { return total ? Math.round((part / total) * 100) : 0; }
-      function statusBadge(status) {
-        var map = { ativo: ['success', 'Ativo'], rascunho: ['warn', 'Rascunho'], vencido: ['danger', 'Vencido'], cancelado: ['neutral', 'Cancelado'] };
-        var b = map[status] || ['neutral', status];
-        return '<span class="badge badge--' + b[0] + '">' + D.esc(b[1]) + '</span>';
-      }
 
       function pintar() {
-        var leads = D.leads();
         var contratos = D.contratos();
-        var sites = D.sites();
-        var atividades = D.atividades();
+        var tickets = D.tickets();
+        var pagamentos = D.pagamentos();
 
+        // Faturamento total (soma de todos os pagamentos recebidos)
+        var faturamentoTotal = pagamentos
+          .filter(function(p) { return p.status === 'recebido'; })
+          .reduce(function(s, p) { return s + Number(p.value || 0); }, 0);
+
+        // MRR: contratos ativos com billing mensal
         var ativos = contratos.filter(function (c) { return c.status === 'ativo'; });
         var mrr = ativos.reduce(function (s, c) { return s + Number(c.value || 0); }, 0);
-        var fechados = leads.filter(function (l) { return l.status === 'fechado'; }).length;
-        var novos = leads.filter(function (l) { return l.status === 'novo'; }).length;
-        var publicados = sites.filter(function (s) { return s.status === 'publicado'; }).length;
-        var rascunhos = sites.filter(function (s) { return s.status === 'rascunho'; }).length;
 
-        set('[data-dash="leads"]', D.num(leads.length));
-        set('[data-kpi-leads-novos]', novos + (novos === 1 ? ' novo' : ' novos'));
-        set('[data-dash="contratos-ativos"]', D.num(ativos.length));
-        set('[data-kpi-total-contratos]', D.num(contratos.length) + ' no total');
+        // Tickets abertos
+        var abertos = tickets.filter(function (t) { return t.status === 'aberto'; }).length;
+
+        // Vendas total: contratos fechados/ativos
+        var vendasTotal = contratos.filter(function (c) { return ['ativo', 'fechado'].indexOf(c.status) >= 0; }).length;
+
+        set('[data-dash="faturamento-total"]', D.dinheiro(faturamentoTotal));
         set('[data-dash="mrr"]', D.dinheiro(mrr));
-        set('[data-dash="conversao"]', (leads.length ? ((fechados / leads.length) * 100).toFixed(1) : '0').replace('.', ','));
-        set('[data-kpi-fechados]', fechados + ' fechados');
-        set('[data-dash="sites-publicados"]', D.num(publicados));
-        set('[data-dash="sites-total"]', D.num(sites.length));
-        set('[data-kpi-sites-rascunho]', rascunhos + ' em rascunho');
-        set('[data-badge-leads]', D.num(leads.length));
-        set('[data-badge-contratos]', D.num(contratos.length));
+        set('[data-dash="tickets-abertos"]', D.num(abertos));
+        set('[data-dash="vendas-total"]', D.num(vendasTotal));
         set('#dashboard-data', new Date().toLocaleDateString('pt-BR', { day: 'numeric', month: 'long' }));
 
-        var banner = document.querySelector('[data-banner-leads]');
-        if (banner) banner.textContent = novos
-          ? novos + (novos === 1 ? ' lead novo esperando contato' : ' leads novos esperando contato')
-          : 'Tudo em dia: nenhum lead aguardando contato';
-
-        // Gráfico: 6 meses de leads e contratos
-        var chart = document.querySelector('[data-dash-chart]');
+        // Gráfico de faturamento - 12 meses
+        var chart = document.querySelector('[data-dash-faturamento-chart]');
         if (chart) {
           var meses = [];
           var hoje = new Date();
-          for (var i = 5; i >= 0; i--) {
+          for (var i = 11; i >= 0; i--) {
             var d = new Date(hoje.getFullYear(), hoje.getMonth() - i, 1);
-            meses.push({ key: d.getFullYear() + '-' + d.getMonth(), label: d.toLocaleDateString('pt-BR', { month: 'short' }).replace('.', ''), leads: 0, contratos: 0 });
+            meses.push({ key: d.getFullYear() + '-' + d.getMonth(), label: d.toLocaleDateString('pt-BR', { month: 'short' }).replace('.', ''), valor: 0 });
           }
-          function index(iso) {
+          function idx(iso) {
             var d = new Date(iso);
             var key = d.getFullYear() + '-' + d.getMonth();
             for (var k = 0; k < meses.length; k++) { if (meses[k].key === key) return k; }
             return -1;
           }
-          leads.forEach(function (l) { var k = index(l.createdAt); if (k >= 0) meses[k].leads++; });
-          contratos.forEach(function (c) { var k = index(c.createdAt); if (k >= 0) meses[k].contratos++; });
-          var max = Math.max.apply(null, meses.map(function (m) { return Math.max(m.leads, m.contratos); }).concat([1]));
+          // Soma pagamentos recebidos por mês
+          pagamentos
+            .filter(function(p) { return p.status === 'recebido' && p.paidAt; })
+            .forEach(function(p) { var k = idx(p.paidAt); if (k >= 0) meses[k].valor += Number(p.value || 0); });
+
+          var max = Math.max.apply(null, meses.map(function (m) { return m.valor; }).concat([1]));
           chart.innerHTML = meses.map(function (m) {
-            return '<div class="chart__col" title="' + m.label + ' · ' + m.leads + ' leads · ' + m.contratos + ' contratos">' +
-              '<div class="chart__bar" style="height:' + Math.round((m.leads / max) * 100) + '%"></div>' +
-              '<div class="chart__bar chart__bar--alt" style="height:' + Math.round((m.contratos / max) * 100) + '%"></div>' +
+            var h = Math.round((m.valor / max) * 100);
+            return '<div class="chart__col" title="' + m.label + ' · ' + D.dinheiro(m.valor) + '" style="--h:' + h + '%">' +
+              '<div class="chart__bar" style="height:var(--h)"></div>' +
               '<div class="chart__label">' + m.label + '</div></div>';
           }).join('');
-          set('[data-chart-leads]', D.num(meses.reduce(function (s, m) { return s + m.leads; }, 0)));
-          set('[data-chart-contratos]', D.num(meses.reduce(function (s, m) { return s + m.contratos; }, 0)));
         }
 
-        // Funil
-        var funil = document.querySelector('[data-dash-funil]');
-        if (funil) {
-          var etapas = [
-            ['Prospectados', leads.length, ''],
-            ['Contatados', leads.filter(function (l) { return ['contato', 'qualificado', 'proposta', 'fechado'].indexOf(l.status) >= 0; }).length, ''],
-            ['Qualificados', leads.filter(function (l) { return ['qualificado', 'proposta', 'fechado'].indexOf(l.status) >= 0; }).length, 'progress__bar--info'],
-            ['Propostas', leads.filter(function (l) { return ['proposta', 'fechado'].indexOf(l.status) >= 0; }).length, 'progress__bar--warn'],
-            ['Fechados', fechados, 'progress__bar--success']
-          ];
-          funil.innerHTML = etapas.map(function (e) {
-            return '<div class="hbar"><div class="hbar__top"><span class="hbar__label">' + e[0] + '</span>' +
-              '<span class="hbar__value">' + D.num(e[1]) + '</span></div>' +
-              '<div class="progress"><div class="progress__bar ' + e[2] + '" style="width:' + pct(e[1], leads.length || 1) + '%"></div></div></div>';
-          }).join('');
-        }
-
-        // Top desempenho por responsável
-        var top = document.querySelector('[data-dash-top]');
-        if (top) {
-          var porUsuario = {};
-          contratos.forEach(function (c) {
-            var k = c.createdById || 'sem'; porUsuario[k] = porUsuario[k] || { nome: (c.createdById ? 'Usuário ' + String(c.createdById).slice(-6) : 'Sem responsável'), contratos: 0, valor: 0 };
-            porUsuario[k].contratos++; porUsuario[k].valor += Number(c.value || 0);
+        // Período do gráfico (12m / 6m)
+        document.querySelectorAll('[data-chart-period]').forEach(function(btn){
+          btn.addEventListener('click', function(){
+            document.querySelectorAll('[data-chart-period]').forEach(function(b){ b.classList.remove('is-active'); });
+            this.classList.add('is-active');
+            // TODO: implementar filtro de período se necessário
           });
-          var lista = Object.keys(porUsuario).map(function (k) { return porUsuario[k]; }).sort(function (a, b) { return b.valor - a.valor; }).slice(0, 3);
-          top.innerHTML = lista.length ? lista.map(function (u, i) {
-            return '<div class="list-row"><span class="avatar ' + ['avatar--green', 'avatar--sky', 'avatar--violet'][i % 3] + ' avatar--sm">' + D.esc(D.iniciais(u.nome)) + '</span>' +
-              '<div class="list-row__body"><div class="list-row__title">' + D.esc(u.nome) + '</div>' +
-              '<div class="list-row__meta">' + u.contratos + ' contrato' + (u.contratos === 1 ? '' : 's') + '</div></div>' +
-              '<div class="list-row__right"><span class="trend trend--up">' + D.dinheiro(u.valor) + '</span></div></div>';
-          }).join('') : '<div class="empty"><div class="empty__title">Sem contratos ainda</div><div class="empty__text">Assim que houver contratos, o ranking aparece aqui.</div></div>';
-        }
-
-        // Contratos recentes
-        var tbody = document.querySelector('[data-dash-contratos]');
-        if (tbody) {
-          var recentes = contratos.slice(0, 4);
-          tbody.innerHTML = recentes.length ? recentes.map(function (c) {
-            return '<tr><td><div class="cell-user"><span class="avatar avatar--sq avatar--sm">' + D.esc(D.iniciais(c.clientName)) + '</span>' +
-              '<div><div class="cell-user__name">' + D.esc(c.clientName) + '</div><div class="cell-user__sub">' + D.esc(c.clientEmail) + '</div></div></div></td>' +
-              '<td>' + D.esc(c.service) + '</td><td class="num">' + D.dinheiro(c.value) + '</td><td>' + statusBadge(c.status) + '</td></tr>';
-          }).join('') : '';
-          var vazioDash = document.querySelector('[data-dash-contratos-vazio]');
-          if (vazioDash) vazioDash.innerHTML = recentes.length ? '' : '<div class="empty"><div class="empty__title">Nenhum contrato cadastrado</div><div class="empty__text">Crie o primeiro contrato em Contratos.</div></div>';
-        }
-
-        // Atividades
-        var feed = document.querySelector('[data-dash-atividades]');
-        if (feed) {
-          var icones = { lead_created: ['primary', '<path d="M12 5v14M5 12h14"/>'], contract_signed: ['success', '<path d="m5 13 4 4L19 7"/>'], contract_created: ['primary', '<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/>'], payment_received: ['success', '<path d="m5 13 4 4L19 7"/>'], site_published: ['info', '<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/>'] };
-          feed.innerHTML = atividades.length ? atividades.slice(0, 6).map(function (a) {
-            var ic = icones[a.type] || ['info', '<circle cx="12" cy="12" r="9"/>'];
-            return '<div class="list-row"><span class="kpi__icon kpi__icon--' + ic[0] + '" style="width:34px;height:34px;border-radius:10px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">' + ic[1] + '</svg></span>' +
-              '<div class="list-row__body"><div class="list-row__title">' + D.esc(a.title) + '</div>' +
-              '<div class="list-row__meta">' + D.esc(a.description || '') + ' · ' + D.haQuanto(a.createdAt) + '</div></div></div>';
-          }).join('') : '<div class="empty"><div class="empty__title">Nenhuma atividade</div><div class="empty__text">As ações de leads, contratos, pagamentos e sites aparecem aqui.</div></div>';
-        }
+        });
       }
 
       D.pronto().then(function () {
@@ -538,5 +312,4 @@
     })();
   </script>
 </body>
-
 </html>
