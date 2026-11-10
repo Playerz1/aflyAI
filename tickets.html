@@ -165,6 +165,12 @@
             <div class="conversation__stream" id="t-stream"></div>
 
             <div class="conversation__composer">
+              <div class="quick-replies__toggle">
+                <button type="button" id="t-quick-toggle" aria-expanded="true" aria-controls="t-quick" title="Mostrar/ocultar sugestões">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" class="chev"><path d="m18 15-6-6-6 6"/></svg>
+                  Sugestões de resposta
+                </button>
+              </div>
               <div class="quick-replies" id="t-quick"></div>
               <div class="composer">
                 <textarea class="textarea" id="t-input" rows="1" placeholder="Escreva a resposta para o cliente…" aria-label="Resposta" maxlength="2000"></textarea>
@@ -220,8 +226,8 @@
     <div><strong data-toast-title>Feito!</strong><small data-toast-text></small></div>
   </div>
 
-  <script src="assets/js/store.js?v=3700138-live"></script>
-  <script src="assets/js/app.js?v=3700138-live"></script>
+  <script src="assets/js/store.js?v=7bca3d8-q"></script>
+  <script src="assets/js/app.js?v=7bca3d8-q"></script>
   <script>
     /* ============ Admin · Centro de tickets ============ */
     (function () {
@@ -333,19 +339,39 @@
         document.getElementById("d-espera").textContent = D.haQuanto(t.criado);
         document.getElementById("d-criado").textContent = "Aberto em " + D.hora(t.criado);
 
-        document.getElementById("t-quick").innerHTML = RAPIDAS.map(function (r, i) {
+        var quick = document.getElementById("t-quick");
+        quick.innerHTML = RAPIDAS.map(function (r, i) {
           return '<button type="button" data-quick="' + i + '">' + D.esc(r.length > 38 ? r.slice(0, 36) + "…" : r) + "</button>";
         }).join("");
-        document.getElementById("t-quick").querySelectorAll("[data-quick]").forEach(function (b) {
+        quick.querySelectorAll("[data-quick]").forEach(function (b) {
           b.addEventListener("click", function () {
             elInput.value = RAPIDAS[Number(b.getAttribute("data-quick"))];
             elInput.focus();
           });
         });
+        aplicarEstadoQuick();
 
         pintarConversa();
         pintarLista();
       }
+
+      // sugestões recolhíveis (seta ^)
+      var QUICK_KEY = "prospecta:quick-open";
+      function aplicarEstadoQuick() {
+        var aberto = (function () { try { return localStorage.getItem(QUICK_KEY) !== "fechado"; } catch (e) { return true; } })();
+        var q = document.getElementById("t-quick");
+        var toggle = document.getElementById("t-quick-toggle");
+        if (!q || !toggle) return;
+        q.classList.toggle("is-collapsed", !aberto);
+        toggle.setAttribute("aria-expanded", String(aberto));
+        toggle.classList.toggle("is-closed", !aberto);
+      }
+      document.getElementById("t-quick-toggle").addEventListener("click", function () {
+        var aberto = (function () { try { return localStorage.getItem(QUICK_KEY) !== "fechado"; } catch (e) { return true; } })();
+        try { localStorage.setItem(QUICK_KEY, aberto ? "fechado" : "aberto"); } catch (e) {}
+        aplicarEstadoQuick();
+      });
+      aplicarEstadoQuick();
 
       function pintarConversa() {
         var t = D.tickets().filter(function (x) { return Number(x.id) === atual; })[0];
