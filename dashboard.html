@@ -77,10 +77,10 @@
       </a>
     </nav>
     <a class="sidebar__foot" href="configuracoes.html">
-      <span class="avatar">U</span>
+      <span class="avatar" id="sidebar-avatar">U</span>
       <span class="sidebar__foot-info">
-        <span class="sidebar__foot-name">Conta</span>
-        <span class="sidebar__foot-mail">—</span>
+        <span class="sidebar__foot-name" id="sidebar-name">Conta</span>
+        <span class="sidebar__foot-mail" id="sidebar-email">—</span>
       </span>
     </a>
   </aside>
@@ -120,9 +120,9 @@
           <a class="link t-12" href="prospectar.html">Ver todas as notificações</a>
         </div>
       </div>
-      <button class="user-menu" aria-label="Menu do usuário">
-        <span class="avatar avatar--sm">U</span>
-        <span class="user-menu__name">Conta</span>
+      <button class="user-menu" aria-label="Menu do usuário" id="user-menu-btn">
+        <span class="avatar avatar--sm" id="topbar-avatar">U</span>
+        <span class="user-menu__name" id="topbar-name">Conta</span>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
           <path d="m6 9 6 6 6-6" />
         </svg>
@@ -132,7 +132,7 @@
     <main class="content">
       <div class="page-head">
         <div>
-          <h1 class="page-head__title">Olá, <span id="dashboard-nome">Usuário</span> 👋</h1>
+          <h1 class="page-head__title"><span id="dashboard-greeting">Olá</span>, <span id="dashboard-nome">Usuário</span> <span id="dashboard-wave">👋</span></h1>
           <p class="page-head__sub">Aqui está o resumo da sua operação <span id="dashboard-data"></span>.</p>
         </div>
       </div>
@@ -216,7 +216,7 @@
         </article>
       </div>
 
-      <!-- Gráfico de Faturamento - Polished -->
+      <!-- Gráfico de Faturamento - Area Chart Polished -->
       <section class="card card--chart mt-24">
         <div class="card__head">
           <div>
@@ -230,7 +230,7 @@
           </div>
         </div>
         <div class="card__body">
-          <div class="chart chart--area" data-dash-faturamento-chart style="height:300px" role="img" aria-label="Gráfico de faturamento mensal"></div>
+          <div class="chart chart--area" data-dash-faturamento-chart style="height:320px" role="img" aria-label="Gráfico de faturamento mensal"></div>
           <div class="chart__legend" style="margin-top:16px;justify-content:center">
             <span><i style="background:linear-gradient(180deg,var(--primary),var(--primary-soft))"></i>Receita recebida</span>
           </div>
@@ -266,6 +266,14 @@
       function calcTrend(current, previous) {
         if (!previous) return 0;
         return ((current - previous) / previous) * 100;
+      }
+
+      function getGreeting() {
+        var h = new Date().getHours();
+        if (h >= 0 && h < 6) return 'Boa madrugada';
+        if (h >= 6 && h < 12) return 'Bom dia';
+        if (h >= 12 && h < 19) return 'Boa tarde';
+        return 'Boa noite';
       }
 
       function pintar() {
@@ -315,7 +323,6 @@
           .reduce(function(s, p) { return s + Number(p.value || 0); }, 0);
 
         var mrrAtual = ativos.reduce(function(s, c) { return s + Number(c.value || 0); }, 0);
-        // MRR anterior seria contratos ativos no mês anterior - simplificado
         var mrrAnt = mrrAtual * 0.95; // placeholder
 
         var ticketsMesAtual = tickets.filter(function(t) {
@@ -370,7 +377,11 @@
           }
         });
 
-        // Gráfico de faturamento - 12 meses (Area chart style)
+        // Greeting
+        var greeting = getGreeting();
+        set('#dashboard-greeting', greeting);
+
+        // Gráfico de faturamento - 12 meses (Area chart SVG)
         var chart = document.querySelector('[data-dash-faturamento-chart]');
         if (chart) {
           var meses = [];
@@ -391,11 +402,12 @@
           var max = Math.max.apply(null, meses.map(function (m) { return m.valor; }).concat([1]));
           var total = meses.reduce(function(s, m) { return s + m.valor; }, 0);
 
-          // Build area chart HTML with SVG
+          // Build area chart SVG
           var points = meses.map(function(m, i) {
             var x = (i / (meses.length - 1)) * 100;
-            var h = m.valor / max * 85; // 85% height for area
-            return { x: x, y: 100 - h, valor: m.valor, label: m.label };
+            var h = m.valor / max * 80; // 80% height for area
+            var y = 100 - h;
+            return { x: x, y: y, valor: m.valor, label: m.label };
           }).concat({ x: 100, y: 100 }, { x: 0, y: 100 }); // close path
 
           var pathData = 'M' + points.map(function(p){ return p.x + '% ' + p.y + '%'; }).join(' L') + ' Z';
@@ -405,12 +417,12 @@
             '<svg class="chart__svg" viewBox="0 0 100 100" preserveAspectRatio="none" style="width:100%;height:100%">' +
               '<defs>' +
                 '<linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">' +
-                  '<stop offset="0%" stop-color="var(--primary)" stop-opacity="0.25"/>' +
+                  '<stop offset="0%" stop-color="var(--primary)" stop-opacity="0.28"/>' +
                   '<stop offset="100%" stop-color="var(--primary)" stop-opacity="0"/>' +
                 '</linearGradient>' +
                 '<linearGradient id="lineGrad" x1="0" y1="0" x2="0" y2="1">' +
                   '<stop offset="0%" stop-color="var(--primary)"/>' +
-                  '<stop offset="100%" stop-color="var(--primary)" stop-opacity="0.6"/>' +
+                  '<stop offset="100%" stop-color="var(--primary)" stop-opacity="0.5"/>' +
                 '</linearGradient>' +
               '</defs>' +
               '<rect width="100%" height="100%" fill="none"/>' +
@@ -418,7 +430,7 @@
               '<path class="chart__line" d="' + lineData + '" fill="none" stroke="url(#lineGrad)" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round"/>' +
               meses.map(function(m, i) {
                 var x = (i / (meses.length - 1)) * 100;
-                var h = m.valor / max * 85;
+                var h = m.valor / max * 80;
                 var y = 100 - h;
                 return '<circle class="chart__point" cx="' + x + '%" cy="' + y + '%" r="2.5" data-tooltip="' + m.label + ' · ' + D.dinheiro(m.valor) + '" style="opacity:0;transition:opacity .2s"/>';
               }).join('') +
@@ -427,6 +439,26 @@
             '<div class="chart__labels">' +
               meses.map(function(m) { return '<span>' + m.label + '</span>'; }).join('') +
             '</div>';
+
+          // Hover tooltip
+          var svg = chart.querySelector('.chart__svg');
+          var tooltip = document.createElement('div');
+          tooltip.className = 'chart__tooltip';
+          chart.appendChild(tooltip);
+
+          svg.addEventListener('mousemove', function(e) {
+            var rect = svg.getBoundingClientRect();
+            var x = e.clientX - rect.left;
+            var relX = (x / rect.width) * 100;
+            var idx = Math.round(relX / 100 * (meses.length - 1));
+            idx = Math.max(0, Math.min(meses.length - 1, idx));
+            var m = meses[idx];
+            tooltip.textContent = m.label + ' · ' + D.dinheiro(m.valor);
+            tooltip.style.left = (x + 10) + 'px';
+            tooltip.style.top = (e.clientY - rect.top - 40) + 'px';
+            tooltip.style.opacity = '1';
+          });
+          svg.addEventListener('mouseleave', function() { tooltip.style.opacity = '0'; });
         }
 
         // Chart period buttons
@@ -438,7 +470,6 @@
             });
             this.classList.add('is-active');
             this.setAttribute('aria-selected', 'true');
-            // Re-render would go here for different periods
           });
         });
       }
@@ -447,9 +478,31 @@
         var me = D.eu ? D.eu() : null;
         var el = document.getElementById('dashboard-nome');
         if (el && me && me.nome) el.textContent = me.nome;
+        
+        // Update sidebar/topbar avatar and name
+        function updateUserUI() {
+          if (!me) return;
+          var ini = me.iniciais || (me.nome ? me.nome.split(/\s+/).map(function(p){return p[0]||''}).join('').slice(0,2).toUpperCase() : 'U');
+          document.querySelectorAll('.sidebar__foot-name, #sidebar-name').forEach(function(el){ el.textContent = me.nome || 'Conta'; });
+          document.querySelectorAll('.sidebar__foot-mail, #sidebar-email').forEach(function(el){ el.textContent = me.email || '—'; });
+          document.querySelectorAll('.sidebar__foot .avatar, #sidebar-avatar').forEach(function(el){ el.textContent = ini; if(!me.avatar) el.style.backgroundImage = ''; });
+          document.querySelectorAll('.user-menu__name, #topbar-name').forEach(function(el){ el.textContent = (me.nome || 'Conta').split(/\s+/)[0]; });
+          document.querySelectorAll('.user-menu .avatar, #topbar-avatar').forEach(function(el){ el.textContent = ini; if(!me.avatar) el.style.backgroundImage = ''; });
+          if (me.avatar) {
+            document.querySelectorAll('.sidebar__foot .avatar, #sidebar-avatar, .user-menu .avatar, #topbar-avatar').forEach(function(el){ el.style.backgroundImage = 'url(' + me.avatar + ')'; el.textContent = ''; });
+          }
+        }
+        updateUserUI();
+
         document.body.setAttribute('data-dados-reais', '1');
         pintar();
-        document.addEventListener('prospecta:mudou', pintar);
+        document.addEventListener('prospecta:mudou', function(e) {
+          if (e.detail && (e.detail.key === 'users' || e.detail.key === 'refresh')) {
+            var updatedMe = D.eu ? D.eu() : null;
+            if (updatedMe) { me = updatedMe; updateUserUI(); }
+          }
+          pintar();
+        });
       });
     })();
   </script>
