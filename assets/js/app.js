@@ -186,6 +186,83 @@
     });
   }
 
+  /* ---------- Notification dropdown ---------- */
+  function initNotifications() {
+    var notifBtn = document.getElementById('notif-btn');
+    var notifDropdown = document.getElementById('notif-dropdown');
+    var notifDot = document.getElementById('notif-dot');
+    var notifList = document.getElementById('notif-list');
+    var notifClear = notifDropdown ? notifDropdown.querySelector('.notif-clear') : null;
+    if (!notifBtn || !notifDropdown || !notifList) return;
+
+    function renderNotifications(activities) {
+      if (!activities || !activities.length) {
+        notifList.innerHTML = '<div class="empty" style="padding:24px 16px"><div class="empty__title">Sem notificações</div><div class="empty__text">Quando houver novidades, elas aparecem aqui.</div></div>';
+        if (notifDot) notifDot.style.display = 'none';
+        return;
+      }
+      var unreadCount = activities.filter(function(a) { return !a.read; }).length;
+      if (notifDot) notifDot.style.display = unreadCount > 0 ? '' : 'none';
+
+      var html = activities.map(function(a) {
+        var iconClass = 'notif-item__icon--alert';
+        var iconSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>';
+        if (a.type === 'ticket') { iconClass = 'notif-item__icon--ticket'; iconSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><path d="M14 2v6h6"/></svg>'; }
+        else if (a.type === 'lead') { iconClass = 'notif-item__icon--lead'; iconSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>'; }
+        else if (a.type === 'payment') { iconClass = 'notif-item__icon--payment'; iconSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/><path d="M16 5v-2a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/></svg>'; }
+        else if (a.type === 'contract') { iconClass = 'notif-item__icon--contract'; iconSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="m9 15 2 2 4-4"/></svg>'; }
+        var unreadClass = a.read ? '' : ' unread';
+        return '<div class="notif-item' + unreadClass + '" data-id="' + a.id + '">' +
+          '<div class="notif-item__icon ' + iconClass + '">' + iconSvg + '</div>' +
+          '<div class="notif-item__body">' +
+            '<div class="notif-item__title">' + (window.Dados && window.Dados.esc ? window.Dados.esc(a.title) : a.title) + '</div>' +
+            '<div class="notif-item__text">' + (window.Dados && window.Dados.esc ? window.Dados.esc(a.text) : a.text) + '</div>' +
+            '<div class="notif-item__time">' + (window.Dados && window.Dados.haQuanto ? window.Dados.haQuanto(a.time) : '') + '</div>' +
+          '</div>' +
+        '</div>';
+      }).join('');
+      notifList.innerHTML = html;
+    }
+
+    function loadNotifications() {
+      if (window.Dados && window.Dados.atividades) {
+        var acts = window.Dados.atividades();
+        renderNotifications(acts);
+      }
+    }
+
+    notifBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      notifDropdown.classList.toggle('is-open');
+      if (notifDropdown.classList.contains('is-open')) {
+        loadNotifications();
+      }
+    });
+
+    document.addEventListener('click', function(e) {
+      if (!notifDropdown.contains(e.target) && !notifBtn.contains(e.target)) {
+        notifDropdown.classList.remove('is-open');
+      }
+    });
+
+    if (notifClear) {
+      notifClear.addEventListener('click', function(e) {
+        e.stopPropagation();
+        if (window.Dados && window.Dados.marcarLidas) {
+          window.Dados.marcarLidas().then(loadNotifications);
+        }
+      });
+    }
+
+    // Listen for data refresh
+    window.addEventListener('prospecta:mudou', function(e) {
+      if (e.detail && e.detail.key === 'activities') loadNotifications();
+    });
+
+    // Initial load
+    loadNotifications();
+  }
+
   /* ---------- Switch: persistência simples no localStorage ---------- */
   function initSwitches() {
     document.querySelectorAll("input[type=checkbox][data-remember]").forEach(function (input) {
@@ -322,9 +399,10 @@
     initTableSearch();
     initModals();
     initDemoActions();
-    initSwitches();
+initSwitches();
     initCopy();
     initCounters();
     initSupportPanel();
+    initNotifications();
   });
 })();

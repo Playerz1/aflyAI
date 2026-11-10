@@ -404,6 +404,19 @@ window.Dados = (function () {
     criarUsuario: criarUsuario, atualizarUsuario: atualizarUsuario, salvarUsuarios: salvarUsuarios,
     criarTicket: criarTicket, atualizarTicket: atualizarTicket, enviarMensagem: enviarMensagem, carregarTicket: carregarTicket, salvarTickets: salvarTickets,
     modo: function(){ return state.mode; },
+    marcarLidas: async function() {
+      if (state.mode === 'api') {
+        try {
+          var r = await api('/api/activities/read-all', { method: 'POST' });
+          state.activities = (r.activities || []).map(function(a) { return Object.assign({}, a, { read: true }); });
+          emit('activities');
+          return r;
+        } catch (e) { console.warn('[Dados] marcarLidas falhou', e); }
+      }
+      // Local mode: just mark all as read in cache
+      state.activities = state.activities.map(function(a) { return Object.assign({}, a, { read: true }); });
+      emit('activities');
+    },
   };
 })();
 
