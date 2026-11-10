@@ -2,9 +2,17 @@ const prisma = require('../../lib/prisma');
 const { json, readJson, handleError, methodNotAllowed, z } = require('../../lib/http');
 const { requireAuth } = require('../../lib/auth');
 
+//   GET    /api/tickets                    -> lista
+//   GET    /api/tickets?id=N               -> detalhe (marca como lido)
+//   POST   /api/tickets                    -> abre ticket
+//   POST   /api/tickets?id=N&action=message -> envia mensagem no ticket
+//   PATCH  /api/tickets?id=N               -> muda status/prioridade/assunto
+
 function initials(name) {
   return String(name || '').trim().split(/\s+/).filter(Boolean).map(p => p[0]).slice(0, 2).join('').toUpperCase() || 'U';
 }
+
+function one(v) { return Array.isArray(v) ? v[0] : v; }
 
 const MOTIVOS = {
   duvida: 'Dúvida de uso', site: 'Problema em um site', contrato: 'Contrato e cobrança',
@@ -19,6 +27,17 @@ const createSchema = z.object({
   priority: z.enum(['baixa', 'media', 'alta']).optional().default('media'),
   status: z.enum(['aberto', 'respondido', 'resolvido']).optional().default('aberto'),
   origin: z.string().max(120).optional().default('Dashboard'),
+});
+
+const patchSchema = z.object({
+  status: z.enum(['aberto', 'respondido', 'resolvido']).optional(),
+  priority: z.enum(['baixa', 'media', 'alta']).optional(),
+  subject: z.string().min(2).max(180).optional(),
+});
+
+const messageSchema = z.object({
+  text: z.string().min(1).max(4000),
+  status: z.enum(['aberto', 'respondido', 'resolvido']).optional(),
 });
 
 function toClient(t) {
@@ -40,19 +59,65 @@ function toClient(t) {
   };
 }
 
+async function loadScoped(user, id) {
+  const ticket = await prisma.ticket.findUnique({ where: { id }, include: { messages: { orderBy: { createdAt: 'asc' } } } });
+  if (!ticket) return { error: 404 };
+  if (user.role !== 'admin' && ticket.createdById !== user.id) return { error: 403 };
+  return { ticket };
+}
+
+async function enviarMensagem(req, res, user, id) {
+  const found = await loadScoped(user, id);
+  if (found.error === 404) return json(res, 404, { error: 'Ticket não encontrado' });
+  if (found.error === 403) return json(res, 403, { error: 'Acesso negado' });
+
+  const body = messageSchema.parse(await readJson(req));
+  const isAdmin = user.role === 'admin';
+  const authorType = isAdmin ? 'admin' : 'cliente';
+
+  let nextStatus = found.ticket.status;
+  if (isAdmin) nextStatus = body.status === 'resolvido' ? 'resolvido' : 'respondido';
+  else if (found.ticket.status !== 'aberto') nextStatus = 'aberto';
+
+  await prisma.ticketMessage.create({
+    data: { ticketId: id, authorId: user.id, authorType, text: body.text, read: true },
+  });
+  const updated = await prisma.ticket.update({
+    where: { id },
+    data: { status: nextStatus, updatedAt: new Date() },
+    include: { messages: { orderBy: { createdAt: 'asc' } } },
+  });
+  return json(res, 201, { ticket: toClient(updated) });
+}
+
 module.exports = async function handler(req, res) {
   try {
     const user = await requireAuth(req, res);
     if (!user) return;
     const isAdmin = user.role === 'admin';
+    const action = one(req.query.action);
+    const rawId = one(req.query.id);
+    const id = rawId ? parseInt(rawId, 10) : null;
 
     if (req.method === 'GET') {
+      if (id) {
+        const found = await loadScoped(user, id);
+        if (found.error === 404) return json(res, 404, { error: 'Ticket não encontrado' });
+        if (found.error === 403) return json(res, 403, { error: 'Acesso negado' });
+        await prisma.ticketMessage.updateMany({
+          where: { ticketId: id, ...(isAdmin ? { authorType: 'cliente' } : { authorType: { in: ['suporte', 'admin'] } }), read: false },
+          data: { read: true },
+        });
+        const fresh = await prisma.ticket.findUnique({ where: { id }, include: { messages: { orderBy: { createdAt: 'asc' } } } });
+        return json(res, 200, { ticket: toClient(fresh) });
+      }
       const where = isAdmin ? {} : { createdById: user.id };
       const tickets = await prisma.ticket.findMany({ where, include: { messages: { orderBy: { createdAt: 'asc' } } }, orderBy: { updatedAt: 'desc' } });
       return json(res, 200, { tickets: tickets.map(toClient) });
     }
 
     if (req.method === 'POST') {
+      if (id && action === 'message') return enviarMensagem(req, res, user, id);
       const body = createSchema.parse(await readJson(req));
       const reasonLabel = body.reasonLabel || MOTIVOS[body.reason] || 'Outro assunto';
       const text = body.description ? `${body.subject}\n\n${body.description}` : body.subject;
@@ -69,14 +134,33 @@ module.exports = async function handler(req, res) {
           creatorInitials: user.initials || initials(user.name),
           creatorEmail: user.email,
           creatorPlan: user.plan || '',
-          messages: { create: [{ authorId: user.id, authorType: 'cliente', text, read: true }] }
+          messages: { create: [{ authorId: user.id, authorType: 'cliente', text, read: true }] },
         },
-        include: { messages: { orderBy: { createdAt: 'asc' } } }
+        include: { messages: { orderBy: { createdAt: 'asc' } } },
       });
       return json(res, 201, { ticket: toClient(ticket) });
     }
 
-    return methodNotAllowed(res, ['GET', 'POST']);
+    if (req.method === 'PATCH' || req.method === 'PUT') {
+      if (!id) return json(res, 400, { error: 'ID inválido' });
+      const found = await loadScoped(user, id);
+      if (found.error === 404) return json(res, 404, { error: 'Ticket não encontrado' });
+      if (found.error === 403) return json(res, 403, { error: 'Acesso negado' });
+
+      const body = patchSchema.parse(await readJson(req));
+      const data = {};
+      if (body.status !== undefined) {
+        if (!isAdmin && body.status !== 'aberto') return json(res, 403, { error: 'Acesso negado' });
+        data.status = body.status;
+      }
+      if (body.priority !== undefined) { if (!isAdmin) return json(res, 403, { error: 'Acesso negado' }); data.priority = body.priority; }
+      if (body.subject !== undefined) { if (!isAdmin) return json(res, 403, { error: 'Acesso negado' }); data.subject = body.subject; }
+      data.updatedAt = new Date();
+      const ticket = await prisma.ticket.update({ where: { id }, data, include: { messages: { orderBy: { createdAt: 'asc' } } } });
+      return json(res, 200, { ticket: toClient(ticket) });
+    }
+
+    return methodNotAllowed(res, ['GET', 'POST', 'PATCH', 'PUT']);
   } catch (err) { return handleError(res, err); }
 };
 

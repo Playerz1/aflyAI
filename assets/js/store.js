@@ -200,7 +200,7 @@ window.Dados = (function () {
       if (patch.note !== undefined) body.note = patch.note;
       if (patch.papel !== undefined) body.role = patch.papel === 'admin' ? 'admin' : (patch.papel === 'cliente' ? 'client' : 'member');
       if (patch.status !== undefined) body.status = patch.status === 'ativo' ? 'active' : (patch.status === 'bloqueado' ? 'blocked' : 'invite');
-      var r = await api('/api/users/' + cur._id, { method: 'PATCH', body: body });
+      var r = await api('/api/users?id=' + encodeURIComponent(cur._id), { method: 'PATCH', body: body });
       var mapped = mapUser(r.user);
       state.users = state.users.map(function(x){ return (x._id===mapped._id||x.id===mapped.id) ? mapped : x; });
       emit('users'); return mapped;
@@ -226,12 +226,12 @@ window.Dados = (function () {
     return r.lead;
   }
   async function atualizarLead(id, patch) {
-    var r = await api('/api/leads/' + id, { method: 'PATCH', body: patch });
+    var r = await api('/api/leads?id=' + encodeURIComponent(id), { method: 'PATCH', body: patch });
     state.leads = state.leads.map(function (x) { return x.id === id ? r.lead : x; });
     emit('leads'); return r.lead;
   }
   async function excluirLead(id) {
-    await api('/api/leads/' + id, { method: 'DELETE' });
+    await api('/api/leads?id=' + encodeURIComponent(id), { method: 'DELETE' });
     state.leads = state.leads.filter(function (x) { return x.id !== id; });
     emit('leads');
   }
@@ -242,12 +242,12 @@ window.Dados = (function () {
     return r.contract;
   }
   async function atualizarContrato(id, patch) {
-    var r = await api('/api/contracts/' + id, { method: 'PATCH', body: patch });
+    var r = await api('/api/contracts?id=' + encodeURIComponent(id), { method: 'PATCH', body: patch });
     state.contracts = state.contracts.map(function (x) { return x.id === id ? r.contract : x; });
     emit('contracts'); return r.contract;
   }
   async function excluirContrato(id) {
-    await api('/api/contracts/' + id, { method: 'DELETE' });
+    await api('/api/contracts?id=' + encodeURIComponent(id), { method: 'DELETE' });
     state.contracts = state.contracts.filter(function (x) { return x.id !== id; });
     emit('contracts');
   }
@@ -258,12 +258,12 @@ window.Dados = (function () {
     return r.payment;
   }
   async function atualizarPagamento(id, patch) {
-    var r = await api('/api/payments/' + id, { method: 'PATCH', body: patch });
+    var r = await api('/api/payments?id=' + encodeURIComponent(id), { method: 'PATCH', body: patch });
     state.payments = state.payments.map(function (x) { return x.id === id ? r.payment : x; });
     emit('payments'); return r.payment;
   }
   async function excluirPagamento(id) {
-    await api('/api/payments/' + id, { method: 'DELETE' });
+    await api('/api/payments?id=' + encodeURIComponent(id), { method: 'DELETE' });
     state.payments = state.payments.filter(function (x) { return x.id !== id; });
     emit('payments');
   }
@@ -274,12 +274,12 @@ window.Dados = (function () {
     return r.site;
   }
   async function atualizarSite(id, patch) {
-    var r = await api('/api/sites/' + id, { method: 'PATCH', body: patch });
+    var r = await api('/api/sites?id=' + encodeURIComponent(id), { method: 'PATCH', body: patch });
     state.sites = state.sites.map(function (x) { return x.id === id ? r.site : x; });
     emit('sites'); return r.site;
   }
   async function excluirSite(id) {
-    await api('/api/sites/' + id, { method: 'DELETE' });
+    await api('/api/sites?id=' + encodeURIComponent(id), { method: 'DELETE' });
     state.sites = state.sites.filter(function (x) { return x.id !== id; });
     emit('sites');
   }
@@ -332,7 +332,7 @@ window.Dados = (function () {
       if (patch.prioridade !== undefined) body.priority = patch.prioridade;
       if (patch.subject !== undefined) body.subject = patch.subject;
       if (!Object.keys(body).length) return state.tickets.filter(function(x){ return Number(x.id)===Number(id); })[0] || null;
-      var r = await api('/api/tickets/' + id, { method: 'PATCH', body: body });
+      var r = await api('/api/tickets?id=' + encodeURIComponent(id), { method: 'PATCH', body: body });
       state.tickets = state.tickets.map(function(x){ return Number(x.id)===Number(r.ticket.id) ? r.ticket : x; });
       emit('tickets'); return r.ticket;
     }
@@ -343,7 +343,7 @@ window.Dados = (function () {
 
   async function enviarMensagem(ticketId, text, extra) {
     if (state.mode === 'api') {
-      var r = await api('/api/tickets/' + ticketId + '/messages', { method: 'POST', body: Object.assign({ text: String(text || '').trim() }, extra || {}) });
+      var r = await api('/api/tickets?id=' + encodeURIComponent(ticketId) + '&action=message', { method: 'POST', body: Object.assign({ text: String(text || '').trim() }, extra || {}) });
       state.tickets = state.tickets.map(function(x){ return Number(x.id)===Number(r.ticket.id) ? r.ticket : x; });
       emit('tickets'); return r.ticket;
     }
@@ -354,7 +354,7 @@ window.Dados = (function () {
 
   async function carregarTicket(id) {
     if (state.mode === 'api') {
-      try { var r = await api('/api/tickets/' + id); state.tickets = state.tickets.map(function(x){ return Number(x.id)===Number(r.ticket.id) ? r.ticket : x; }); if (!state.tickets.some(function(x){return Number(x.id)===Number(id);})) state.tickets.unshift(r.ticket); return r.ticket; } catch(e){ return null; }
+      try { var r = await api('/api/tickets?id=' + encodeURIComponent(id)); state.tickets = state.tickets.map(function(x){ return Number(x.id)===Number(r.ticket.id) ? r.ticket : x; }); if (!state.tickets.some(function(x){return Number(x.id)===Number(id);})) state.tickets.unshift(r.ticket); return r.ticket; } catch(e){ return null; }
     }
     return state.tickets.filter(function(x){ return Number(x.id)===Number(id); })[0] || null;
   }
