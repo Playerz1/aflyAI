@@ -133,21 +133,20 @@
       <div class="page-head">
         <div>
           <h1 class="page-head__title">Configuração</h1>
-          <p class="page-head__sub">Gerencie sua conta, plano, notificações e preferências.</p>
+          <p class="page-head__sub">Gerencie sua conta e preferências.</p>
         </div>
       </div>
 
-      <!-- Tabs -->
+      <!-- Tabs - Only Perfil and Conta e segurança -->
       <div class="tabs" data-tabs="config" style="margin-bottom:22px">
         <button class="tab is-active" data-target="perfil" role="tab" aria-selected="true">Perfil</button>
         <button class="tab" data-target="conta" role="tab" aria-selected="false">Conta e segurança</button>
-        <button class="tab" data-target="notificacoes" role="tab" aria-selected="false">Notificações</button>
-        <button class="tab" data-target="plano" role="tab" aria-selected="false">Plano e cobrança</button>
       </div>
 
       <!-- ============ PERFIL ============ -->
       <div data-owner="config" data-panel="perfil">
-        <div class="grid grid--sidebar" style="align-items:start">
+        <div class="stack" style="gap:22px">
+          <!-- Avatar & Basic Info Card -->
           <section class="card card--polished">
             <div class="card__head">
               <div>
@@ -156,16 +155,17 @@
               </div>
             </div>
             <form class="card__body" id="form-perfil">
-              <div class="row" style="gap:16px;margin-bottom:22px;flex-wrap:wrap;align-items:center">
-                <div class="avatar-upload">
-                  <span class="avatar avatar--xl" id="avatar-preview">U</span>
-                  <label class="avatar-upload__label" for="avatar-input">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M17 3a2.85 2.83 0 1 1 4 4"/><path d="M3 3v18"/></svg>
+              <!-- Avatar Section -->
+              <div class="avatar-section" style="display:flex;flex-wrap:wrap;gap:16px;align-items:center;margin-bottom:24px;padding-bottom:24px;border-bottom:1px solid var(--border)">
+                <div class="avatar-upload" style="flex-shrink:0">
+                  <span class="avatar avatar--xl" id="avatar-preview" style="width:96px;height:96px;font-size:32px">U</span>
+                  <label class="avatar-upload__label" for="avatar-input" style="bottom:-4px;right:-4px;width:32px;height:32px">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M17 3a2.85 2.83 0 1 1 4 4"/><path d="M3 3v18"/></svg>
                   </label>
                   <input type="file" id="avatar-input" accept="image/jpeg,image/png" style="display:none" data-max-size="2097152">
                 </div>
-                <div class="stack" style="gap:8px">
-                  <div class="row" style="gap:8px">
+                <div style="flex:1;min-width:200px">
+                  <div class="row" style="gap:8px;flex-wrap:wrap;margin-bottom:8px">
                     <button type="button" class="btn btn--outline btn--sm" id="btn-avatar-change">
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;margin-right:6px"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/></svg>
                       Alterar foto
@@ -179,7 +179,8 @@
                 </div>
               </div>
 
-              <div class="form-row">
+              <!-- Form Fields in 2-column grid on desktop, stacked on mobile -->
+              <div class="form-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px">
                 <div class="field">
                   <label class="label" for="p-nome">Nome completo</label>
                   <input class="input" id="p-nome" type="text" placeholder="Seu nome" required>
@@ -188,9 +189,6 @@
                   <label class="label" for="p-cargo">Cargo</label>
                   <input class="input" id="p-cargo" placeholder="Seu cargo">
                 </div>
-              </div>
-
-              <div class="form-row mt-16">
                 <div class="field">
                   <label class="label" for="p-email">E-mail</label>
                   <input class="input" id="p-email" type="email" placeholder="seu@email.com" required>
@@ -199,26 +197,25 @@
                   <label class="label" for="p-tel">Celular</label>
                   <input class="input" id="p-tel" placeholder="(11) 99999-9999">
                 </div>
+                <div class="field" style="grid-column:1/-1">
+                  <label class="label" for="p-empresa">Empresa</label>
+                  <input class="input" id="p-empresa" placeholder="Nome da empresa">
+                </div>
+                <div class="field" style="grid-column:1/-1">
+                  <label class="label" for="p-bio">Bio</label>
+                  <textarea class="textarea" id="p-bio" rows="3" placeholder="Conte um pouco sobre você..."></textarea>
+                </div>
               </div>
 
-              <div class="field mt-16">
-                <label class="label" for="p-empresa">Empresa</label>
-                <input class="input" id="p-empresa" placeholder="Nome da empresa">
-              </div>
-
-              <div class="field mt-16">
-                <label class="label" for="p-bio">Bio</label>
-                <textarea class="textarea" id="p-bio" rows="3" placeholder="Conte um pouco sobre você..."></textarea>
-              </div>
-
-              <div class="form-actions" style="margin-top:24px">
+              <div class="form-actions" style="margin-top:24px;display:flex;gap:12px;flex-wrap:wrap">
                 <button type="button" class="btn btn--outline" id="btn-perfil-reset">Descartar</button>
                 <button type="submit" class="btn btn--primary">Salvar alterações</button>
               </div>
             </form>
           </section>
 
-          <aside class="stack">
+          <!-- Resumo da conta + Atalhos in a 2-col grid -->
+          <div class="form-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:22px">
             <section class="card card--polished">
               <div class="card__head">
                 <div class="card__title">Resumo da conta</div>
@@ -275,13 +272,13 @@
                 </a>
               </div>
             </section>
-          </aside>
+          </div>
         </div>
       </div>
 
       <!-- ============ CONTA E SEGURANÇA ============ -->
       <div data-owner="config" data-panel="conta" class="hide">
-        <div class="grid grid--2" style="align-items:start">
+        <div class="form-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:22px">
           <section class="card card--polished">
             <div class="card__head">
               <div class="card__title">Senha</div>
@@ -307,245 +304,64 @@
             </form>
           </section>
 
-          <div class="stack">
-            <section class="card card--polished">
-              <div class="card__head">
-                <div>
-                  <div class="card__title">Verificação em duas etapas</div>
-                  <div class="card__sub">Camada extra de proteção</div>
-                </div>
-                <label class="switch"><input type="checkbox" id="toggle-2fa" data-remember="2fa"><span class="switch__track"></span></label>
-              </div>
-              <div class="card__body">
-                <div class="badge badge--success" id="badge-2fa" style="margin-bottom:10px">Ativada</div>
-                <div class="t-13 soft">Um código será pedido a cada novo login. Use um app autenticador (Google Authenticator, Authy, 1Password).</div>
-                <button class="btn btn--outline btn--sm mt-16" id="btn-backup-codes">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;margin-right:6px"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M17 3a2.85 2.83 0 1 1 4 4"/></svg>
-                  Baixar códigos de backup
-                </button>
-              </div>
-            </section>
-
-            <section class="card card--polished">
-              <div class="card__head">
-                <div class="card__title">Sessões ativas</div>
-              </div>
-              <div class="card__body card__body--flush" id="sessoes-lista">
-                <div class="list-row">
-                  <div class="list-row__body">
-                    <div class="list-row__title">Chrome · Windows</div>
-                    <div class="list-row__meta">São Paulo, BR · esta sessão</div>
-                  </div>
-                  <span class="badge badge--success">Ativa</span>
-                </div>
-                <div class="list-row">
-                  <div class="list-row__body">
-                    <div class="list-row__title">Safari · iPhone</div>
-                    <div class="list-row__meta">São Paulo, BR · há 2 dias</div>
-                  </div>
-                  <button class="btn btn--ghost btn--sm" data-toast="Sessão encerrada|Acesse novamente para entrar.">Encerrar</button>
-                </div>
-              </div>
-            </section>
-
-            <div class="banner banner--danger">
-              <span class="banner__icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M12 9v4M12 17h.01" />
-                  <path d="M12 2 4 6v6c0 5 3.5 8.5 8 10 4.5-1.5 8-5 8-10V6z" />
-                </svg>
-              </span>
-              <div>
-                <div class="banner__title">Excluir conta</div>
-                <div class="banner__text">Ação permanente. Todos os dados serão apagados e não podem ser recuperados.</div>
-              </div>
-              <div class="banner__actions">
-                <button class="btn btn--danger btn--sm" id="btn-delete-account">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;margin-right:6px"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-                  Solicitar exclusão
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ============ NOTIFICAÇÕES ============ -->
-      <div data-owner="config" data-panel="notificacoes" class="hide">
-        <div class="grid grid--2" style="align-items:start">
           <section class="card card--polished">
             <div class="card__head">
-              <div class="card__title">E-mail</div>
+              <div>
+                <div class="card__title">Verificação em duas etapas</div>
+                <div class="card__sub">Camada extra de proteção</div>
+              </div>
+              <label class="switch"><input type="checkbox" id="toggle-2fa" data-remember="2fa"><span class="switch__track"></span></label>
             </div>
-            <div class="card__body card__body--flush">
+            <div class="card__body">
+              <div class="badge badge--success" id="badge-2fa" style="margin-bottom:10px">Ativada</div>
+              <div class="t-13 soft">Um código será pedido a cada novo login. Use um app autenticador (Google Authenticator, Authy, 1Password).</div>
+              <button class="btn btn--outline btn--sm mt-16" id="btn-backup-codes">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;margin-right:6px"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M17 3a2.85 2.83 0 1 1 4 4"/></svg>
+                Baixar códigos de backup
+              </button>
+            </div>
+          </section>
+
+          <section class="card card--polished">
+            <div class="card__head">
+              <div class="card__title">Sessões ativas</div>
+            </div>
+            <div class="card__body card__body--flush" id="sessoes-lista">
               <div class="list-row">
                 <div class="list-row__body">
-                  <div class="list-row__title">Novos leads</div>
-                  <div class="list-row__meta">Resumo sempre que entrar lead novo</div>
+                  <div class="list-row__title">Chrome · Windows</div>
+                  <div class="list-row__meta">São Paulo, BR · esta sessão</div>
                 </div>
-                <label class="switch"><input type="checkbox" id="n1" data-remember="n1" checked><span class="switch__track"></span></label>
+                <span class="badge badge--success">Ativa</span>
               </div>
               <div class="list-row">
                 <div class="list-row__body">
-                  <div class="list-row__title">Contratos e faturas</div>
-                  <div class="list-row__meta">Assinaturas, renovações e pagamentos</div>
+                  <div class="list-row__title">Safari · iPhone</div>
+                  <div class="list-row__meta">São Paulo, BR · há 2 dias</div>
                 </div>
-                <label class="switch"><input type="checkbox" id="n2" data-remember="n2" checked><span class="switch__track"></span></label>
-              </div>
-              <div class="list-row">
-                <div class="list-row__body">
-                  <div class="list-row__title">Novidades do produto</div>
-                  <div class="list-row__meta">Uma vez por semana, sem spam</div>
-                </div>
-                <label class="switch"><input type="checkbox" id="n3" data-remember="n3"><span class="switch__track"></span></label>
-              </div>
-              <div class="list-row">
-                <div class="list-row__body">
-                  <div class="list-row__title">Relatório mensal</div>
-                  <div class="list-row__meta">Resumo de desempenho no dia 1</div>
-                </div>
-                <label class="switch"><input type="checkbox" id="n4" data-remember="n4" checked><span class="switch__track"></span></label>
+                <button class="btn btn--ghost btn--sm" data-toast="Sessão encerrada|Acesse novamente para entrar.">Encerrar</button>
               </div>
             </div>
           </section>
 
-          <div class="stack">
-            <section class="card card--polished">
-              <div class="card__head">
-                <div class="card__title">Push e WhatsApp</div>
-              </div>
-              <div class="card__body card__body--flush">
-                <div class="list-row">
-                  <div class="list-row__body">
-                    <div class="list-row__title">Lead respondeu</div>
-                    <div class="list-row__meta">Aviso imediato no celular</div>
-                  </div>
-                  <label class="switch"><input type="checkbox" id="n5" data-remember="n5" checked><span class="switch__track"></span></label>
-                </div>
-                <div class="list-row">
-                  <div class="list-row__body">
-                    <div class="list-row__title">Lembrete de follow-up</div>
-                    <div class="list-row__meta">Sem resposta há 72h</div>
-                  </div>
-                  <label class="switch"><input type="checkbox" id="n6" data-remember="n6" checked><span class="switch__track"></span></label>
-                </div>
-                <div class="list-row">
-                  <div class="list-row__body">
-                    <div class="list-row__title">Site publicado</div>
-                    <div class="list-row__meta">Confirmação de publicação</div>
-                  </div>
-                  <label class="switch"><input type="checkbox" id="n7" data-remember="n7"><span class="switch__track"></span></label>
-                </div>
-              </div>
-              <div class="card__foot">
-                <span>Preferências salvas automaticamente</span>
-              </div>
-            </section>
-
-            <section class="card card--polished">
-              <div class="card__head">
-                <div class="card__title">Horário de silêncio</div>
-              </div>
-              <div class="card__body">
-                <div class="form-row">
-                  <div class="field">
-                    <label class="label" for="d-inicio">Início</label>
-                    <input class="input" id="d-inicio" type="time" value="21:00" data-remember="silence-start">
-                  </div>
-                  <div class="field">
-                    <label class="label" for="d-fim">Fim</label>
-                    <input class="input" id="d-fim" type="time" value="08:00" data-remember="silence-end">
-                  </div>
-                </div>
-                <div class="t-12 muted mt-16">Durante esse período nenhuma notificação push é enviada.</div>
-              </div>
-            </section>
-          </div>
-        </div>
-      </div>
-
-      <!-- ============ PLANO ============ -->
-      <div data-owner="config" data-panel="plano" class="hide" id="plano">
-        <section class="card card--polished mb-0" style="margin-bottom:22px">
-          <div class="card__body">
-            <div class="row row--between row--wrap" style="gap:14px">
-              <div class="row">
-                <span class="kpi__icon kpi__icon--primary" style="width:46px;height:46px;border-radius:13px">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="m12 2 2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.3 5.9 20.6l1.4-6.8L2.2 9.1l6.9-.8z" />
-                  </svg>
-                </span>
-                <div>
-                  <div class="card__title" style="font-size:16px">Plano Pro</div>
-                  <div class="card__sub" id="plano-detalhes">R$ 199/mês · renova em —</div>
-                </div>
-              </div>
-              <div class="row">
-                <button class="btn btn--outline" id="btn-faturas" data-toast="Faturas|Suas faturas foram enviadas por e-mail.">Histórico de faturas</button>
-                <button class="btn btn--primary" id="btn-upgrade" data-toast="Upgrade|O plano Business será ativado após pagamento.">Fazer upgrade</button>
-              </div>
+          <div class="banner banner--danger" style="grid-column:1/-1">
+            <span class="banner__icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 9v4M12 17h.01" />
+                <path d="M12 2 4 6v6c0 5 3.5 8.5 8 10 4.5-1.5 8-5 8-10V6z" />
+              </svg>
+            </span>
+            <div>
+              <div class="banner__title">Excluir conta</div>
+              <div class="banner__text">Ação permanente. Todos os dados serão apagados e não podem ser recuperados.</div>
+            </div>
+            <div class="banner__actions">
+              <button class="btn btn--danger btn--sm" id="btn-delete-account">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;margin-right:6px"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                Solicitar exclusão
+              </button>
             </div>
           </div>
-          <div class="stat-strip" style="border-top:1px solid var(--border);padding:16px 20px">
-            <div>
-              <div class="stat-strip__label">Leads</div>
-              <div class="stat-strip__value" id="stat-leads">— <span class="t-12 muted">/ ilimitado</span></div>
-            </div>
-            <div>
-              <div class="stat-strip__label">Sites</div>
-              <div class="stat-strip__value" id="stat-sites">— <span class="t-12 muted">/ ilimitado</span></div>
-            </div>
-            <div>
-              <div class="stat-strip__label">Assentos</div>
-              <div class="stat-strip__value" id="stat-assentos">— <span class="t-12 muted">/ 8</span></div>
-            </div>
-            <div>
-              <div class="stat-strip__label">Próxima cobrança</div>
-              <div class="stat-strip__value" id="stat-proxima">R$ 199</div>
-            </div>
-          </div>
-        </section>
-
-        <div class="grid grid--3">
-          <article class="card card--polished" style="padding:22px">
-            <div class="badge badge--neutral badge--plain">Starter</div>
-            <h3 style="font-size:20px;margin-top:10px">R$ 0</h3>
-            <p class="t-12 muted" style="margin-top:2px">para começar</p>
-            <ul class="checklist-item-list" style="margin-top:14px">
-              <li class="checklist-item"><span class="checklist-item__box checklist-item__box--ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg></span><span>100 leads por mês</span></li>
-              <li class="checklist-item"><span class="checklist-item__box checklist-item__box--ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg></span><span>1 site publicado</span></li>
-              <li class="checklist-item"><span class="checklist-item__box checklist-item__box--ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg></span><span>2 membros</span></li>
-            </ul>
-            <button class="btn btn--outline btn--block mt-16" disabled>Plano atual</button>
-          </article>
-
-          <article class="card card--polished" style="padding:22px;border-color:var(--primary);box-shadow:0 0 0 3px rgba(239,68,68,.12);position:relative">
-            <div class="row row--between">
-              <span class="badge badge--primary badge--plain">Pro · recomendado</span>
-              <span class="badge badge--success badge--plain" style="font-size:11px">ATUAL</span>
-            </div>
-            <h3 style="font-size:20px;margin-top:10px">R$ 199</h3>
-            <p class="t-12 muted" style="margin-top:2px">por mês</p>
-            <ul class="checklist-item-list" style="margin-top:14px">
-              <li class="checklist-item"><span class="checklist-item__box checklist-item__box--ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg></span><span>Leads ilimitados</span></li>
-              <li class="checklist-item"><span class="checklist-item__box checklist-item__box--ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg></span><span>Sites ilimitados + domínio</span></li>
-              <li class="checklist-item"><span class="checklist-item__box checklist-item__box--ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg></span><span>8 assentos</span></li>
-              <li class="checklist-item"><span class="checklist-item__box checklist-item__box--ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg></span><span>Extensão e API</span></li>
-            </ul>
-            <button class="btn btn--primary btn--block mt-16" disabled>Seu plano</button>
-          </article>
-
-          <article class="card card--polished" style="padding:22px">
-            <div class="badge badge--neutral badge--plain">Business</div>
-            <h3 style="font-size:20px;margin-top:10px">R$ 499</h3>
-            <p class="t-12 muted" style="margin-top:2px">por mês</p>
-            <ul class="checklist-item-list" style="margin-top:14px">
-              <li class="checklist-item"><span class="checklist-item__box checklist-item__box--ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg></span><span>Até 25 assentos</span></li>
-              <li class="checklist-item"><span class="checklist-item__box checklist-item__box--ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg></span><span>White label e subdomínios</span></li>
-              <li class="checklist-item"><span class="checklist-item__box checklist-item__box--ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg></span><span>Consultor dedicado</span></li>
-            </ul>
-            <button class="btn btn--outline btn--block mt-16" id="btn-falar-vendas" data-toast="Upgrade solicitado|Nosso time entra em contato em breve.">Falar com vendas</button>
-          </article>
         </div>
       </div>
     </main>
@@ -608,13 +424,6 @@
         document.getElementById('sites-count').textContent = (me.sitesCount || 0) + ' publicados';
         document.getElementById('contratos-count').textContent = (me.contractsCount || 0) + ' ativos';
 
-        // Plano stats
-        document.getElementById('stat-leads').innerHTML = (me.leadsCount || 0) + ' <span class="t-12 muted">/ ilimitado</span>';
-        document.getElementById('stat-sites').innerHTML = (me.sitesCount || 0) + ' <span class="t-12 muted">/ ilimitado</span>';
-        document.getElementById('stat-assentos').innerHTML = (me.seatsUsed || 0) + ' <span class="t-12 muted">/ ' + (me.seatsTotal || 8) + '</span>';
-        document.getElementById('stat-proxima').textContent = 'R$ ' + (me.monthlyPrice || 199);
-        document.getElementById('plano-detalhes').textContent = 'R$ ' + (me.monthlyPrice || 199) + '/mês · renova em ' + (me.renewalAt ? D.data(me.renewalAt) : '—');
-
         // 2FA
         document.getElementById('toggle-2fa').checked = !!me.twoFactorEnabled;
         update2FABadge();
@@ -675,8 +484,6 @@
           });
         });
 
-        btnAvatarChange.addEventListener('click', function() { avatarInput.click(); });
-
         // Reset form
         document.getElementById('btn-perfil-reset').addEventListener('click', function() {
           formPerfil.reset();
@@ -699,7 +506,6 @@
           var conf = document.getElementById('s-conf').value;
           if (nova !== conf) { window.Prospecta.toast("Senhas diferentes", "As senhas não conferem."); return; }
           if (nova.length < 8) { window.Prospecta.toast("Senha curta", "Mínimo 8 caracteres."); return; }
-          // Simulate password change
           D.atualizarUsuario(me.id, { passwordChangedAt: new Date().toISOString() }).then(function() {
             document.getElementById('senha-alterada').textContent = 'Última alteração agora';
             formSenha.reset();
@@ -739,10 +545,6 @@
           }
         });
 
-        // Faturas / Upgrade
-        document.getElementById('btn-faturas').addEventListener('click', function() { window.Prospecta.toast("Faturas", "Suas faturas foram enviadas por e-mail."); });
-        document.getElementById('btn-upgrade').addEventListener('click', function() { window.Prospecta.toast("Upgrade", "O plano Business será ativado após pagamento."); });
-        document.getElementById('btn-falar-vendas').addEventListener('click', function() { window.Prospecta.toast("Solicitado", "Nosso time entra em contato em breve."); });
       });
 
       function updateUserUI(me) {
@@ -755,10 +557,6 @@
         if (me.avatar) {
           document.querySelectorAll('.sidebar__foot .avatar, #sidebar-avatar, .user-menu .avatar, #topbar-avatar').forEach(function(el){ el.style.backgroundImage = 'url(' + me.avatar + ')'; el.textContent = ''; });
         }
-
-        // Sync to dashboard
-        var dashNome = document.getElementById('dashboard-nome');
-        if (dashNome && me.nome) dashNome.textContent = me.nome;
       }
 
       // Listen for updates

@@ -601,6 +601,24 @@ body.nav-open .overlay { opacity: 1; visibility: visible; }
   gap: 10px;
 }
 
+.card--polished {
+  background: linear-gradient(145deg, var(--surface), var(--surface-2));
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+}
+.card--polished .card__head {
+  border-bottom: 1px solid var(--border);
+  background: var(--surface-2);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}
+.card--polished .card__body { padding: 22px; }
+.card--polished .card__body--flush { padding: 0; }
+.card--polished .card__foot {
+  background: var(--surface-2);
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+}
+
 /* ---------- Grids ---------- */
 .grid { display: grid; gap: 18px; }
 .grid--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }

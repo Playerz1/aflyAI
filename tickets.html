@@ -28,7 +28,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>
         Painel admin
       </a>
-      <a class="nav__item" href="tickets.html" data-nav="tickets">
+      <a class="nav__item is-active" href="tickets.html" data-nav="tickets">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M8 9h8M8 13h5"/></svg>
         Tickets <span class="nav__badge" data-badge-tickets>4</span>
       </a>
@@ -319,6 +319,7 @@
 
           tbody.innerHTML = filtrados.map(function(t){
             var nl = D.naoLidas(t);
+            // Use onclick directly for more reliable click handling
             return '<tr data-status="' + t.status + '">' +
               '<td class="num">#' + t.id + '</td>' +
               '<td>' +
@@ -336,7 +337,7 @@
               '<td><span class="st ' + classStatus[t.status] + '">' + rotulosStatus[t.status] + '</span></td>' +
               '<td class="t-12 muted">' + D.haQuanto(t.atualizado || t.criado) + '</td>' +
               '<td>' +
-                '<button class="icon-btn" data-ticket-open="' + t.id + '" aria-label="Abrir ticket" title="Abrir">' +
+                '<button class="icon-btn" onclick="window.abrirTicketModal(' + t.id + ')" aria-label="Abrir ticket" title="Abrir">' +
                   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="m9 15 2 2 4-4"/></svg>' +
                 '</button>' +
                 (nl ? '<span class="t-11" style="color:var(--danger);margin-left:4px;font-weight:700">' + nl + '</span>' : '') +
@@ -354,8 +355,18 @@
           }).join('');
         }
 
+        // Global function to open ticket modal - more reliable than delegated events
+        window.abrirTicketModal = function(id) {
+          var t = D.tickets().find(function(x){ return Number(x.id) === id; });
+          if (t) abrirModalTicket(t);
+        };
+
         function abrirModalTicket(t) {
           var modal = document.getElementById('modal-ticket');
+          if (!modal) {
+            console.error('Modal ticket not found');
+            return;
+          }
           modal.querySelector('[data-t-id]').textContent = t.id;
           modal.querySelector('[data-t-assunto]').textContent = t.assunto;
           modal.querySelector('[data-t-cliente]').textContent = t.cliente.nome;
@@ -398,18 +409,15 @@
             });
           };
 
-          window.Prospecta.openModal('modal-ticket');
-        }
-
-        // Delegated click para abrir ticket
-        tbody.addEventListener('click', function(e){
-          var btn = e.target.closest('[data-ticket-open]');
-          if (btn) {
-            var id = Number(btn.getAttribute('data-ticket-open'));
-            var t = D.tickets().find(function(x){ return Number(x.id) === id; });
-            if (t) abrirModalTicket(t);
+          // Open modal using Prospecta helper
+          if (window.Prospecta && window.Prospecta.openModal) {
+            window.Prospecta.openModal('modal-ticket');
+          } else {
+            // Fallback: manually add is-open class
+            modal.classList.add('is-open');
+            document.body.style.overflow = 'hidden';
           }
-        });
+        }
 
         // Novo ticket
         formNovo.addEventListener('submit', function(e){
