@@ -13,4 +13,9 @@ for (const name of fs.readdirSync(root)) {
 }
 const assets = path.join(root, 'assets');
 if (fs.existsSync(assets)) fs.cpSync(assets, path.join(out, 'assets'), { recursive: true });
+
+// Copia as funções serverless da API para o output directory
+const apiDir = path.join(root, 'api');
+if (fs.existsSync(apiDir)) fs.cpSync(apiDir, path.join(out, 'api'), { recursive: true });
+
 console.log('static output ready:', out);
