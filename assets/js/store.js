@@ -388,6 +388,80 @@ window.Dados = (function () {
   // cross-tab refresh hint (local mode / general)
   window.addEventListener('storage', function(){ emit('storage'); });
 
+  // ---- Recuperação de senha (token com validade; e-mail preparado via env, sem credenciais no código) ----
+  var K_RECOVERY = "prospecta:recovery";
+  var RECOVERY_VALIDITY_MS = 60 * 60 * 1000; // 1 hora
+
+  function gerarToken() {
+    var arr = new Uint8Array(24);
+    if (typeof crypto !== 'undefined' && crypto.getRandomValues) crypto.getRandomValues(arr);
+    else for (var i = 0; i < 24; i++) arr[i] = Math.floor(Math.random() * 256);
+    var token = '';
+    var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~';
+    for (var i = 0; i < arr.length; i++) token += chars[arr[i] % chars.length];
+    return token;
+  }
+
+  function lerRecovery() {
+    try { var raw = localStorage.getItem(K_RECOVERY); var list = raw ? JSON.parse(raw) : null; return Array.isArray(list) ? list : []; } catch (e) { return []; }
+  }
+  function gravarRecovery(list) { try { localStorage.setItem(K_RECOVERY, JSON.stringify(list)); } catch (e) {} }
+
+  async function solicitarRecuperacaoSenha(email) {
+    email = String(email || '').trim().toLowerCase();
+    var me = state.users.filter(function (u) { return String(u.email || '').toLowerCase() === email; })[0] || state.me;
+    var alvo = me ? me.email : email;
+    var list = lerRecovery();
+    list = list.filter(function (r) { return String(r.email || '').toLowerCase() !== email || !r.used; });
+    var token = gerarToken();
+    list.push({ email: alvo, token: token, expiresAt: Date.now() + RECOVERY_VALIDITY_MS, used: false, criado: new Date().toISOString() });
+    gravarRecovery(list);
+    var resetUrl = (typeof location !== 'undefined' ? location.origin + location.pathname.replace('recuperar.html', 'recuperar.html') : '') + '?token=' + token;
+    var gmailUser = (typeof process !== 'undefined' && process.env && process.env.GMAIL_USER) || '';
+    var gmailPass = (typeof process !== 'undefined' && process.env && process.env.GMAIL_APP_PASSWORD) || '';
+    if (gmailUser && gmailPass) {
+      console.log('[Recuperação] SMTP Gmail configurado para ' + gmailUser + ' — enviar para ' + alvo + ' link: ' + resetUrl);
+    }
+    console.log('[Recuperação] Token gerado para ' + alvo + ' (expira em 1h). Link dev: ' + resetUrl);
+    return { ok: true, email: alvo };
+  }
+
+  async function redefinirSenha(token, novaSenha) {
+    if (!token || !novaSenha || String(novaSenha).length < 8) throw new Error('Token ou senha inválidos.');
+    var list = lerRecovery();
+    var rec = list.find(function (r) { return r.token === token && !r.used; }) || null;
+    if (!rec) throw new Error('Token inválido ou já utilizado.');
+    if (Date.now() > rec.expiresAt) {
+      rec.used = true;
+      gravarRecovery(list);
+      throw new Error('Token expirado. Solicite um novo link.');
+    }
+    var email = String(rec.email || '').toLowerCase();
+    var user = state.users.filter(function (u) { return String(u.email || '').toLowerCase() === email; })[0];
+    if (!user) throw new Error('Usuário não encontrado.');
+    if (state.mode === 'api') {
+      var r = await api('/api/auth/reset-password', { method: 'POST', body: { token: token, password: String(novaSenha) } });
+      if (r && r.user) {
+        var mapped = mapUser(r.user);
+        state.users = state.users.map(function (x) { return (x._id === mapped._id || x.id === mapped.id) ? mapped : x; });
+        if (state.me && String(state.me.email || '').toLowerCase() === email) state.me = mapped;
+        emit('users');
+      }
+      return r;
+    }
+    user.password = String(novaSenha);
+    user.passwordChangedAt = new Date().toISOString();
+    if (state.me && String(state.me.email || '').toLowerCase() === email) {
+      state.me.password = String(novaSenha);
+      state.me.passwordChangedAt = user.passwordChangedAt;
+    }
+    rec.used = true;
+    gravarRecovery(list);
+    if (state.mode === 'local') gravarLocal(K_USERS, state.users);
+    emit('users');
+    return { ok: true };
+  }
+
   return {
     // sync (cache)
     usuarios: usuarios, tickets: tickets, ehAdmin: ehAdmin, eu: eu,
@@ -417,6 +491,8 @@ window.Dados = (function () {
       state.activities = state.activities.map(function(a) { return Object.assign({}, a, { read: true }); });
       emit('activities');
     },
+    solicitarRecuperacaoSenha: solicitarRecuperacaoSenha,
+    redefinirSenha: redefinirSenha
   };
 })();
 

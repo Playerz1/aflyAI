@@ -11,44 +11,12 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/global.css">
-  <style>
-    :root {
-      --primary: #2563eb;
-      --primary-soft: #1e3a5f;
-      --primary-glow: #3b82f6;
-      --danger: #ef4444;
-      --danger-soft: #2d0a0a;
-      --warn: #f59e0b;
-      --warn-soft: #2d1a00;
-      --success: #10b981;
-      --success-soft: #062515;
-      --info: #06b6d4;
-      --info-soft: #082a33;
-    }
-    body[data-page="tickets"] .sidebar__brand .brand__logo { background: linear-gradient(135deg, #2563eb, #1d4ed8); }
-    body[data-page="tickets"] .kpi__icon--primary { background: linear-gradient(135deg, var(--primary-soft), var(--primary)); color: var(--primary-glow); }
-    body[data-page="tickets"] .kpi__icon--warn { background: linear-gradient(135deg, var(--warn-soft), #3d2a00); color: var(--warn); }
-    body[data-page="tickets"] .kpi__icon--success { background: linear-gradient(135deg, var(--success-soft), #064e2b); color: var(--success); }
-    body[data-page="tickets"] .kpi__icon--info { background: linear-gradient(135deg, var(--info-soft), #0e4a54); color: var(--info); }
-    body[data-page="tickets"] .badge--primary { background: var(--primary-soft); color: var(--primary-glow); border-color: var(--primary); }
-    body[data-page="tickets"] .badge--primary.badge--plain { background: transparent; color: var(--primary-glow); }
-    body[data-page="tickets"] .btn--primary { background: linear-gradient(135deg, var(--primary), #1d4ed8); }
-    body[data-page="tickets"] .btn--primary:hover { box-shadow: 0 4px 16px rgba(37, 99, 235, 0.4); }
-    body[data-page="tickets"] .avatar--primary { background: var(--primary-soft); color: var(--primary-glow); }
-    body[data-page="tickets"] .st--aberto { background: var(--info-soft); color: var(--info); }
-    body[data-page="tickets"] .st--respondido { background: var(--warn-soft); color: var(--warn); }
-    body[data-page="tickets"] .st--resolvido { background: var(--success-soft); color: var(--success); }
-    body[data-page="tickets"] .modal__panel { border: 1px solid var(--border); }
-    body[data-page="tickets"] .card--chat { background: linear-gradient(145deg, #0d1117, #161b22); border-color: #2563eb33; }
-    body[data-page="tickets"] .msg-suporte { background: linear-gradient(145deg, #1e3a5f, #162742); border-color: #2563eb33; }
-    body[data-page="tickets"] .msg-cliente { background: linear-gradient(145deg, #2d0a0a, #1a0505); border-color: #ef444433; }
-  </style>
 </head>
 <body data-page="tickets" data-role="admin">
 
   <aside class="sidebar" id="sidebar">
     <a class="sidebar__brand" href="admin.html">
-      <span class="brand__logo" style="background:linear-gradient(135deg,#2563eb,#1d4ed8)">A</span>
+      <span class="brand__logo">A</span>
       <span>
         <span class="brand__name">Prospecta</span>
         <span class="brand__plan">Painel admin</span>
@@ -177,57 +145,50 @@
         <h3 id="modal-ticket-title" class="modal__title">Ticket #<span data-t-id></span></h3>
         <button class="icon-btn" data-modal-close aria-label="Fechar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
       </div>
-      <div class="modal__body" style="padding:20px">
-        <div class="grid grid--2" style="gap:16px;margin-bottom:16px">
-          <div class="field">
-            <label class="field__label">Status</label>
-            <select class="field__input" data-t-status>
-              <option value="aberto">Aberto</option>
-              <option value="respondido">Respondido</option>
-              <option value="resolvido">Resolvido</option>
-            </select>
+      <div class="modal__body" style="padding:0;display:flex;flex-direction:column;min-height:0">
+        <!-- Cabeçalho do ticket -->
+        <div style="padding:16px 20px;border-bottom:1px solid var(--border);flex-shrink:0;background:var(--surface-2)">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px">
+            <div style="min-width:0;flex:1">
+              <div style="display:flex;gap:8px;align-items:center">
+                <span class="t-12 muted" style="text-transform:uppercase;letter-spacing:.08em;font-weight:700">Ticket #<span data-t-id></span></span>
+                <span class="st st--aberto" data-t-status-badge></span>
+              </div>
+              <div class="t-14" style="font-weight:600" data-t-assunto></div>
+              <div class="t-12 muted" data-t-meta style="margin-top:2px"></div>
+            </div>
+            <div style="display:flex;gap:8px;flex-shrink:0">
+              <select class="select" data-t-status style="width:125px">
+                <option value="aberto">Aberto</option>
+                <option value="respondido">Respondido</option>
+                <option value="resolvido">Resolvido</option>
+              </select>
+              <select class="select" data-t-prioridade style="width:115px">
+                <option value="baixa">Baixa</option>
+                <option value="media">Média</option>
+                <option value="alta">Alta</option>
+              </select>
+            </div>
           </div>
-          <div class="field">
-            <label class="field__label">Prioridade</label>
-            <select class="field__input" data-t-prioridade>
-              <option value="baixa">Baixa</option>
-              <option value="media">Média</option>
-              <option value="alta">Alta</option>
-            </select>
-          </div>
-        </div>
-        <div class="field" style="margin-bottom:16px">
-          <label class="field__label">Assunto</label>
-          <div class="t-14" style="font-weight:600" data-t-assunto></div>
-        </div>
-        <div class="field" style="margin-bottom:20px">
-          <label class="field__label">Cliente</label>
-          <div class="row" style="gap:10px;align-items:center">
+          <div class="row" style="gap:10px;align-items:center;margin-top:8px">
             <span class="avatar" data-t-avatar></span>
-            <div>
+            <div style="min-width:0;flex:1">
               <div class="t-14" style="font-weight:600" data-t-cliente></div>
               <div class="t-12 muted" data-t-email></div>
             </div>
+            <div class="t-12 muted" style="flex-shrink:0">Descrição:</div>
+            <div style="flex:1;min-width:0"><div class="t-13" style="white-space:pre-wrap;color:var(--text-soft);overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical" data-t-descricao></div></div>
           </div>
         </div>
-        <div class="field" style="margin-bottom:20px">
-          <label class="field__label">Descrição</label>
-          <div class="t-14" style="white-space:pre-wrap;color:var(--text-soft)" data-t-descricao></div>
-        </div>
-        <div style="border-top:1px solid var(--border);padding-top:16px;margin-bottom:16px">
-          <div class="row--between" style="margin-bottom:12px">
-            <h4 style="font-size:14px;font-weight:700">Conversa</h4>
-          </div>
-          <div data-t-mensagens style="max-height:300px;overflow:auto;display:flex;flex-direction:column;gap:12px"></div>
-        </div>
-        <div class="row" style="gap:10px;align-items:flex-end">
-          <div class="field" style="flex:1">
-            <label class="field__label">Responder</label>
-            <textarea class="field__input" rows="2" data-t-resposta placeholder="Digite sua resposta..."></textarea>
-          </div>
-          <button class="btn btn--primary" style="height:40px" data-t-enviar>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;margin-right:6px"><path d="M22 2 11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7"/></svg>
-            Enviar
+
+        <!-- Conversa (mesma organização do chat mobile) -->
+        <div data-t-mensagens style="padding:16px 20px;overflow-y:auto;max-height:330px;display:flex;flex-direction:column;gap:10px;background:var(--surface-2);flex:1;min-height:0"></div>
+
+        <!-- Composer (mesmo do chat mobile) -->
+        <div style="padding:14px 20px;border-top:1px solid var(--border);background:var(--surface);flex-shrink:0;display:flex;gap:10px;align-items:flex-end">
+          <textarea class="textarea" rows="1" data-t-resposta placeholder="Escreva uma resposta…" style="flex:1;min-height:44px;max-height:120px;height:44px;padding:11px 12px;resize:none;border-radius:var(--radius-sm)"></textarea>
+          <button class="admin-conv__send" data-t-enviar aria-label="Enviar">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7"/></svg>
           </button>
         </div>
       </div>
@@ -322,18 +283,18 @@
           modal.querySelector('[data-t-descricao]').textContent = t.descricao || '—';
           modal.querySelector('[data-t-status]').value = t.status;
           modal.querySelector('[data-t-prioridade]').value = t.prioridade;
+          var sb = modal.querySelector('[data-t-status-badge]');
+          if (sb) { sb.textContent = { aberto:'Aberto', respondido:'Respondido', resolvido:'Resolvido' }[t.status] || t.status; sb.className = 'st st--' + t.status; }
 
-          // Mensagens - styled chat
+          // Mensagens - mesmo padrão do chat mobile (msg--out = cliente à direita, msg--in = suporte à esquerda)
           var msgsBox = modal.querySelector('[data-t-mensagens]');
           msgsBox.innerHTML = (t.mensagens || []).map(function(m){
             var isCliente = m.autor === 'cliente';
-            return '<div class="card ' + (isCliente ? 'msg-cliente' : 'msg-suporte') + '" style="padding:14px 16px;max-width:85%;align-self:' + (isCliente ? 'flex-start' : 'flex-end') + ';border-radius:18px 18px ' + (isCliente ? '4px' : '18px') + ' ' + (isCliente ? '18px' : '4px') + ';">' +
-              '<div class="row--between" style="margin-bottom:6px;gap:8px">' +
-                '<span class="t-12" style="font-weight:600;color:' + (isCliente ? 'var(--danger)' : 'var(--primary-glow)') + ';font-size:11px;text-transform:uppercase;letter-spacing:.5px">' + (isCliente ? 'Cliente' : 'Suporte') + '</span>' +
-                '<span class="t-11 muted" style="font-size:10px">' + D.haQuanto(m.em) + '</span>' +
-              '</div>' +
-              '<div class="t-14" style="white-space:pre-wrap;color:' + (isCliente ? 'var(--text)' : 'var(--text)') + ';line-height:1.5">' + D.esc(m.texto) + '</div>' +
-            '</div>';
+            var quem = isCliente ? 'Cliente' : 'Suporte';
+            return '<div class="msg ' + (isCliente ? 'msg--out' : 'msg--in') + '">' +
+              D.esc(m.texto) +
+              '<span class="msg__meta">' + quem + ' · ' + D.haQuanto(m.em) + '</span>' +
+              '</div>';
           }).join('') || '<div class="t-13 muted" style="align-self:center;padding:20px">Sem mensagens ainda.</div>';
 
           // Auto-scroll to bottom
