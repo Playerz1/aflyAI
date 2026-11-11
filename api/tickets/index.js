@@ -188,4 +188,139 @@ module.exports = async function handler(req, res) {
   } catch (err) { return handleError(res, err); }
 };
 
+/* ---------- SSE stream (incorporado de stream.js) ---------- */
+async function handleStream(req, res) {
+  if (req.method !== 'GET') return methodNotAllowed(res, ['GET']);
+
+  const user = await requireAuth(req, res);
+  if (!user) return;
+
+  res.writeHead(200, {
+    'Content-Type': 'text/event-stream',
+    'Cache-Control': 'no-cache, no-transform',
+    'Connection': 'keep-alive',
+    'X-Accel-Buffering': 'no',
+  });
+
+  res.write('data: {"type":"hello"}\n\n');
+
+  let interval;
+  try {
+    interval = setInterval(async () => {
+      try {
+        const agora = new Date();
+        const desde = new Date(agora.getTime() - 30000);
+        let where = { updatedAt: { gte: desde } };
+        if (user.role !== 'admin') {
+          where = { ...where, createdById: user.id };
+        }
+        const tickets = await prisma.ticket.findMany({
+          where,
+          take: 5,
+          orderBy: { updatedAt: 'desc' },
+          select: { id: true, updatedAt: true },
+        });
+        if (tickets.length) {
+          res.write('data: ' + JSON.stringify({ type: 'ticket_update', ticketId: tickets[0].id }) + '\n\n');
+        }
+      } catch (e) {}
+    }, 5000);
+
+    req.on('close', () => {
+      clearInterval(interval);
+      res.end();
+    });
+  } catch (e) {
+    res.end();
+  }
+}
+
+/* ---------- Roteador principal (atualizado para incluir stream) ---------- */
+module.exports = async function handler(req, res) {
+  const url = req.url || '';
+
+  // Detecção de stream SSE
+  if (url.includes('/stream') || url.includes('stream')) {
+    return handleStream(req, res);
+  }
+
+  try {
+    const user = await requireAuth(req, res);
+    if (!user) return;
+    const isAdmin = user.role === 'admin';
+    const action = one(req.query.action);
+    const rawId = one(req.query.id);
+    const id = rawId ? parseInt(rawId, 10) : null;
+
+    if (req.method === 'GET') {
+      if (id) {
+        const found = await loadScoped(user, id);
+        if (found.error === 404) return json(res, 404, { error: 'Ticket não encontrado' });
+        if (found.error === 403) return json(res, 403, { error: 'Acesso negado' });
+        await prisma.ticketMessage.updateMany({
+          where: { ticketId: id, ...(isAdmin ? { authorType: 'cliente' } : { authorType: { in: ['suporte', 'admin'] } }), read: false },
+          data: { read: true },
+        });
+        const fresh = await prisma.ticket.findUnique({ where: { id }, include: { messages: { orderBy: { createdAt: 'asc' } } } });
+        return json(res, 200, { ticket: toClient(fresh) });
+      }
+      const where = isAdmin ? {} : { createdById: user.id };
+      const tickets = await prisma.ticket.findMany({ where, include: { messages: { orderBy: { createdAt: 'asc' } } }, orderBy: { updatedAt: 'desc' } });
+      return json(res, 200, { tickets: tickets.map(toClient) });
+    }
+
+    if (req.method === 'POST') {
+      if (id && action === 'message') return enviarMensagem(req, res, user, id);
+      const body = createSchema.parse(normalizeTicketBody(await readJson(req)));
+      const reasonLabel = body.reasonLabel || MOTIVOS[body.reason] || 'Outro assunto';
+      const text = body.description ? `${body.subject}\n\n${body.description}` : body.subject;
+      const ticket = await prisma.ticket.create({
+        data: {
+          subject: body.subject,
+          reason: body.reason,
+          reasonLabel,
+          priority: body.priority,
+          status: body.status,
+          origin: body.origin,
+          createdById: user.id,
+          creatorName: user.name,
+          creatorInitials: user.initials || initials(user.name),
+          creatorEmail: user.email,
+          creatorPlan: user.plan || '',
+          messages: { create: [{ authorId: user.id, authorType: 'cliente', text, read: true }] },
+        },
+        include: { messages: { orderBy: { createdAt: 'asc' } } },
+      });
+      return json(res, 201, { ticket: toClient(ticket) });
+    }
+
+    if (req.method === 'PATCH' || req.method === 'PUT') {
+      if (!id) return json(res, 400, { error: 'ID inválido' });
+      const found = await loadScoped(user, id);
+      if (found.error === 404) return json(res, 404, { error: 'Ticket não encontrado' });
+      if (found.error === 403) return json(res, 403, { error: 'Acesso negado' });
+
+      const patchRaw = await readJson(req);
+      const body = patchSchema.parse({
+        status: patchRaw.status,
+        priority: patchRaw.priority !== undefined ? patchRaw.priority : patchRaw.prioridade,
+        subject: patchRaw.subject !== undefined ? patchRaw.subject : patchRaw.assunto,
+      });
+      const data = {};
+      if (body.status !== undefined) {
+        if (!isAdmin && body.status !== 'aberto') return json(res, 403, { error: 'Acesso negado' });
+        data.status = body.status;
+      }
+      if (body.priority !== undefined) { if (!isAdmin) return json(res, 403, { error: 'Acesso negado' }); data.priority = body.priority; }
+      if (body.subject !== undefined) { if (!isAdmin) return json(res, 403, { error: 'Acesso negado' }); data.subject = body.subject; }
+      data.updatedAt = new Date();
+      const ticket = await prisma.ticket.update({ where: { id }, data, include: { messages: { orderBy: { createdAt: 'asc' } } } });
+      return json(res, 200, { ticket: toClient(ticket) });
+    }
+
+    return methodNotAllowed(res, ['GET', 'POST', 'PATCH', 'PUT']);
+  } catch (err) { return handleError(res, err); }
+};
+
 module.exports.toClient = toClient;
+module.exports.handleStream = handleStream;
