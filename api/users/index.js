@@ -1,4 +1,4 @@
-const { json, handleError, methodNotAllowed } = require('../../lib/http');
+const { json, handleError, methodNotAllowed, readJson } = require('../../lib/http');
 const { requireAdmin } = require('../../lib/auth');
 const prisma = require('../../lib/prisma');
 const { z } = require('zod');
@@ -10,8 +10,8 @@ module.exports = async function handler(req, res) {
     const user = await requireAdmin(req, res);
     if (!user) return;
     const users = await prisma.user.findMany({
-      orderBy: { criado: 'desc' },
-      select: { id: true, email: true, nome: true, role: true, status: true, plano: true, avatar: true, criado: true, ultimoLogin: true },
+      orderBy: { createdAt: 'desc' },
+      select: { id: true, email: true, name: true, role: true, status: true, plan: true, avatar: true, createdAt: true, lastLoginAt: true },
     });
     return json(res, 200, { users });
   } catch (err) { return handleError(res, err); }
@@ -21,8 +21,8 @@ module.exports = async function handler(req, res) {
 const patchSchema = z.object({
   nome: z.string().min(1).max(200).optional(),
   email: z.string().email().optional(),
-  role: z.enum(['admin', 'user']).optional(),
-  status: z.enum(['ativo', 'bloqueado', 'convite']).optional(),
+    role: z.enum(['admin', 'member']).optional(),
+    status: z.enum(['active', 'blocked', 'invite']).optional(),
   plano: z.string().optional(),
   avatar: z.string().optional().nullable(),
 });
@@ -41,11 +41,3 @@ module.exports.patch = async function handlerPatch(req, res) {
     return json(res, 200, { user: atualizado });
   } catch (err) { return handleError(res, err); }
 };
-
-function readJson(req) {
-  return new Promise((resolve, reject) => {
-    let data = '';
-    req.on('data', chunk => { data += chunk; });
-    req.on('end', () => { try { resolve(JSON.parse(data || '{}')); } catch (e) { reject(e); } });
-  });
-}

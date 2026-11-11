@@ -1,4 +1,4 @@
-const { json, handleError, methodNotAllowed, getSessionUser, requireAdmin } = require('../../lib/http');
+const { json, handleError, methodNotAllowed } = require('../../lib/http');
 const { requireAuth } = require('../../lib/auth');
 const prisma = require('../../lib/prisma');
 
@@ -28,7 +28,7 @@ module.exports = async function handler(req, res) {
         const desde = new Date(agora.getTime() - 30000);
         let where = { updatedAt: { gte: desde } };
         if (user.role !== 'admin') {
-          where = { ...where, clienteEmail: user.email };
+          where = { ...where, createdById: user.id };
         }
         const tickets = await prisma.ticket.findMany({
           where,
