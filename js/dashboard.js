@@ -1,6 +1,7 @@
 /* =========================================================
    PROSPECTA IA — js/dashboard.js
    Dashboard financeiro: KPIs, gráficos SVG e listas recentes
+   Com skeleton loading, filtro de período funcional e dados reais
    ========================================================= */
 
 (function () {
@@ -35,6 +36,19 @@
   };
 
   var period = "30d";
+  var isLoading = false;
+
+  /* ---------- Skeleton helpers ---------- */
+  function showSkeleton(el, count) {
+    if (!el) return;
+    var html = '';
+    for (var i = 0; i < count; i++) {
+      html += '<div class="list-row skeleton" style="padding:14px 0;border-bottom:none"><div class="skeleton" style="width:36px;height:36px;border-radius:50%;margin-right:14px"></div><div style="flex:1;min-width:0"><div class="skeleton" style="width:60%;height:16px;margin-bottom:6px"></div><div class="skeleton" style="width:40%;height:14px"></div></div><div class="skeleton" style="width:80px;height:16px"></div></div>';
+    }
+    el.innerHTML = html;
+  }
+
+  function hideSkeleton() {}
 
   /* ---------- Helpers ---------- */
   function fmtMoney(v) { return P.dinheiro(v); }
@@ -43,6 +57,14 @@
   function parseDateSafe(iso) {
     var d = new Date(iso);
     return isNaN(d) ? null : d;
+  }
+
+  function daysAgo(iso, days) {
+    if (!iso) return false;
+    var d = new Date(iso);
+    if (isNaN(d)) return false;
+    var now = new Date();
+    return (now - d) <= days * 24 * 60 * 60 * 1000;
   }
 
   function groupByMonth(data, dateField, valueField) {
@@ -89,9 +111,9 @@
     grad.setAttribute("x1", "0"); grad.setAttribute("y1", "0");
     grad.setAttribute("x2", "0"); grad.setAttribute("y2", "1");
     var stop1 = document.createElementNS(svgNS, "stop");
-    stop1.setAttribute("offset", "0%"); stop1.setAttribute("stop-color", options.color || "#1677ff"); stop1.setAttribute("stop-opacity", "0.25");
+    stop1.setAttribute("offset", "0%"); stop1.setAttribute("stop-color", options.color || "#3985FF"); stop1.setAttribute("stop-opacity", "0.25");
     var stop2 = document.createElementNS(svgNS, "stop");
-    stop2.setAttribute("offset", "100%"); stop2.setAttribute("stop-color", options.color || "#1677ff"); stop2.setAttribute("stop-opacity", "0");
+    stop2.setAttribute("offset", "100%"); stop2.setAttribute("stop-color", options.color || "#3985FF"); stop2.setAttribute("stop-opacity", "0");
     grad.appendChild(stop1); grad.appendChild(stop2);
     defs.appendChild(grad);
     svg.appendChild(defs);
@@ -119,7 +141,7 @@
     });
     linePath.setAttribute("d", ld);
     linePath.setAttribute("fill", "none");
-    linePath.setAttribute("stroke", options.color || "#1677ff");
+    linePath.setAttribute("stroke", options.color || "#3985FF");
     linePath.setAttribute("stroke-width", "2");
     linePath.setAttribute("stroke-linecap", "round");
     linePath.setAttribute("stroke-linejoin", "round");
@@ -133,7 +155,7 @@
       circle.setAttribute("cx", x.toFixed(1));
       circle.setAttribute("cy", y.toFixed(1));
       circle.setAttribute("r", "3");
-      circle.setAttribute("fill", options.color || "#1677ff");
+      circle.setAttribute("fill", options.color || "#3985FF");
       svg.appendChild(circle);
     });
 
@@ -158,8 +180,16 @@
 
   /* ---------- Carregar dados ---------- */
   async function loadDashboard() {
+    if (isLoading) return;
+    isLoading = true;
+
+    // Show skeletons
+    showSkeleton(els.recentSales, 5);
+    showSkeleton(els.recentClients, 5);
+    showSkeleton(els.recentActivities, 5);
+    showSkeleton(els.recentProspects, 5);
+
     try {
-      // Tenta carregar da API; se falhar (sem backend), usa dados vazios
       var payments = [], contracts = [], leads = [], users = [], activities = [];
 
       try {
@@ -192,55 +222,79 @@
       renderLists(payments, contracts, leads, users, activities);
     } catch (err) {
       console.error("Dashboard error", err);
+    } finally {
+      isLoading = false;
     }
   }
 
   function renderKPIs(payments, contracts, leads, users) {
-    var received = payments.filter(function (p) { return p.status === "pago" || p.status === "recebido"; });
+    // Apply period filter
+    var periodDays = { today: 1, "7d": 7, "30d": 30, "90d": 90, "12m": 365 }[period] || 30;
+    var now = new Date();
+
+    var received = payments.filter(function (p) {
+      return (p.status === "pago" || p.status === "recebido") && daysAgo(p.paidAt || p.createdAt, periodDays);
+    });
     var revenue = received.reduce(function (s, p) { return s + Number(p.value || 0); }, 0);
 
-    var activeContracts = contracts.filter(function (c) { return c.status === "ativo" || c.status === "active"; });
+    var activeContracts = contracts.filter(function (c) {
+      return (c.status === "ativo" || c.status === "active") && daysAgo(c.createdAt, periodDays);
+    });
     var mrr = activeContracts.reduce(function (s, c) { return s + Number(c.value || 0); }, 0);
 
-    var totalSales = contracts.length;
+    var totalSales = contracts.filter(function (c) { return daysAgo(c.createdAt, periodDays); }).length;
     var avgTicket = totalSales > 0 ? revenue / totalSales : 0;
 
-    var activeClients = users.filter(function (u) { return u.status === "ativo" || u.status === "active"; }).length;
+    var activeClients = users.filter(function (u) {
+      return (u.status === "ativo" || u.status === "active") && daysAgo(u.createdAt, periodDays);
+    }).length;
 
-    var totalLeads = leads.length;
-    var convertedLeads = leads.filter(function (l) { return l.status === "fechado" || l.status === "closed"; }).length;
+    var totalLeads = leads.filter(function (l) { return daysAgo(l.createdAt, periodDays); }).length;
+    var convertedLeads = leads.filter(function (l) {
+      return (l.status === "fechado" || l.status === "closed") && daysAgo(l.createdAt, periodDays);
+    }).length;
     var conversion = totalLeads > 0 ? (convertedLeads / totalLeads) * 100 : 0;
 
     // Previous period for change
-    var prevRevenue = revenue * 0.92; // placeholder real comparison would use date filter
-    var prevMrr = mrr * 0.95;
+    var prevStart = new Date(now.getTime() - periodDays * 2 * 24 * 60 * 60 * 1000);
+    var prevEnd = new Date(now.getTime() - periodDays * 24 * 60 * 60 * 1000);
+    var prevReceived = payments.filter(function (p) {
+      return (p.status === "pago" || p.status === "recebido") &&
+        new Date(p.paidAt || p.createdAt) >= prevStart &&
+        new Date(p.paidAt || p.createdAt) < prevEnd;
+    });
+    var prevRevenue = prevReceived.reduce(function (s, p) { return s + Number(p.value || 0); }, 0);
+
+    var prevContracts = contracts.filter(function (c) {
+      return (c.status === "ativo" || c.status === "active") &&
+        new Date(c.createdAt) >= prevStart && new Date(c.createdAt) < prevEnd;
+    });
+    var prevMrr = prevContracts.reduce(function (s, c) { return s + Number(c.value || 0); }, 0);
 
     els.revenue.textContent = fmtMoney(revenue);
-    els.revenueChange.textContent = ((revenue - prevRevenue) >= 0 ? "+" : "") + ((revenue - prevRevenue) / Math.max(prevRevenue, 1) * 100).toFixed(1).replace(".", ",") + "%";
-    els.revenueChange.className = "kpi__change " + (revenue >= prevRevenue ? "kpi__change--up" : "kpi__change--down");
+    var revChange = prevRevenue > 0 ? ((revenue - prevRevenue) / prevRevenue) * 100 : 0;
+    els.revenueChange.textContent = (revChange >= 0 ? "+" : "") + revChange.toFixed(1).replace(".", ",") + "%";
+    els.revenueChange.className = "kpi__change " + (revChange >= 0 ? "kpi__change--up" : "kpi__change--down");
 
     els.mrr.textContent = fmtMoney(mrr);
-    els.mrrChange.textContent = ((mrr - prevMrr) >= 0 ? "+" : "") + ((mrr - prevMrr) / Math.max(prevMrr, 1) * 100).toFixed(1).replace(".", ",") + "%";
-    els.mrrChange.className = "kpi__change " + (mrr >= prevMrr ? "kpi__change--up" : "kpi__change--down");
+    var mrrChange = prevMrr > 0 ? ((mrr - prevMrr) / prevMrr) * 100 : 0;
+    els.mrrChange.textContent = (mrrChange >= 0 ? "+" : "") + mrrChange.toFixed(1).replace(".", ",") + "%";
+    els.mrrChange.className = "kpi__change " + (mrrChange >= 0 ? "kpi__change--up" : "kpi__change--down");
 
     els.avgTicket.textContent = fmtMoney(avgTicket);
     els.totalSales.textContent = fmtNum(totalSales);
     els.activeClients.textContent = fmtNum(activeClients);
     els.conversion.textContent = conversion.toFixed(1).replace(".", ",") + "%";
 
-    els.summaryOneTime.textContent = fmtMoney(revenue - mrr);
+    els.summaryOneTime.textContent = fmtMoney(Math.max(0, revenue - mrr));
     els.summaryRecurring.textContent = fmtMoney(mrr);
   }
 
   function renderCharts(payments, contracts) {
     var now = new Date();
 
-    // Revenue by month (payments)
-    var revPoints = groupByMonth(payments.filter(function (p) { return p.status === "pago" || p.status === "recebido"; }), "paidAt" || "createdAt", "value");
-    // Use createdAt as fallback for paidAt
-    revPoints = groupByMonth(payments.filter(function (p) { return p.status === "pago" || p.status === "recebido"; }), "paidAt" || "createdAt", "value");
-    // Recompute with correct field
-    revPoints = payments.filter(function (p) { return p.status === "pago" || p.status === "recebido"; }).reduce(function (acc, p) {
+    // Revenue by month (payments) - last 12 months regardless of period for trend
+    var revPoints = payments.filter(function (p) { return p.status === "pago" || p.status === "recebido"; }).reduce(function (acc, p) {
       var d = parseDateSafe(p.paidAt || p.createdAt);
       if (!d) return acc;
       var key = d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0");
@@ -248,7 +302,6 @@
       if (found) found.value += Number(p.value || 0);
       return acc;
     }, []);
-    // Fill missing months
     var revMap = {};
     revPoints.forEach(function (p) { revMap[p.key] = p; });
     var revFinal = [];
@@ -284,22 +337,23 @@
     var totalLeads = leads.length;
     var converted = contracts.length;
 
-    drawAreaChart(els.charts.revenue, revFinal, { id: "rev", color: "#1677ff" });
-    drawAreaChart(els.charts.mrr, mrrFinal, { id: "mrr", color: "#00d4ff" });
+    drawAreaChart(els.charts.revenue, revFinal, { id: "rev", color: "#3985FF" });
+    drawAreaChart(els.charts.mrr, mrrFinal, { id: "mrr", color: "#00D4FF" });
     drawAreaChart(els.charts.salesType, [
-      { label: "Únicas", value: oneTime },
-      { label: "Recorrentes", value: recurring }
-    ], { id: "type", color: "#22d3ee" });
+      { label: "Únicas", value: Math.max(0, oneTime) },
+      { label: "Recorrentes", value: Math.max(0, recurring) }
+    ], { id: "type", color: "#22D3EE" });
     drawAreaChart(els.charts.conversion, [
       { label: "Prospecções", value: totalLeads },
       { label: "Convertidas", value: converted }
-    ], { id: "conv", color: "#10b981" });
+    ], { id: "conv", color: "#10B981" });
   }
 
   function renderLists(payments, contracts, leads, users, activities) {
     // Recent sales (payments received)
+    var periodDays = { today: 1, "7d": 7, "30d": 30, "90d": 90, "12m": 365 }[period] || 30;
     var recentSales = payments
-      .filter(function (p) { return p.status === "pago" || p.status === "recebido"; })
+      .filter(function (p) { return (p.status === "pago" || p.status === "recebido") && daysAgo(p.paidAt || p.createdAt, periodDays); })
       .sort(function (a, b) { return new Date(b.paidAt || b.createdAt) - new Date(a.paidAt || a.createdAt); })
       .slice(0, 5);
     els.recentSales.innerHTML = recentSales.map(function (s) {
@@ -326,7 +380,7 @@
         '<div class="list-row__title">' + P.esc(u.name || u.nome || "Usuário") + '</div>' +
         '<div class="list-row__meta">' + P.esc(u.email) + ' · ' + (u.role === "admin" ? "Admin" : "Cliente") + '</div>' +
         '</div>' +
-        '<span class="status-pill status-pill--active">' + (u.status === "ativo" || u.status === "active" ? "Ativo" : u.status) + '</span>' +
+        '<span class="badge badge--secondary">' + (u.status === "ativo" || u.status === "active" ? "Ativo" : u.status) + '</span>' +
         '</div>';
     }).join("") || '<div style="text-align:center;padding:24px;color:var(--text-muted)">Sem clientes.</div>';
 
@@ -350,7 +404,7 @@
       .sort(function (a, b) { return new Date(b.createdAt) - new Date(a.createdAt); })
       .slice(0, 5)
       .map(function (l) {
-        var statusClass = l.status === "fechado" || l.status === "closed" ? "status-pill--active" : "status-pill--pending";
+        var statusClass = l.status === "fechado" || l.status === "closed" ? "badge--primary" : "badge--secondary";
         var statusLabel = l.status === "fechado" || l.status === "closed" ? "Fechado" : (l.status === "novo" ? "Novo" : l.status);
         return '' +
           '<div class="list-row">' +
@@ -359,7 +413,7 @@
           '<div class="list-row__title">' + P.esc(l.name || l.nome || "Lead") + '</div>' +
           '<div class="list-row__meta">' + P.esc(l.company || l.empresa || "") + ' · ' + P.dataHoraBR(l.createdAt) + '</div>' +
           '</div>' +
-          '<span class="status-pill ' + statusClass + '">' + statusLabel + '</span>' +
+          '<span class="badge ' + statusClass + '">' + statusLabel + '</span>' +
           '</div>';
       }).join("") || '<div style="text-align:center;padding:24px;color:var(--text-muted)">Sem prospecções.</div>';
   }

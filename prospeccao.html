@@ -641,9 +641,21 @@
           <div class="empty-results__text">Ajuste a busca ou selecione outro nicho/localização.</div>
         </div>
 
-        <div style="display: flex; gap: 10px; justify-content: space-between;">
-          <button class="btn btn--outline" id="btn-step-5-prev">Voltar</button>
-          <button class="btn btn--primary" id="btn-step-5-new">Novo projeto</button>
+        <div style="display: flex; gap: 10px; justify-content: space-between; align-items: center;">
+          <div style="display:flex;gap:8px">
+            <button class="btn btn--outline btn--sm" id="btn-view-mybase" title="Ver minha base de estabelecimentos salvos">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;margin-right:6px"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/></svg>
+              Minha Base
+            </button>
+            <button class="btn btn--outline btn--sm" id="btn-export-csv" title="Exportar base para CSV">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;margin-right:6px"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Exportar CSV
+            </button>
+          </div>
+          <div style="display: flex; gap: 10px; justify-content: space-between;">
+            <button class="btn btn--outline" id="btn-step-5-prev">Voltar</button>
+            <button class="btn btn--primary" id="btn-step-5-new">Novo projeto</button>
+          </div>
         </div>
       </div>
 
