@@ -3,193 +3,134 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#0a0a0a">
+  <meta name="theme-color" content="#050609">
   <meta name="robots" content="noindex, nofollow">
   <title>Tickets · Prospecta</title>
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%232563eb'/%3E%3Ctext x='16' y='22' font-family='Arial' font-size='17' font-weight='bold' fill='white' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%233b82f6'/%3E%3Ctext x='16' y='22' font-family='Arial' font-size='17' font-weight='bold' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/global.css">
+  <style>
+    .admin-grid { display: grid; grid-template-columns: 360px minmax(0, 1fr); gap: 18px; align-items: stretch; height: calc(100dvh - var(--topbar-h) - 28px); }
+    .admin-inbox { display: flex; flex-direction: column; background: var(--surface); border: 1px solid var(--border); border-radius: 20px; overflow: hidden; }
+    .admin-inbox__head { display: flex; align-items: center; justify-content: space-between; padding: 18px 22px; border-bottom: 1px solid var(--border); flex-shrink: 0; background: rgba(2,3,5,0.4); }
+    .admin-inbox__head h3 { font-size: 15px; font-weight: 700; color: #fff; }
+    .admin-inbox__search { width: 100%; max-width: 260px; }
+    .admin-inbox__list { flex: 1; overflow-y: auto; min-height: 0; }
+    .ticket-row { display: flex; align-items: flex-start; gap: 12px; padding: 14px 18px; border-bottom: 1px solid var(--border); background: var(--surface); cursor: pointer; transition: all 0.2s; text-decoration: none; color: inherit; }
+    .ticket-row:last-child { border-bottom: none; }
+    .ticket-row:hover { background: var(--surface-2); border-color: var(--border-strong); }
+    .ticket-row.is-selected { background: var(--primary-soft); border-left: 4px solid var(--primary); }
+    .ticket-row__avatar { width: 40px; height: 40px; border-radius: 11px; display: grid; place-items: center; flex-shrink: 0; background: linear-gradient(135deg, var(--primary-dark), var(--primary-intense)); color: #fff; font-weight: 700; font-size: 13px; overflow: hidden; }
+    .ticket-row__avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .ticket-row__body { min-width: 0; flex: 1; }
+    .ticket-row__title { font-size: 13.5px; font-weight: 700; color: #fff; margin-bottom: 3px; }
+    .ticket-row__meta { font-size: 12px; color: var(--text-mute); line-height: 1.4; }
+    .ticket-row__actions { margin-left: auto; display: flex; gap: 6px; flex-shrink: 0; }
+    .admin-conv { display: flex; flex-direction: column; background: var(--surface); border: 1px solid var(--border); border-radius: 20px; overflow: hidden; min-height: 0; display: none; }
+    .admin-conv.is-open { display: flex; }
+    .admin-conv__head { display: flex; align-items: center; gap: 12px; padding: 18px 22px; border-bottom: 1px solid var(--border); flex-shrink: 0; background: rgba(2,3,5,0.4); }
+    .admin-conv__back { width: 36px; height: 36px; border-radius: 10px; border: 1px solid var(--border); background: var(--surface); color: var(--text-soft); display: grid; place-items: center; cursor: pointer; flex-shrink: 0; }
+    .admin-conv__back svg { width: 16px; height: 16px; stroke-width: 2; }
+    .admin-conv__info { flex: 1; min-width: 0; }
+    .admin-conv__name { font-size: 15px; font-weight: 700; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .admin-conv__meta { font-size: 12px; color: var(--text-mute); margin-top: 2px; }
+    .admin-conv__actions { display: flex; gap: 8px; flex-shrink: 0; }
+    .admin-conv__messages { flex: 1; overflow-y: auto; padding: 20px 22px; background: var(--surface-2); min-height: 0; display: flex; flex-direction: column; gap: 10px; }
+    .admin-conv__composer { display: flex; gap: 10px; padding: 16px 22px; border-top: 1px solid var(--border); background: var(--surface); flex-shrink: 0; }
+    .admin-conv__composer .textarea { flex: 1; min-height: 44px; max-height: 120px; height: 44px; padding: 11px 14px; border-radius: 12px; border: 1px solid var(--border-strong); background: var(--surface); color: #fff; font-family: inherit; font-size: 14px; resize: none; outline: none; transition: border 0.2s; }
+    .admin-conv__composer .textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.18); }
+    .admin-conv__send { width: 44px; height: 44px; border-radius: 12px; border: 0; background: var(--primary); color: #fff; display: grid; place-items: center; cursor: pointer; transition: all 0.2s; flex-shrink: 0; }
+    .admin-conv__send:hover { box-shadow: 0 4px 16px rgba(59, 130, 246, 0.45); filter: brightness(1.05); }
+    .admin-conv__send svg { width: 18px; height: 18px; stroke-width: 2; }
+    .admin-conv__send:disabled { opacity: 0.55; cursor: not-allowed; }
+    .msg { max-width: 82%; padding: 10px 14px; border-radius: 14px; font-size: 13.5px; line-height: 1.55; box-shadow: var(--shadow-xs); word-break: break-word; white-space: pre-line; position: relative; }
+    .msg__meta { display: block; font-size: 10.5px; margin-top: 4px; opacity: 0.75; text-align: right; }
+    .msg--out { align-self: flex-end; background: var(--primary); color: #fff; border-bottom-right-radius: 4px; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.35); }
+    .msg--in { align-self: flex-start; background: var(--surface); border: 1px solid var(--border); border-bottom-left-radius: 4px; color: var(--text); }
+    .msg--system { align-self: center; max-width: 100%; background: transparent; box-shadow: none; color: var(--text-mute); font-size: 11.5px; text-align: center; padding: 4px 0; }
+    .empty-tickets { padding: 56px 24px; text-align: center; }
+    .empty-tickets__icon { width: 64px; height: 64px; border-radius: 18px; margin: 0 auto 16px; background: var(--surface-2); border: 1px solid var(--border); display: grid; place-items: center; color: var(--text-mute); }
+    .empty-tickets__icon svg { width: 28px; height: 28px; }
+    .empty-tickets__title { font-size: 16px; font-weight: 700; color: #fff; margin-bottom: 8px; }
+    .empty-tickets__text { font-size: 14px; color: var(--text-mute); max-width: 360; margin: 6px auto 16px; }
+    .st { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 99px; white-space: nowrap; }
+    .st::before { content: ""; width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
+    .st--aberto { background: rgba(59, 130, 246, 0.16); color: var(--primary); }
+    .st--respondido { background: rgba(59, 130, 246, 0.16); color: var(--primary); }
+    .st--resolvido { background: rgba(59, 130, 246, 0.16); color: var(--primary); }
+    .chat-typing { display: inline-flex; gap: 3px; align-items: center; padding: 10px 14px; }
+    .chat-typing i { width: 5px; height: 5px; border-radius: 50%; background: var(--text-mute); animation: blink 1.2s infinite; }
+    .chat-typing i:nth-child(2) { animation-delay: 0.15s; }
+    .chat-typing i:nth-child(3) { animation-delay: 0.3s; }
+    @keyframes blink { 0%, 60%, 100% { opacity: 0.25; } 30% { opacity: 1; } }
+    .status-select { width: 140px; height: 34px; padding: 0 10px; border: 1px solid var(--border-strong); border-radius: 10px; background: var(--surface); color: #fff; font-size: 12.5px; outline: none; }
+    .status-select:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.18); }
+    .live-indicator { display: inline-flex; align-items: center; gap: 6px; font-size: 11.5px; color: var(--primary); font-weight: 600; margin-left: 8px; }
+    .live-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--primary); box-shadow: 0 0 8px var(--primary); animation: pulse 2s infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+    .new-badge { display: inline-flex; align-items: center; gap: 4px; font-size: 10.5px; font-weight: 700; padding: 1px 7px; border-radius: 99px; background: var(--primary); color: #fff; margin-left: 6px; }
+    @media (max-width: 1180px) { .admin-grid { grid-template-columns: 1fr; } .admin-inbox { max-height: 420px; } .admin-conv__back { display: grid; } }
+    @media (max-width: 860px) { .admin-grid { grid-template-columns: 1fr; } .admin-inbox { max-height: none; } .admin-inbox__search { width: 100%; } }
+  </style>
 </head>
 <body data-page="tickets" data-role="admin">
 
-  <aside class="sidebar" id="sidebar">
-    <a class="sidebar__brand" href="admin.html">
-      <span class="brand__logo">A</span>
-      <span>
-        <span class="brand__name">Prospecta</span>
-        <span class="brand__plan">Painel admin</span>
-      </span>
-    </a>
-    <nav class="sidebar__nav">
-      <div class="nav__label">Administração</div>
-      <a class="nav__item" href="admin.html" data-nav="admin">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>
-        Painel admin
-      </a>
-      <a class="nav__item is-active" href="tickets.html" data-nav="tickets">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M8 9h8M8 13h5"/></svg>
-        Tickets <span class="nav__badge" data-badge-tickets>4</span>
-      </a>
-      <a class="nav__item" href="usuarios.html" data-nav="usuarios">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3 20a6 6 0 0 1 12 0"/><circle cx="17.5" cy="9.5" r="2.4"/><path d="M16 20a4.5 4.5 0 0 1 5-4.4"/></svg>
-        Usuários
-      </a>
-    </nav>
-    <a class="sidebar__foot" href="#" data-logout>
-      <span class="avatar">U</span>
-      <span class="sidebar__foot-info">
-        <span class="sidebar__foot-name">Conta</span>
-        <span class="sidebar__foot-mail">—</span>
-      </span>
-    </a>
-  </aside>
+  <div class="app">
+    <div data-shell-sidebar></div>
+    <div data-shell-topbar></div>
 
-  <div class="overlay" data-overlay></div>
+    <div class="main">
+      <div class="content">
+        <div class="page-head">
+          <div>
+            <h1 class="page-head__title">Central de tickets</h1>
+            <p class="page-head__sub">Atendimento em tempo real · conversas atualizadas automaticamente</p>
+          </div>
+        </div>
 
-  <div class="main">
-    <header class="topbar">
-      <button class="icon-btn menu-btn" data-menu-toggle aria-label="Abrir menu" aria-expanded="false">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
-      </button>
-      <div>
-        <div class="topbar__title">Tickets</div>
-        <div class="topbar__crumbs">Administração <b>/</b> <b>Central de tickets</b></div>
-      </div>
-      <div class="topbar__spacer"></div>
-      <span class="badge badge--primary badge--plain" style="height:26px">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 6v6c0 5 3.5 8.5 8 10 4.5-1.5 8-5 8-10V6z"/></svg>
-        Acesso restrito
-      </span>
-      <button class="icon-btn" aria-label="Notificações" id="notif-btn">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
-        <span class="icon-btn__dot" id="notif-dot"></span>
-      </button>
-      <div class="notif-dropdown" id="notif-dropdown" role="menu" aria-label="Notificações">
-        <div class="notif-dropdown__head">
-          <span>Notificações</span>
-          <button class="icon-btn notif-clear" aria-label="Marcar todas como lidas" title="Marcar todas como lidas">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20 5H4a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2z"/><path d="M8 9v6M16 9v6"/></svg>
-          </button>
-        </div>
-        <div class="notif-dropdown__list" id="notif-list">
-          <div class="empty" style="padding:24px 16px"><div class="empty__title">Sem notificações</div><div class="empty__text">Novos tickets aparecerão aqui.</div></div>
-        </div>
-        <div class="notif-dropdown__foot">
-          <a class="link t-12" href="tickets.html">Ver todos</a>
-        </div>
-      </div>
-      <button class="user-menu" aria-label="Menu do usuário">
-        <span class="avatar avatar--sm">U</span>
-        <span class="user-menu__name">Conta</span>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
-      </button>
-    </header>
-
-    <main class="content">
-      <div class="page-head">
-        <div>
-          <h1 class="page-head__title">Central de tickets</h1>
-          <p class="page-head__sub">Gerencie solicitações dos clientes: responda, encaminhe e resolva.</p>
-        </div>
-      </div>
-
-      <!-- Filtros rápidos -->
-      <div class="row--wrap" style="gap:8px;margin-bottom:16px">
-        <div class="seg" data-chip-group="ticket-status">
-          <button class="chip is-active" data-filter="all">Todos</button>
-          <button class="chip" data-filter="aberto">Abertos</button>
-          <button class="chip" data-filter="respondido">Respondidos</button>
-          <button class="chip" data-filter="resolvido">Resolvidos</button>
-        </div>
-        <div class="seg" style="margin-left:auto" data-chip-group="ticket-priority">
-          <button class="chip is-active" data-filter="all">Todas prioridades</button>
-          <button class="chip" data-filter="alta">Alta</button>
-          <button class="chip" data-filter="media">Média</button>
-          <button class="chip" data-filter="baixa">Baixa</button>
-        </div>
-      </div>
-
-      <!-- Tabela de tickets -->
-      <section class="card">
-        <div class="table-wrap">
-          <table class="table table--compact" data-row-group="ticket-status">
-            <thead>
-              <tr>
-                <th style="width:56px">#</th>
-                <th style="min-width:200px">Assunto</th>
-                <th style="min-width:160px">Cliente</th>
-                <th style="width:120px">Motivo</th>
-                <th style="width:100px">Prioridade</th>
-                <th style="width:120px">Status</th>
-                <th style="width:140px">Atualizado</th>
-                <th style="width:80px"></th>
-              </tr>
-            </thead>
-            <tbody data-tickets-body></tbody>
-          </table>
-        </div>
-        <div class="card__foot" style="justify-content:center">
-          <div class="t-12 muted" data-tickets-count>—</div>
-        </div>
-      </section>
-    </main>
-  </div>
-
-  <!-- Modal Detalhes do Ticket -->
-  <div class="modal" id="modal-ticket" data-modal role="dialog" aria-modal="true" aria-labelledby="modal-ticket-title">
-    <div class="modal__backdrop" data-modal-close></div>
-    <div class="modal__panel" style="max-width:720px;max-height:90vh;overflow:auto">
-      <div class="modal__head">
-        <h3 id="modal-ticket-title" class="modal__title">Ticket #<span data-t-id></span></h3>
-        <button class="icon-btn" data-modal-close aria-label="Fechar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
-      </div>
-      <div class="modal__body" style="padding:0;display:flex;flex-direction:column;min-height:0">
-        <!-- Cabeçalho do ticket -->
-        <div style="padding:16px 20px;border-bottom:1px solid var(--border);flex-shrink:0;background:var(--surface-2)">
-          <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px">
-            <div style="min-width:0;flex:1">
-              <div style="display:flex;gap:8px;align-items:center">
-                <span class="t-12 muted" style="text-transform:uppercase;letter-spacing:.08em;font-weight:700">Ticket #<span data-t-id></span></span>
-                <span class="st st--aberto" data-t-status-badge></span>
+        <div class="admin-grid">
+          <!-- Inbox (admin) / Meus tickets (usuario) -->
+          <div class="admin-inbox" id="admin-inbox">
+            <div class="admin-inbox__head">
+              <div>
+                <h3 id="inbox-titulo">Tickets</h3>
               </div>
-              <div class="t-14" style="font-weight:600" data-t-assunto></div>
-              <div class="t-12 muted" data-t-meta style="margin-top:2px"></div>
+              <input class="input" id="inbox-busca" type="search" placeholder="Buscar tickets…" style="height:34px;padding:0 12px;font-size:13px">
             </div>
-            <div style="display:flex;gap:8px;flex-shrink:0">
-              <select class="select" data-t-status style="width:125px">
-                <option value="aberto">Aberto</option>
-                <option value="respondido">Respondido</option>
-                <option value="resolvido">Resolvido</option>
-              </select>
-              <select class="select" data-t-prioridade style="width:115px">
-                <option value="baixa">Baixa</option>
-                <option value="media">Média</option>
-                <option value="alta">Alta</option>
-              </select>
+            <div class="admin-inbox__list" id="lista-tickets">
+              <!-- tickets renderizados aqui -->
             </div>
           </div>
-          <div class="row" style="gap:10px;align-items:center;margin-top:8px">
-            <span class="avatar" data-t-avatar></span>
-            <div style="min-width:0;flex:1">
-              <div class="t-14" style="font-weight:600" data-t-cliente></div>
-              <div class="t-12 muted" data-t-email></div>
+
+          <!-- Conversa -->
+          <div class="admin-conv" id="admin-conv">
+            <div class="admin-conv__head">
+              <button class="admin-conv__back" id="conv-back" aria-label="Voltar">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+              </button>
+              <div class="admin-conv__info">
+                <div class="admin-conv__name" id="conv-nome">Ticket</div>
+                <div class="admin-conv__meta" id="conv-meta">—</div>
+              </div>
+              <div class="admin-conv__actions">
+                <select class="status-select" id="conv-status">
+                  <option value="aberto">Aberto</option>
+                  <option value="respondido">Respondido</option>
+                  <option value="resolvido">Resolvido</option>
+                </select>
+                <span class="live-indicator" id="conv-live"><span class="live-dot"></span>Ao vivo</span>
+              </div>
             </div>
-            <div class="t-12 muted" style="flex-shrink:0">Descrição:</div>
-            <div style="flex:1;min-width:0"><div class="t-13" style="white-space:pre-wrap;color:var(--text-soft);overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical" data-t-descricao></div></div>
+            <div class="admin-conv__messages" id="conv-mensagens"></div>
+            <div class="admin-conv__composer">
+              <textarea class="textarea" id="conv-input" rows="1" placeholder="Escreva uma resposta…" aria-label="Mensagem"></textarea>
+              <button class="admin-conv__send" id="conv-enviar" aria-label="Enviar mensagem">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7"/></svg>
+              </button>
+            </div>
           </div>
-        </div>
-
-        <!-- Conversa (mesma organização do chat mobile) -->
-        <div data-t-mensagens style="padding:16px 20px;overflow-y:auto;max-height:330px;display:flex;flex-direction:column;gap:10px;background:var(--surface-2);flex:1;min-height:0"></div>
-
-        <!-- Composer (mesmo do chat mobile) -->
-        <div style="padding:14px 20px;border-top:1px solid var(--border);background:var(--surface);flex-shrink:0;display:flex;gap:10px;align-items:flex-end">
-          <textarea class="textarea" rows="1" data-t-resposta placeholder="Escreva uma resposta…" style="flex:1;min-height:44px;max-height:120px;height:44px;padding:11px 12px;resize:none;border-radius:var(--radius-sm)"></textarea>
-          <button class="admin-conv__send" data-t-enviar aria-label="Enviar">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7"/></svg>
-          </button>
         </div>
       </div>
     </div>
@@ -200,153 +141,203 @@
     <div><strong data-toast-title>Feito!</strong><small data-toast-text></small></div>
   </div>
 
-  <script src="assets/js/store.js?v=825fa3e-poll"></script>
-  <script src="assets/js/app.js?v=825fa3e-poll"></script>
+  <script src="assets/js/store.js?v=1"></script>
+  <script src="assets/js/app.js?v=1"></script>
+  <script src="assets/js/app-shell.js?v=1"></script>
   <script>
     (function () {
       var D = window.Dados;
+      var P = window.Prospecta;
 
-      D.pronto().then(function(){
-        if (!D.ehAdmin()) { location.replace("login.html?destino=tickets.html"); return; }
-        initTickets();
+      var inboxEl = document.getElementById("admin-inbox");
+      var listaEl = document.getElementById("lista-tickets");
+      var convEl = document.getElementById("admin-conv");
+      var convNome = document.getElementById("conv-nome");
+      var convMeta = document.getElementById("conv-meta");
+      var convMsg = document.getElementById("conv-mensagens");
+      var convInput = document.getElementById("conv-input");
+      var convEnviar = document.getElementById("conv-enviar");
+      var convStatus = document.getElementById("conv-status");
+      var convBack = document.getElementById("conv-back");
+      var buscaEl = document.getElementById("inbox-busca");
+      var inboxTitulo = document.getElementById("inbox-titulo");
+
+      var estado = { ticketId: null, ehAdmin: false, me: null, pollTimer: null };
+
+      function pararPolling() { if (estado.pollTimer) { clearInterval(estado.pollTimer); estado.pollTimer = null; } }
+      function iniciarPolling() {
+        pararPolling();
+        if (!estado.ticketId) return;
+        estado.pollTimer = setInterval(function () {
+          carregarMensagens(estado.ticketId);
+        }, 4000);
+      }
+
+      function set(sel, value) { document.querySelectorAll(sel).forEach(function (el) { el.textContent = value; }); }
+
+      D.pronto().then(function () {
+        var me = D.eu ? D.eu() : null;
+        if (!me) { window.location.href = "login.html?destino=tickets.html"; return; }
+        estado.ehAdmin = D.ehAdmin();
+        estado.me = me;
+        P.initShell({ title: "Central de tickets", crumbs: "Suporte <b>/</b> <b>Atendimentos</b>", isAdmin: estado.ehAdmin, user: me });
+        P.iniciarAvatares(me);
+
+        if (estado.ehAdmin) {
+          inboxTitulo.textContent = "Todos os tickets";
+          document.title = "Central de tickets · Prospecta";
+        } else {
+          inboxTitulo.textContent = "Meus atendimentos";
+        }
+
+        // Busca
+        buscaEl.addEventListener("input", function () { renderLista(); });
+
+        // Voltar
+        convBack.addEventListener("click", function () { fecharConv(); });
+
+        // Status
+        convStatus.addEventListener("change", function () {
+          if (!estado.ticketId) return;
+          D.atualizarTicket(estado.ticketId, { status: convStatus.value }).then(function () {
+            renderLista();
+            P.toast("Status atualizado", "Ticket #" + estado.ticketId + " agora está " + convStatus.value);
+          }).catch(function (err) { P.toast("Erro", (err && err.message) || "Falha ao atualizar status"); });
+        });
+
+        // Enviar mensagem
+        function enviar() {
+          var txt = convInput.value.trim();
+          if (!txt || !estado.ticketId) return;
+          convEnviar.disabled = true;
+          D.enviarMensagem(estado.ticketId, txt, estado.ehAdmin ? "admin" : "cliente").then(function () {
+            convInput.value = "";
+            convInput.style.height = "44px";
+            carregarMensagens(estado.ticketId);
+            P.toast("Mensagem enviada", "A conversa foi atualizada.");
+          }).catch(function (err) {
+            convEnviar.disabled = false;
+            P.toast("Erro", (err && err.message) || "Falha ao enviar");
+          }).finally(function () { convEnviar.disabled = false; });
+        }
+        convEnviar.addEventListener("click", enviar);
+        convInput.addEventListener("keydown", function (e) { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); enviar(); } });
+        convInput.addEventListener("input", function () { convInput.style.height = "44px"; convInput.style.height = Math.min(120, convInput.scrollHeight) + "px"; });
+
+        // Abrir ticket da lista
+        document.addEventListener("click", function (e) {
+          var row = e.target.closest(".ticket-row");
+          if (row) {
+            e.preventDefault();
+            var id = row.getAttribute("data-ticket-id");
+            abrirConv(id);
+          }
+        });
+
+        renderLista();
+        document.addEventListener("prospecta:mudou", function () { renderLista(); if (estado.ticketId) carregarMensagens(estado.ticketId); });
       });
 
-      function initTickets() {
-        var tbody = document.querySelector("[data-tickets-body]");
-        var countEl = document.querySelector("[data-tickets-count]");
+      /* ---------- Lista de tickets ---------- */
+      function renderLista() {
+        var filtro = buscaEl.value.trim().toLowerCase();
+        var tickets = D.tickets().filter(function (t) {
+          if (!estado.ehAdmin) return String(t.cliente && t.cliente.email).toLowerCase() === String(estado.me && estado.me.email).toLowerCase();
+          return true;
+        }).filter(function (t) {
+          if (!filtro) return true;
+          var s = (t.assunto || "") + " " + (t.cliente && t.cliente.nome || "") + " " + (t.cliente && t.cliente.email || "");
+          return s.toLowerCase().indexOf(filtro) >= 0;
+        }).sort(function (a, b) { return new Date(b.atualizado || b.criado) - new Date(a.atualizado || a.criado); });
 
-        var rotulosMotivo = { duvida: "Dúvida", site: "Site", contrato: "Contrato", lead: "Leads", acesso: "Acesso", outro: "Outro" };
-        var rotulosPrioridade = { alta: "Alta", media: "Média", baixa: "Baixa" };
-        var rotulosStatus = { aberto: "Aberto", respondido: "Respondido", resolvido: "Resolvido" };
-        var classStatus = { aberto: "st--aberto", respondido: "st--respondido", resolvido: "st--resolvido" };
-        var classPrioridade = { alta: "avatar--rose", media: "avatar--amber", baixa: "avatar--sky" };
-
-        function pintar() {
-          var tickets = D.tickets().slice().sort(function(a,b){ return new Date(b.criado) - new Date(a.criado); });
-          var filtroStatus = document.querySelector('[data-chip-group="ticket-status"] .chip.is-active')?.getAttribute('data-filter') || 'all';
-          var filtroPrioridade = document.querySelector('[data-chip-group="ticket-priority"] .chip.is-active')?.getAttribute('data-filter') || 'all';
-
-          var filtrados = tickets.filter(function(t){
-            var okStatus = filtroStatus === 'all' || t.status === filtroStatus;
-            var okPrio = filtroPrioridade === 'all' || t.prioridade === filtroPrioridade;
-            return okStatus && okPrio;
-          });
-
-          tbody.innerHTML = filtrados.map(function(t){
-            var nl = D.naoLidas(t);
-            return '<tr data-status="' + t.status + '">' +
-              '<td class="num">#' + t.id + '</td>' +
-              '<td>' +
-                '<div class="truncate" style="font-weight:600" title="' + D.esc(t.assunto) + '">' + D.esc(t.assunto) + '</div>' +
-                '<div class="t-12 muted truncate" title="' + D.esc(t.descricao || '') + '">' + D.esc(t.descricao || '') + '</div>' +
-              '</td>' +
-              '<td>' +
-                '<div class="row" style="gap:8px;align-items:center">' +
-                  '<span class="avatar ' + classPrioridade[t.prioridade] + ' avatar--sm">' + D.esc(t.cliente.iniciais) + '</span>' +
-                  '<div><div class="t-14" style="font-weight:600">' + D.esc(t.cliente.nome) + '</div><div class="t-12 muted">' + D.esc(t.cliente.email) + '</div></div>' +
-                '</div>' +
-              '</td>' +
-              '<td><span class="badge badge--neutral badge--plain">' + (rotulosMotivo[t.motivo] || t.motivo) + '</span></td>' +
-              '<td><span class="badge badge--' + (t.prioridade === 'alta' ? 'danger' : t.prioridade === 'media' ? 'warn' : 'info') + '">' + rotulosPrioridade[t.prioridade] + '</span></td>' +
-              '<td><span class="st ' + classStatus[t.status] + '">' + rotulosStatus[t.status] + '</span></td>' +
-              '<td class="t-12 muted">' + D.haQuanto(t.atualizado || t.criado) + '</td>' +
-              '<td>' +
-                '<button class="icon-btn" onclick="window.abrirTicketModal(' + t.id + ')" aria-label="Abrir ticket" title="Abrir">' +
-                  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="m9 15 2 2 4-4"/></svg>' +
-                '</button>' +
-                (nl ? '<span class="t-11" style="color:var(--danger);margin-left:4px;font-weight:700">' + nl + '</span>' : '') +
-              '</td>' +
-            '</tr>';
-          }).join('') || '<tr><td colspan="8" style="text-align:center;padding:40px"><div class="empty"><div class="empty__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg></div><div class="empty__title">Nenhum ticket</div><div class="empty__text">Nenhum ticket encontrado com os filtros atuais.</div></div></td></tr>';
-
-          countEl.textContent = filtrados.length + " de " + tickets.length + " tickets";
+        if (!tickets.length) {
+          listaEl.innerHTML = '' +
+            '<div class="empty-tickets">' +
+            '<div class="empty-tickets__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>' +
+            '<div class="empty-tickets__title">Nenhum ticket</div>' +
+            '<div class="empty-tickets__text">' + (estado.ehAdmin ? "Não há atendimentos no momento." : "Você não tem atendimentos abertos. Abra um novo ticket na página inicial.") + '</div>' +
+            '</div>';
+          return;
         }
-
-        // Global function to open ticket modal
-        window.abrirTicketModal = function(id) {
-          var t = D.tickets().find(function(x){ return Number(x.id) === id; });
-          if (t) abrirModalTicket(t);
-        };
-
-        function abrirModalTicket(t) {
-          var modal = document.getElementById('modal-ticket');
-          if (!modal) {
-            console.error('Modal ticket not found');
-            return;
-          }
-          modal.querySelector('[data-t-id]').textContent = t.id;
-          modal.querySelector('[data-t-assunto]').textContent = t.assunto;
-          modal.querySelector('[data-t-cliente]').textContent = t.cliente.nome;
-          modal.querySelector('[data-t-email]').textContent = t.cliente.email;
-          modal.querySelector('[data-t-avatar]').textContent = t.cliente.iniciais;
-          modal.querySelector('[data-t-avatar]').className = 'avatar ' + classPrioridade[t.prioridade];
-          modal.querySelector('[data-t-descricao]').textContent = t.descricao || '—';
-          modal.querySelector('[data-t-status]').value = t.status;
-          modal.querySelector('[data-t-prioridade]').value = t.prioridade;
-          var sb = modal.querySelector('[data-t-status-badge]');
-          if (sb) { sb.textContent = { aberto:'Aberto', respondido:'Respondido', resolvido:'Resolvido' }[t.status] || t.status; sb.className = 'st st--' + t.status; }
-
-          // Mensagens - mesmo padrão do chat mobile (msg--out = cliente à direita, msg--in = suporte à esquerda)
-          var msgsBox = modal.querySelector('[data-t-mensagens]');
-          msgsBox.innerHTML = (t.mensagens || []).map(function(m){
-            var isCliente = m.autor === 'cliente';
-            var quem = isCliente ? 'Cliente' : 'Suporte';
-            return '<div class="msg ' + (isCliente ? 'msg--out' : 'msg--in') + '">' +
-              D.esc(m.texto) +
-              '<span class="msg__meta">' + quem + ' · ' + D.haQuanto(m.em) + '</span>' +
-              '</div>';
-          }).join('') || '<div class="t-13 muted" style="align-self:center;padding:20px">Sem mensagens ainda.</div>';
-
-          // Auto-scroll to bottom
-          setTimeout(function() { msgsBox.scrollTop = msgsBox.scrollHeight; }, 50);
-
-          // Status change
-          modal.querySelector('[data-t-status]').onchange = function(){
-            D.atualizarTicket(t.id, { status: this.value }).then(pintar);
-          };
-          modal.querySelector('[data-t-prioridade]').onchange = function(){
-            D.atualizarTicket(t.id, { prioridade: this.value }).then(pintar);
-          };
-
-          // Enviar resposta
-          modal.querySelector('[data-t-enviar]').onclick = function(){
-            var txt = modal.querySelector('[data-t-resposta]').value.trim();
-            if (!txt) return;
-            D.enviarMensagem(t.id, txt, { autor: 'suporte' }).then(function(){
-              modal.querySelector('[data-t-resposta]').value = '';
-              pintar();
-              window.Prospecta.toast("Resposta enviada", "O cliente foi notificado.");
-            });
-          };
-
-          // Open modal
-          if (window.Prospecta && window.Prospecta.openModal) {
-            window.Prospecta.openModal('modal-ticket');
-          } else {
-            modal.classList.add('is-open');
-            document.body.style.overflow = 'hidden';
-          }
-        }
-
-        // Filtros chips
-        document.querySelectorAll('[data-chip-group="ticket-status"] .chip, [data-chip-group="ticket-priority"] .chip').forEach(function(chip){
-          chip.addEventListener('click', function(){
-            var group = chip.closest('[data-chip-group]');
-            group.querySelectorAll('.chip').forEach(function(c){ c.classList.remove('is-active'); });
-            chip.classList.add('is-active');
-            pintar();
-          });
-        });
-
-        pintar();
-
-        document.addEventListener("prospecta:mudou", function(e){
-          if (e.detail && (e.detail.key === 'tickets' || e.detail.key === 'refresh')) {
-            pintar();
-          }
-        });
+        listaEl.innerHTML = tickets.map(function (t) {
+          var inicial = t.cliente && t.cliente.iniciais ? t.cliente.iniciais : (t.cliente && t.cliente.nome ? t.cliente.nome.split(/\s+/).map(function (p) { return p[0] || ""; }).join("").slice(0, 2).toUpperCase() : "?");
+          var stClass = t.status === "aberto" ? "st--aberto" : t.status === "respondido" ? "st--respondido" : "st--resolvido";
+          var stLabel = t.status === "aberto" ? "Aberto" : t.status === "respondido" ? "Respondido" : "Resolvido";
+          var ultima = t.mensagens && t.mensagens.length ? t.mensagens[t.mensagens.length - 1] : null;
+          var naoLidas = (t.mensagens || []).filter(function (m) { return m.autor !== "cliente" && !m.lida; }).length;
+          var selecionado = estado.ticketId == t.id ? "is-selected" : "";
+          return '' +
+          '<a class="ticket-row ' + selecionado + '" href="#" data-ticket-id="' + esc(t.id) + '">' +
+          '<span class="ticket-row__avatar">' + inicial + '</span>' +
+          '<div class="ticket-row__body">' +
+          '<div class="ticket-row__title">#' + esc(t.id) + " · " + esc(t.assunto) + '</div>' +
+          '<div class="ticket-row__meta">' + esc(t.cliente && t.cliente.nome ? t.cliente.nome : "—") + " · " + D.haQuanto(t.atualizado || t.criado) + (ultima ? " · " + (ultima.autor === "cliente" ? "Você: " : "Suporte: ") + esc(ultima.texto).slice(0, 60) : "") + '</div>' +
+          '</div>' +
+          '<div class="ticket-row__actions">' +
+          '<span class="st ' + stClass + '">' + stLabel + '</span>' +
+          (naoLidas ? '<span class="new-badge">' + naoLidas + ' nova' + (naoLidas > 1 ? "s" : "") + '</span>' : "") +
+          '</div>' +
+          '</a>';
+        }).join("");
       }
+
+      /* ---------- Conversa ---------- */
+      function abrirConv(id) {
+        estado.ticketId = id;
+        var t = D.buscarTicket ? D.buscarTicket(id) : D.tickets().filter(function (x) { return x.id == id; })[0];
+        if (!t) { P.toast("Ticket não encontrado", ""); return; }
+        inboxEl.style.display = "none";
+        convEl.classList.add("is-open");
+        convNome.textContent = "#" + t.id + " · " + esc(t.assunto);
+        convMeta.textContent = esc(t.cliente && t.cliente.nome ? t.cliente.nome : "—") + " · " + (t.cliente && t.cliente.email ? t.cliente.email : "") + " · motivo: " + esc(t.motivoRotulo || t.motivo);
+        convStatus.value = t.status;
+        carregarMensagens(id);
+        iniciarPolling();
+        window.history.pushState(null, "", "?ticket=" + id);
+      }
+
+      function fecharConv() {
+        estado.ticketId = null;
+        pararPolling();
+        inboxEl.style.display = "";
+        convEl.classList.remove("is-open");
+        window.history.pushState(null, "", window.location.pathname);
+        renderLista();
+      }
+
+      function carregarMensagens(id) {
+        var t = D.buscarTicket ? D.buscarTicket(id) : D.tickets().filter(function (x) { return x.id == id; })[0];
+        if (!t) return;
+        convNome.textContent = "#" + t.id + " · " + esc(t.assunto);
+        convMeta.textContent = esc(t.cliente && t.cliente.nome ? t.cliente.nome : "—") + " · " + (t.cliente && t.cliente.email ? t.cliente.email : "") + " · motivo: " + esc(t.motivoRotulo || t.motivo);
+        convStatus.value = t.status;
+
+        var html = '<div class="msg msg--system">Ticket <b>#' + t.id + "</b> criado em " + D.hora(t.criado) + " · motivo: <b>" + esc(t.motivoRotulo || t.motivo) + "</b></div>";
+        (t.mensagens || []).forEach(function (m) {
+          var ehAdminMsg = m.autor === "admin" || m.autor === "suporte";
+          var cls = m.autor === "cliente" ? "msg--out" : "msg--in";
+          var quem = m.autor === "cliente" ? "Você" : (ehAdminMsg ? "Suporte" : "Usuário");
+          html += '<div class="msg ' + cls + '">' + esc(m.texto) + '<span class="msg__meta">' + quem + " · " + D.hora(m.em) + "</span></div>";
+        });
+        convMsg.innerHTML = html;
+        // Rolar para o final
+        setTimeout(function () { convMsg.scrollTop = convMsg.scrollHeight; }, 50);
+      }
+
+      // SSE para tempo real (se disponível)
+      try {
+        if (typeof EventSource !== "undefined") {
+          var sse = new EventSource("/api/tickets/stream");
+          sse.onmessage = function (e) {
+            try { var data = JSON.parse(e.data); if (data && data.ticketId && estado.ticketId == data.ticketId) carregarMensagens(data.ticketId); renderLista(); } catch (err) {}
+          };
+          sse.onerror = function () { sse.close(); }; // fallback para polling
+        }
+      } catch (e) {}
+
     })();
+
+    function esc(str) { return String(str || "").replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
   </script>
 </body>
 </html>

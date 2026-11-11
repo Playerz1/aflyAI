@@ -12,92 +12,120 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/global.css">
   <style>
-    .auth { min-height:100dvh; display:grid; place-items:center; padding:24px 16px; background: var(--bg); }
-    .auth__card { width:100%; max-width:420px; }
-    .auth__brand { display:flex; align-items:center; gap:10px; justify-content:center; margin-bottom:22px; }
-    .auth__brand .brand__logo { width:42px; height:42px; border-radius:12px; font-size:18px; background:var(--primary); }
-    .auth__brand strong { display:block; font-size:15px; letter-spacing:-.02em; }
-    .auth__brand span { display:block; font-size:11.5px; color:var(--text-mute); }
-    .auth__card .card { padding:26px; }
-    .step { display:none; }
-    .step.is-active { display:block; }
+    .auth-page { min-height: 100dvh; display: grid; place-items: center; padding: 24px 16px; background: var(--bg); }
+    .auth-card { width: 100%; max-width: 410px; background: var(--surface); border: 1px solid var(--border); border-radius: 22px; box-shadow: var(--shadow-lg); padding: 34px 28px; backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); }
+    .auth-card__logo { width: 48px; height: 48px; border-radius: 14px; display: grid; place-items: center; background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: #fff; font-weight: 800; font-size: 18px; margin: 0 auto 22px; box-shadow: 0 8px 24px rgba(59, 130, 246, 0.4); }
+    .auth-card__title { font-size: 24px; font-weight: 800; text-align: center; margin-bottom: 6px; color: #fff; letter-spacing: -.02em; }
+    .auth-card__sub { font-size: 14px; color: var(--text-mute); text-align: center; margin-bottom: 28px; }
+    .auth-form { display: flex; flex-direction: column; gap: 18px; }
+    .step { display: none; }
+    .step.is-active { display: block; }
+    .field { display: flex; flex-direction: column; gap: 7px; }
+    .field + .field { margin-top: 0; }
+    .label { font-size: 12.5px; font-weight: 650; color: var(--text-soft); display: flex; align-items: center; gap: 7px; }
+    .input, .select, .textarea { width: 100%; height: 46px; padding: 0 14px; border: 1px solid var(--border-strong); border-radius: 12px; background: var(--surface); color: #fff; font-family: inherit; font-size: 15px; transition: border var(--transition), box-shadow var(--transition); outline: none; }
+    .input:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.18); }
+    .input::placeholder { color: var(--text-mute); }
+    .btn--primary { height: 50px; font-size: 15px; font-weight: 700; letter-spacing: -.01em; margin-top: 6px; }
+    .btn--block { width: 100%; }
+    .btn--outline { height: 44px; font-size: 14px; }
+    #rec-erro { display: none; margin-top: 12px; }
+    .banner--danger { background: rgba(59, 130, 246, 0.12); border: 1px solid var(--border-strong); }
+    .banner__icon--danger { background: var(--primary); color: #fff; }
+    #rec-sucesso { display: none; margin-top: 12px; text-align: center; padding: 18px; border: 1px solid var(--border); border-radius: 12px; background: var(--surface-2); }
+    #rec-sucesso .sucesso__title { font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 6px; }
+    #rec-sucesso .sucesso__text { font-size: 13px; color: var(--text-soft); margin-bottom: 12px; }
+    .link-row { display: flex; gap: 10px; justify-content: center; margin-top: 10px; }
+    .link-row a { font-size: 13px; color: var(--text-mute); text-decoration: none; }
+    .link-row a:hover { color: #fff; text-decoration: underline; }
   </style>
 </head>
 <body data-page="recuperar">
-  <div class="auth">
-    <div class="auth__card">
-      <div class="auth__brand">
-        <span class="brand__logo">P</span>
-        <div>
-          <strong>Prospecta</strong>
-          <span>Recuperação de senha</span>
-        </div>
-      </div>
 
-      <form class="card" id="form-recuperar" novalidate>
-        <!-- Passo 1: solicitar link por e-mail -->
+  <div class="auth-page">
+    <div class="auth-card">
+      <div class="auth-card__logo">P</div>
+      <div class="auth-card__title">Recuperar senha</div>
+      <div class="auth-card__sub">Redefinição de acesso à sua conta</div>
+
+      <form class="auth-form" id="form-recuperar" novalidate>
+
+        <!-- Passo 1: solicitar link -->
         <div class="step is-active" id="step-solicitar">
-          <div class="row" style="margin-bottom:16px">
-            <div>
-              <div class="card__title" style="font-size:15px">Esqueceu a senha?</div>
-              <div class="card__sub">Informe seu e-mail para receber o link de redefinição.</div>
-            </div>
-          </div>
           <div class="field">
-            <label class="label" for="rec-email">E-mail</label>
-            <input class="input" id="rec-email" type="email" autocomplete="email" placeholder="voce@empresa.com" required>
-          </div>
-          <div class="mt-16" id="rec-erro" style="display:none">
-            <div class="banner banner--danger" style="padding:10px 12px">
-              <span class="banner__icon" style="width:30px;height:30px;border-radius:9px">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 17h.01"/><circle cx="12" cy="12" r="9"/></svg>
-              </span>
-              <div><div class="banner__title" id="rec-erro-txt">Falha ao processar</div></div>
+            <label class="label" for="rec-email">E-mail cadastrado</label>
+            <div class="input-wrap">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              <input class="input" id="rec-email" type="email" autocomplete="email" placeholder="voce@empresa.com" required>
             </div>
           </div>
-          <button class="btn btn--primary btn--block btn--lg mt-24" type="button" id="btn-rec-solicitar">
+
+          <button class="btn btn--primary btn--block btn--lg" type="button" id="btn-rec-solicitar">
             Enviar link de recuperação
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7"/></svg>
           </button>
-          <div class="t-13 muted" style="text-align:center;margin-top:14px">Lembra a senha? <a class="link" href="login.html">Entrar</a></div>
-        </div>
 
-        <!-- Passo 2: redefinir senha com token -->
-        <div class="step" id="step-redefinir">
-          <div class="row" style="margin-bottom:16px">
-            <div>
-              <div class="card__title" style="font-size:15px">Redefinir senha</div>
-              <div class="card__sub">Crie uma nova senha para sua conta.</div>
+          <div id="rec-erro">
+            <div class="banner banner--danger">
+              <span class="banner__icon banner__icon--danger">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              </span>
+              <div>
+                <div class="banner__title" id="rec-erro-txt">Falha ao processar</div>
+                <div class="banner__text" style="font-size:12.5px;margin-top:4px" id="rec-erro-desc"></div>
+              </div>
             </div>
           </div>
-          <input type="hidden" id="rec-token">
+
+          <div class="link-row" style="margin-top:14px">
+            <a class="link" href="login.html">Lembra a senha? Entrar</a>
+          </div>
+        </div>
+
+        <!-- Passo 2: redefinir senha -->
+        <div class="step" id="step-redefinir">
+          <div class="field">
+            <label class="label" for="rec-token">Token de recuperação</label>
+            <input class="input" id="rec-token" type="text" placeholder="Cole o token recebido por e-mail" required>
+          </div>
           <div class="field">
             <label class="label" for="rec-nova">Nova senha</label>
-            <input class="input" id="rec-nova" type="password" autocomplete="new-password" placeholder="Mínimo 8 caracteres" required minlength="8">
+            <div class="input-wrap">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              <input class="input" id="rec-nova" type="password" autocomplete="new-password" placeholder="Mínimo 8 caracteres" required minlength="8">
+            </div>
           </div>
           <div class="field">
             <label class="label" for="rec-conf">Confirmar nova senha</label>
             <input class="input" id="rec-conf" type="password" autocomplete="new-password" placeholder="Repita a nova senha" required minlength="8">
           </div>
-          <div class="mt-16" id="rec-erro2" style="display:none">
-            <div class="banner banner--danger" style="padding:10px 12px">
-              <span class="banner__icon" style="width:30px;height:30px;border-radius:9px">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 17h.01"/><circle cx="12" cy="12" r="9"/></svg>
-              </span>
-              <div><div class="banner__title" id="rec-erro-txt2">Falha ao redefinir</div></div>
-            </div>
-          </div>
-          <button class="btn btn--primary btn--block btn--lg mt-24" type="button" id="btn-rec-redefinir">
+
+          <button class="btn btn--primary btn--block btn--lg" type="button" id="btn-rec-redefinir">
             Redefinir senha
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7"/></svg>
           </button>
-          <div class="t-13 muted" style="text-align:center;margin-top:14px">Voltar para <a class="link" href="login.html">login</a></div>
+
+          <div id="rec-erro2">
+            <div class="banner banner--danger">
+              <span class="banner__icon banner__icon--danger">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              </span>
+              <div>
+                <div class="banner__title" id="rec-erro-txt2">Falha ao redefinir</div>
+                <div class="banner__text" style="font-size:12.5px;margin-top:4px" id="rec-erro-desc2"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="link-row" style="margin-top:14px">
+            <a class="link" href="login.html">Voltar para o login</a>
+          </div>
         </div>
       </form>
 
-      <div class="mt-16" id="rec-sucesso" style="display:none;text-align:center;padding:16px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface-2)">
-        <div class="t-13 soft" style="font-weight:600">Senha redefinida com sucesso!</div>
-        <div class="t-12 muted" style="margin-top:6px">Você pode entrar com a nova senha.</div>
+      <div id="rec-sucesso">
+        <div class="sucesso__title">Senha redefinida com sucesso!</div>
+        <div class="sucesso__text">Você pode entrar com a nova senha.</div>
         <a class="btn btn--outline btn--block btn--sm mt-12" href="login.html">Ir para o login</a>
       </div>
     </div>
@@ -108,85 +136,70 @@
     <div><strong data-toast-title>Feito!</strong><small data-toast-text></small></div>
   </div>
 
-  <script src="assets/js/store.js?v=825fa3e-poll"></script>
-  <script src="assets/js/app.js?v=825fa3e-poll"></script>
+  <script src="assets/js/store.js?v=1"></script>
   <script>
     (function () {
       var D = window.Dados;
-      if (!D || !D.pronto) return;
+      var form = document.getElementById("form-recuperar");
+      var stepSolicitar = document.getElementById("step-solicitar");
+      var stepRedefinir = document.getElementById("step-redefinir");
+      var sucesso = document.getElementById("rec-sucesso");
+      var btnSolicitar = document.getElementById("btn-rec-solicitar");
+      var btnRedefinir = document.getElementById("btn-rec-redefinir");
 
-      var form = document.getElementById('form-recuperar');
-      var stepSolicitar = document.getElementById('step-solicitar');
-      var stepRedefinir = document.getElementById('step-redefinir');
-      var sucesso = document.getElementById('rec-sucesso');
-      var btnSolicitar = document.getElementById('btn-rec-solicitar');
-      var btnRedefinir = document.getElementById('btn-rec-redefinir');
-      var inputToken = document.getElementById('rec-token');
-
-      function mostrarErro(el, txt) {
-        el.textContent = txt;
-        el.style.display = '';
+      function mostrarErro(elTxt, elDesc, elBox, txt, desc) {
+        elTxt.textContent = txt;
+        if (elDesc) elDesc.textContent = desc || "";
+        elBox.style.display = "";
       }
-      function esconderErro(el) { el.style.display = 'none'; }
+      function esconderErro(elBox) { elBox.style.display = "none"; }
 
-      // Detecta token vindo na URL (?token=...)
+      // Detecta token na URL
       var params = new URLSearchParams(location.search);
-      var tokenUrl = params.get('token');
+      var tokenUrl = params.get("token");
       if (tokenUrl) {
-        stepSolicitar.classList.remove('is-active');
-        stepRedefinir.classList.add('is-active');
-        inputToken.value = tokenUrl;
+        stepSolicitar.classList.remove("is-active");
+        stepRedefinir.classList.add("is-active");
+        document.getElementById("rec-token").value = tokenUrl;
       }
 
-      btnSolicitar.addEventListener('click', function () {
-        var email = document.getElementById('rec-email').value.trim();
-        if (!email) { mostrarErro(document.getElementById('rec-erro-txt'), 'Informe seu e-mail.'); mostrarErro(document.getElementById('rec-erro'), ''); return; }
-        esconderErro(document.getElementById('rec-erro'));
+      btnSolicitar.addEventListener("click", function () {
+        var email = document.getElementById("rec-email").value.trim();
+        var box = document.getElementById("rec-erro");
+        var txt = document.getElementById("rec-erro-txt");
+        var desc = document.getElementById("rec-erro-desc");
+        esconderErro(box);
+        if (!email) { mostrarErro(txt, desc, box, "Informe seu e-mail."); return; }
         btnSolicitar.disabled = true;
-
-        // Sempre responde com sucesso (não revela se o e-mail existe) — segurança contra enumeração
-        Promise.resolve(D.solicitarRecuperacaoSenha ? D.solicitarRecuperacaoSenha(email) : { ok: true }).then(function () {
-          // Em ambiente de desenvolvimento, exibe o link de reset no console para teste local
-          try {
-            var recs = JSON.parse(localStorage.getItem('prospecta:recovery') || '[]');
-            var rec = recs.find(function (r) { return r.email === email; });
-            if (rec) {
-              console.log('[Recuperação] Link de reset (dev): ' + location.origin + location.pathname.replace('recuperar.html', 'recuperar.html') + '?token=' + rec.token);
-            }
-          } catch (e) {}
+        D.solicitarRecuperacaoSenha(email).then(function () {
           btnSolicitar.disabled = false;
-          stepSolicitar.classList.remove('is-active');
-          sucesso.style.display = '';
-          window.Prospecta.toast("Link enviado", "Se o e-mail estiver cadastrado, você recebeu o link de redefinição.");
-        }).catch(function () {
+          stepSolicitar.classList.remove("is-active");
+          sucesso.style.display = "";
+        }).catch(function (err) {
           btnSolicitar.disabled = false;
-          stepSolicitar.classList.remove('is-active');
-          sucesso.style.display = '';
-          window.Prospecta.toast("Link enviado", "Se o e-mail estiver cadastrado, você recebeu o link de redefinição.");
+          mostrarErro(txt, desc, box, (err && err.message) || "Falha ao processar.", "Tente novamente.");
         });
       });
 
-      btnRedefinir.addEventListener('click', function () {
-        var token = inputToken.value.trim();
-        var nova = document.getElementById('rec-nova').value;
-        var conf = document.getElementById('rec-conf').value;
-        var erroEl = document.getElementById('rec-erro2');
-        var erroTxt = document.getElementById('rec-erro-txt2');
-        esconderErro(erroEl);
-        if (!token) { mostrarErro(erroTxt, 'Token inválido ou expirado.'); mostrarErro(erroEl, ''); return; }
-        if (nova !== conf) { mostrarErro(erroTxt, 'As senhas não conferem.'); mostrarErro(erroEl, ''); return; }
-        if (nova.length < 8) { mostrarErro(erroTxt, 'A senha deve ter pelo menos 8 caracteres.'); mostrarErro(erroEl, ''); return; }
+      btnRedefinir.addEventListener("click", function () {
+        var token = document.getElementById("rec-token").value.trim();
+        var nova = document.getElementById("rec-nova").value;
+        var conf = document.getElementById("rec-conf").value;
+        var box = document.getElementById("rec-erro2");
+        var txt = document.getElementById("rec-erro-txt2");
+        var desc = document.getElementById("rec-erro-desc2");
+        esconderErro(box);
+        if (!token) { mostrarErro(txt, desc, box, "Token inválido ou expirado. Solicite um novo link."); return; }
+        if (nova !== conf) { mostrarErro(txt, desc, box, "As senhas não conferem."); return; }
+        if (!nova || nova.length < 8) { mostrarErro(txt, desc, box, "A senha deve ter ao menos 8 caracteres."); return; }
         btnRedefinir.disabled = true;
-
-        Promise.resolve(D.redefinirSenha ? D.redefinirSenha(token, nova) : Promise.reject(new Error('Recuperação indisponível.'))).then(function () {
+        D.redefinirSenha(token, nova).then(function () {
           btnRedefinir.disabled = false;
-          stepRedefinir.classList.remove('is-active');
-          sucesso.style.display = '';
-          window.Prospecta.toast("Senha redefinida", "Use a nova senha para entrar.");
+          stepRedefinir.classList.remove("is-active");
+          sucesso.style.display = "";
         }).catch(function (err) {
           btnRedefinir.disabled = false;
-          mostrarErro(erroTxt, (err && err.message) || 'Token inválido ou expirado. Solicite um novo link.');
-          mostrarErro(erroEl, '');
+          mostrarErro(txt, desc, box, (err && err.message) || "Token inválido ou expirado.", "Solicite um novo link de recuperação.");
         });
       });
     })();

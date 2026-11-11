@@ -3,430 +3,228 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#0a0a0a">
+  <meta name="theme-color" content="#050609">
+  <meta name="robots" content="noindex, nofollow">
   <title>Equipes · Prospecta</title>
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%232563eb'/%3E%3Ctext x='16' y='22' font-family='Arial' font-size='17' font-weight='bold' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%233b82f6'/%3E%3Ctext x='16' y='22' font-family='Arial' font-size='17' font-weight='bold' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/global.css">
+  <style>
+    .modal-equipe { position: fixed; inset: 0; z-index: 200; display: grid; place-items: center; padding: 24px; background: rgba(0,0,0,0.75); backdrop-filter: blur(4px); opacity: 0; visibility: hidden; transition: opacity 0.25s, visibility 0.25s; }
+    .modal-equipe.is-open { opacity: 1; visibility: visible; }
+    .modal-equipe__panel { width: 100%; max-width: 560px; max-height: calc(100dvh - 48px); overflow-y: auto; background: var(--surface); border: 1px solid var(--border-glass); border-radius: 22px; box-shadow: var(--shadow-lg); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); transform: translateY(14px) scale(0.98); transition: transform 0.25s; }
+    .modal-equipe.is-open .modal-equipe__panel { transform: none; }
+    .modal-equipe__head { display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; padding: 24px 26px 0; }
+    .modal-equipe__title { font-size: 17px; font-weight: 700; color: #fff; }
+    .modal-equipe__body { padding: 20px 26px 26px; }
+    .modal-equipe__foot { display: flex; justify-content: flex-end; gap: 10px; padding: 16px 26px; border-top: 1px solid var(--border); background: var(--surface-2); border-radius: 0 0 22px 22px; }
+    .equipe-card { display: flex; align-items: center; gap: 16px; padding: 18px 22px; border: 1px solid var(--border); border-radius: 16px; background: var(--surface-2); transition: all 0.2s; }
+    .equipe-card:hover { border-color: var(--border-strong); box-shadow: var(--shadow-md); }
+    .equipe-avatar { width: 52px; height: 52px; border-radius: 14px; display: grid; place-items: center; flex-shrink: 0; background: linear-gradient(135deg, var(--primary-dark), var(--primary-intense)); color: #fff; font-weight: 700; font-size: 16px; overflow: hidden; }
+    .equipe-avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .equipe-info { min-width: 0; flex: 1; }
+    .equipe-nome { font-size: 15px; font-weight: 700; color: #fff; }
+    .equipe-meta { font-size: 12.5px; color: var(--text-mute); margin-top: 3px; }
+    .equipe-acoes { display: flex; gap: 8px; margin-left: auto; flex-shrink: 0; }
+    .empty-equipe { padding: 56px 24px; text-align: center; }
+    .empty-equipe__icon { width: 64px; height: 64px; border-radius: 18px; margin: 0 auto 16px; background: var(--surface-2); border: 1px solid var(--border); display: grid; place-items: center; color: var(--text-mute); }
+    .empty-equipe__icon svg { width: 28px; height: 28px; }
+    .empty-equipe__title { font-size: 16px; font-weight: 700; color: #fff; margin-bottom: 8px; }
+    .empty-equipe__text { font-size: 14px; color: var(--text-mute); max-width: 360px; margin: 6px auto 16px; }
+    .form-equipe { display: grid; gap: 16px; }
+    .form-equipe .field + .field { margin-top: 0; }
+    .label { font-size: 12.5px; font-weight: 650; color: var(--text-soft); display: flex; align-items: center; gap: 7px; }
+    .input { width: 100%; height: 46px; padding: 0 14px; border: 1px solid var(--border-strong); border-radius: 12px; background: var(--surface); color: #fff; font-family: inherit; font-size: 15px; transition: border 0.2s, box-shadow 0.2s; outline: none; }
+    .input:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.18); }
+    .input::placeholder { color: var(--text-mute); }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 46px; padding: 0 20px; border-radius: 12px; border: 1px solid transparent; background: var(--surface); color: #fff; font-weight: 600; font-size: 14.5px; white-space: nowrap; transition: all 0.2s; cursor: pointer; }
+    .btn svg { width: 16px; height: 16px; stroke-width: 2; }
+    .btn:active { transform: translateY(1px); }
+    .btn--primary { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: #fff; box-shadow: 0 4px 16px rgba(59, 130, 246, 0.35), inset 0 1px 0 rgba(255,255,255,0.15); }
+    .btn--primary:hover { box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5); filter: brightness(1.05); }
+    .btn--outline { background: var(--surface); border-color: var(--border-strong); color: var(--text-soft); }
+    .btn--outline:hover { background: var(--surface-2); color: #fff; border-color: rgba(59, 130, 246, 0.6); }
+    .btn--block { width: 100%; }
+    .btn--ghost { background: transparent; box-shadow: none; color: var(--text-soft); }
+    .btn--ghost:hover { background: rgba(255,255,255,0.06); color: #fff; }
+    .toast { position: fixed; bottom: 20px; right: 20px; z-index: 200; display: flex; gap: 12px; align-items: flex-start; min-width: 280px; max-width: min(400px, calc(100vw - 40px)); padding: 16px 20px; border-radius: 12px; background: #020305; color: #fff; font-size: 13.5px; box-shadow: var(--shadow-lg); border: 1px solid var(--border); transform: translateY(24px); opacity: 0; visibility: hidden; transition: all 0.25s ease; }
+    .toast.is-open { transform: none; opacity: 1; visibility: visible; }
+    .toast__icon { width: 20px; height: 20px; color: var(--primary); flex-shrink: 0; margin-top: 1px; }
+  </style>
 </head>
 <body data-page="equipes">
 
-  <aside class="sidebar" id="sidebar">
-    <a class="sidebar__brand" href="dashboard.html">
-      <span class="brand__logo">P</span>
-      <span>
-        <span class="brand__name">Prospecta</span>
-        <span class="brand__plan">Plano Pro</span>
-      </span>
-    </a>
-<nav class="sidebar__nav">
-      <div class="nav__label">Principal</div>
-      <a class="nav__item" href="dashboard.html" data-nav="dashboard">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>
-        Dashboard
-      </a>
-      <a class="nav__item is-active" href="equipes.html" data-nav="equipes">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3 20a6 6 0 0 1 12 0"/><circle cx="17.5" cy="9.5" r="2.4"/><path d="M16 20a4.5 4.5 0 0 1 5-4.4"/></svg>
-        Equipes
-      </a>
-      <div class="nav__label">Conta</div>
-      <a class="nav__item" href="configuracoes.html" data-nav="configuracoes">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.2"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l-.1.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
-        Configuração
-      </a>
-      <button type="button" class="nav__item nav__item--btn" data-support-toggle>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 3.4 2.3c-.6.3-.9.8-.9 1.4v.4"/><circle cx="12" cy="17" r=".8" fill="currentColor"/></svg>
-        Ajuda
-      </button>
-    </nav>
-    <a class="sidebar__foot" href="configuracoes.html">
-      <span class="avatar avatar--glow" id="sidebar-avatar">U</span>
-      <span class="sidebar__foot-info">
-        <span class="sidebar__foot-name" id="sidebar-name">Conta</span>
-        <span class="sidebar__foot-mail" id="sidebar-email">—</span>
-      </span>
-    </a>
-  </aside>
+  <div class="app">
+    <div data-shell-sidebar></div>
+    <div data-shell-topbar></div>
 
-  <div class="overlay" data-overlay></div>
-
-  <div class="main">
-    <header class="topbar">
-      <button class="icon-btn menu-btn" data-menu-toggle aria-label="Abrir menu" aria-expanded="false">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
-      </button>
-      <div>
-        <div class="topbar__title">Equipes</div>
-        <div class="topbar__crumbs">Início <b>/</b> <b>Equipes</b></div>
-      </div>
-      <div class="topbar__spacer"></div>
-      <button class="user-menu" aria-label="Menu do usuário" id="user-menu-btn">
-        <span class="avatar avatar--sm" id="topbar-avatar">U</span>
-        <span class="user-menu__name" id="topbar-name">Conta</span>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
-      </button>
-    </header>
-
-    <main class="content">
-      <div class="page-head">
-        <div>
-          <h1 class="page-head__title">Equipes</h1>
-          <p class="page-head__sub">Convide pessoas, defina cargos e acompanhe o desempenho do time.</p>
-        </div>
-        <div class="page-actions">
-          <button class="btn btn--outline" data-toast="Permissões|Você pode editar cargos em Configuração → Equipe.">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-2.9 1.2V21a2 2 0 1 1-4 0v-.1A1.7 1.7 0 0 0 7 19.4l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1A1.7 1.7 0 0 0 3 13.8H3a2 2 0 1 1 0-4h.1A1.7 1.7 0 0 0 4.6 7l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 2.9-1.2V3a2 2 0 1 1 4 0v.1A1.7 1.7 0 0 0 17 4.6l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0 1.2 2.9H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
-            Permissões
-          </button>
-          <button class="btn btn--primary" data-modal-open="modal-convidar">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/></svg>
-            Convidar membro
-          </button>
-        </div>
-      </div>
-
-      <!-- KPIs -->
-      <div class="grid grid--4">
-        <article class="card kpi">
-          <div class="kpi__top">
-            <span class="kpi__icon kpi__icon--primary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3 20a6 6 0 0 1 12 0"/><circle cx="17.5" cy="9.5" r="2.4"/><path d="M16 20a4.5 4.5 0 0 1 5-4.4"/></svg></span>
-            <span class="trend trend--flat">ativos</span>
+    <div class="main">
+      <div class="content">
+        <div class="page-head">
+          <div>
+            <h1 class="page-head__title">Equipes</h1>
+            <p class="page-head__sub">Gerencie membros, convites e permissões da sua conta.</p>
           </div>
-          <div class="kpi__label">Membros ativos</div>
-          <div class="kpi__value" data-eq="ativos">0</div>
-          <div class="kpi__meta"><span data-eq="total">0</span> pessoas na conta</div>
-        </article>
-        <article class="card kpi">
-          <div class="kpi__top">
-            <span class="kpi__icon kpi__icon--success"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m7 15 4-5 3 3 4-6"/></svg></span>
-            <span class="trend trend--flat">total</span>
+          <div class="page-actions">
+            <button class="btn btn--primary" id="btn-nova-equipe">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+              Nova equipe
+            </button>
           </div>
-          <div class="kpi__label">Contratos fechados</div>
-          <div class="kpi__value" data-eq="contratos">0</div>
-          <div class="kpi__meta">Contratos ativos: <span data-eq="contratos-ativos">0</span></div>
-        </article>
-        <article class="card kpi">
-          <div class="kpi__top">
-            <span class="kpi__icon kpi__icon--warn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg></span>
-            <span class="trend trend--flat">base</span>
-          </div>
-          <div class="kpi__label">Leads na conta</div>
-          <div class="kpi__value" data-eq="leads">0</div>
-          <div class="kpi__meta">Atribuídos na base</div>
-        </article>
-        <article class="card kpi">
-          <div class="kpi__top">
-            <span class="kpi__icon kpi__icon--info"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v12H5.2L4 17.2z"/><path d="M8 8h8M8 12h5"/></svg></span>
-            <span class="trend trend--flat">pendentes</span>
-          </div>
-          <div class="kpi__label">Convites pendentes</div>
-          <div class="kpi__value" data-eq="convites">0</div>
-          <div class="kpi__meta">Aguardando aceite</div>
-        </article>
-      </div>
-
-      <!-- Convite pendente -->
-      <div class="banner mt-24">
-        <span class="banner__icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16v12H4z"/><path d="m4 7 8 6 8-6"/></svg>
-        </span>
-        <div>
-          <div class="banner__title" data-eq="aviso-titulo">Nenhum convite pendente</div>
-          <div class="banner__text" data-eq="aviso-texto">Usuários com status “convite” aparecem aqui.</div>
         </div>
-        <div class="banner__actions">
-          <button class="btn btn--primary btn--sm" data-modal-open="modal-convidar">Convidar membro</button>
-        </div>
-      </div>
 
-      <div class="grid grid--sidebar mt-24" style="align-items:start">
-        <!-- Membros -->
-        <section class="card">
+        <section class="card mt-24">
           <div class="card__head">
             <div>
-              <div class="card__title">Membros da equipe</div>
-              <div class="card__sub" data-eq="resumo">0 pessoas</div>
-            </div>
-            <div class="input-wrap" style="max-width:230px">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-              <input class="input input--icon" type="search" placeholder="Buscar membro…" data-search="#tabela-membros" aria-label="Buscar membro">
+              <div class="card__title">Minhas equipes</div>
+              <div class="card__sub">Lista de equipes às quais você pertence</div>
             </div>
           </div>
-          <div class="table-wrap">
-            <table class="table table--cards" id="tabela-membros">
-              <thead>
-                <tr>
-                  <th>Membro</th>
-                  <th>Cargo</th>
-                  <th>Contratos</th>
-                  <th>Status</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody data-eq-rows>
-                <!-- Membros carregados de /api/users -->
-              </tbody>
-            </table>
-          </div>
-          <div class="card__body" data-eq-vazio></div>
-          <div class="card__foot">
-            <span data-eq="rodape">0 pessoas</span>
-            <a class="link" href="#assentos">Ver assentos →</a>
+          <div class="card__body">
+            <div id="lista-equipes"></div>
           </div>
         </section>
 
-        <aside class="stack" style="gap:0">
-          <!-- Desempenho -->
-          <section class="card">
-            <div class="card__head">
-              <div class="card__title">Desempenho do mês</div>
-              <a class="link t-12" href="contratos.html">Detalhes</a>
+        <section class="card mt-24">
+          <div class="card__head">
+            <div>
+              <div class="card__title">Membros da equipe</div>
+              <div class="card__sub">Integrantes e seus níveis de acesso</div>
             </div>
-            <div class="card__body" data-eq="desempenho">
-              <!-- Contratos por responsável, calculado com dados reais -->
-            </div>
-          </section>
-
-          <!-- Cargos -->
-          <section class="card" style="margin-top:18px">
-            <div class="card__head">
-              <div class="card__title">Cargos e permissões</div>
-              <button class="btn btn--ghost btn--sm" data-toast="Novo cargo|Defina as permissões do cargo.">+ Novo</button>
-            </div>
-            <div class="card__body card__body--flush">
-              <div class="list-row">
-                <span class="kpi__icon kpi__icon--primary" style="width:34px;height:34px;border-radius:10px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 6v6c0 5 3.5 8.5 8 10 4.5-1.5 8-5 8-10V6z"/></svg></span>
-                <div class="list-row__body">
-                  <div class="list-row__title">Administrador</div>
-                  <div class="list-row__meta">Acesso total · 1 membro</div>
-                </div>
-                <span class="t-12 muted">Editar</span>
-              </div>
-              <div class="list-row">
-                <span class="kpi__icon kpi__icon--success" style="width:34px;height:34px;border-radius:10px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m7 15 4-5 3 3 4-6"/></svg></span>
-                <div class="list-row__body">
-                  <div class="list-row__title">Comercial</div>
-                  <div class="list-row__meta">Leads e contratos · 3 membros</div>
-                </div>
-                <span class="t-12 muted">Editar</span>
-              </div>
-              <div class="list-row">
-                <span class="kpi__icon kpi__icon--warn" style="width:34px;height:34px;border-radius:10px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7-4-4-7 7v4z"/><path d="M18 13l-4-4"/></svg></span>
-                <div class="list-row__body">
-                  <div class="list-row__title">Design / Sites</div>
-                  <div class="list-row__meta">Editor de sites · 2 membros</div>
-                </div>
-                <span class="t-12 muted">Editar</span>
-              </div>
-              <div class="list-row">
-                <span class="kpi__icon kpi__icon--info" style="width:34px;height:34px;border-radius:10px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg></span>
-                <div class="list-row__body">
-                  <div class="list-row__title">Visualizador</div>
-                  <div class="list-row__meta">Somente leitura · 0 membros</div>
-                </div>
-                <span class="t-12 muted">Editar</span>
-              </div>
-            </div>
-          </section>
-
-          <section class="card" style="margin-top:18px" id="assentos">
-            <div class="card__body">
-              <div class="row row--between" style="margin-bottom:10px">
-                <span class="bold t-13">Usuários da conta</span>
-                <span class="t-12 muted" data-eq="usuarios">0</span>
-              </div>
-              <div class="progress"><div class="progress__bar progress__bar--success" data-eq="usuarios-barra" style="width:0%"></div></div>
-              <div class="t-12 muted mt-16">Convide membros para acessar a plataforma com o cargo adequado.</div>
-              <button class="btn btn--primary btn--block mt-16" data-modal-open="modal-convidar">Convidar membro</button>
-            </div>
-          </section>
-        </aside>
-      </div>
-    </main>
-  </div>
-
-  <!-- Modal: convidar -->
-  <div class="modal" id="modal-convidar" role="dialog" aria-modal="true" aria-labelledby="t-convidar">
-    <div class="modal__panel">
-      <div class="modal__head">
-        <div>
-          <div class="modal__title" id="t-convidar">Convidar membro</div>
-          <div class="modal__sub">O convite expira em 7 dias.</div>
-        </div>
-        <button class="icon-btn" data-modal-close aria-label="Fechar">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6 6 18"/></svg>
-        </button>
-      </div>
-      <form class="modal__body" id="form-convite">
-        <div class="field">
-          <label class="label" for="e-nome">Nome</label>
-          <input class="input" id="e-nome" placeholder="Nome completo" required>
-        </div>
-        <div class="field mt-16">
-          <label class="label" for="e-mail">E-mail</label>
-          <input class="input" id="e-mail" type="email" placeholder="nome@empresa.com" required>
-        </div>
-        <div class="form-row mt-16">
-          <div class="field">
-            <label class="label" for="cargo">Cargo</label>
-            <input class="input" id="cargo" placeholder="Ex.: Comercial" value="Comercial">
           </div>
-          <div class="field">
-            <label class="label" for="papel">Permissão</label>
-            <select class="select" id="papel">
-              <option value="member">Membro</option>
-              <option value="admin">Administrador</option>
-              <option value="client">Cliente</option>
-            </select>
+          <div class="card__body">
+            <div id="lista-membros"></div>
           </div>
-        </div>
-        <p class="t-12 muted mt-16">O usuário é criado com status <b>Convite</b> e aparece na lista da equipe.</p>
-        <div class="form-actions">
-          <button type="button" class="btn btn--outline" data-modal-close>Cancelar</button>
-          <button type="submit" class="btn btn--primary">Criar usuário</button>
-        </div>
-      </form>
+        </section>
+      </div>
     </div>
   </div>
 
-  <div class="support" id="support" data-support aria-label="Central de ajuda" aria-hidden="true">
-    <!-- Conteúdo montado por assets/js/support.js -->
+  <!-- Modal nova equipe -->
+  <div class="modal-equipe" id="modal-equipe">
+    <div class="modal-equipe__panel">
+      <div class="modal-equipe__head">
+        <div>
+          <div class="modal-equipe__title">Nova equipe</div>
+        </div>
+        <button class="icon-btn" id="fechar-equipe" aria-label="Fechar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6 6 18"/></svg>
+        </button>
+      </div>
+      <div class="modal-equipe__body">
+        <form class="form-equipe" id="form-equipe" novalidate>
+          <div class="field">
+            <label class="label" for="eq-nome">Nome da equipe</label>
+            <input class="input" id="eq-nome" type="text" placeholder="Ex.: Equipe Comercial" required>
+          </div>
+          <div class="field">
+            <label class="label" for="eq-desc">Descrição</label>
+            <input class="input" id="eq-desc" type="text" placeholder="O que esta equipe faz?">
+          </div>
+        </form>
+      </div>
+      <div class="modal-equipe__foot">
+        <button class="btn btn--ghost" id="cancelar-equipe">Cancelar</button>
+        <button class="btn btn--primary btn--block" type="submit" form="form-equipe">Criar equipe</button>
+      </div>
+    </div>
   </div>
 
-
-<div class="toast" id="toast" role="status" aria-live="polite">
+  <div class="toast" id="toast" role="status" aria-live="polite">
     <svg class="toast__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg>
     <div><strong data-toast-title>Feito!</strong><small data-toast-text></small></div>
   </div>
 
-  <script src="assets/js/store.js?v=825fa3e-poll"></script>
-  <script src="assets/js/app.js?v=825fa3e-poll"></script>
-  <script src="assets/js/support.js?v=825fa3e-poll"></script>
+  <script src="assets/js/store.js?v=1"></script>
+  <script src="assets/js/app.js?v=1"></script>
+  <script src="assets/js/app-shell.js?v=1"></script>
   <script>
-  /* Equipes: membros reais de /api/users + desempenho por responsável */
-  (function () {
-    var D = window.Dados;
-    if (!D || !D.pronto) return;
-    var AVATARES = ['primary', 'green', 'sky', 'rose', 'violet'];
+    (function () {
+      var D = window.Dados;
+      var P = window.Prospecta;
+      var listaEl = document.getElementById("lista-equipes");
+      var membrosEl = document.getElementById("lista-membros");
+      var modal = document.getElementById("modal-equipe");
+      var btnNova = document.getElementById("btn-nova-equipe");
+      var btnFechar = document.getElementById("fechar-equipe");
+      var btnCancelar = document.getElementById("cancelar-equipe");
+      var form = document.getElementById("form-equipe");
 
-    function set(sel, value) { document.querySelectorAll(sel).forEach(function (el) { el.textContent = value; }); }
-    function statusBadge(status) {
-      var map = { ativo: ['success', 'Ativo'], convite: ['warn', 'Convite'], bloqueado: ['danger', 'Bloqueado'] };
-      var b = map[status] || ['neutral', status];
-      return '<span class="badge badge--' + b[0] + '">' + D.esc(b[1]) + '</span>';
-    }
+      function set(sel, value) { document.querySelectorAll(sel).forEach(function (el) { el.textContent = value; }); }
 
-    function pintar() {
-      var membros = D.usuarios();
-      var contratos = D.contratos();
-      var ativos = membros.filter(function (u) { return u.status === 'ativo'; });
-      var convites = membros.filter(function (u) { return u.status === 'convite'; });
-      var porId = {};
-      contratos.forEach(function (c) {
-        if (!c.createdById) return;
-        porId[c.createdById] = porId[c.createdById] || { qtd: 0, valor: 0 };
-        porId[c.createdById].qtd += 1;
-        porId[c.createdById].valor += Number(c.value || 0);
+      D.pronto().then(function () {
+        var me = D.eu ? D.eu() : null;
+        if (!me) { window.location.href = "login.html?destino=equipes.html"; return; }
+        P.initShell({ title: "Equipes", crumbs: "Conta <b>/</b> <b>Equipes</b>", isAdmin: false, user: me });
+        P.iniciarAvatares(me);
+
+        btnNova.addEventListener("click", function () { modal.classList.add("is-open"); });
+        btnFechar.addEventListener("click", function () { modal.classList.remove("is-open"); });
+        btnCancelar.addEventListener("click", function () { modal.classList.remove("is-open"); });
+
+        form.addEventListener("submit", function (e) {
+          e.preventDefault();
+          var nome = document.getElementById("eq-nome").value.trim();
+          var desc = document.getElementById("eq-desc").value.trim();
+          if (!nome) return;
+          // Simulação local — em produção via API /api/equipes
+          var equipes = JSON.parse(localStorage.getItem("prospecta:equipes") || "[]");
+          equipes.push({ id: "eq_" + Date.now(), nome: nome, descricao: desc, dono: me.email, membros: [me.email], criado: new Date().toISOString() });
+          localStorage.setItem("prospecta:equipes", JSON.stringify(equipes));
+          modal.classList.remove("is-open");
+          form.reset();
+          P.toast("Equipe criada", "A equipe \"" + nome + "\" foi adicionada.");
+          render();
+        });
+
+        function render() {
+          var equipes = JSON.parse(localStorage.getItem("prospecta:equipes") || "[]");
+          if (!equipes.length) {
+            listaEl.innerHTML = '' +
+              '<div class="empty-equipe">' +
+              '<div class="empty-equipe__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="10" r="3"/><path d="M1 21h22l-3-6m-6-3l6-6m-6 3l6 6"/></svg></div>' +
+              '<div class="empty-equipe__title">Nenhuma equipe ainda</div>' +
+              '<div class="empty-equipe__text">Clique em “Nova equipe” para criar sua primeira equipe e convidar membros.</div>' +
+              '</div>';
+          } else {
+            listaEl.innerHTML = equipes.map(function (eq) {
+              var inicial = eq.nome ? eq.nome.split(/\s+/).map(function (p) { return p[0] || ""; }).join("").slice(0, 2).toUpperCase() : "?";
+              return '' +
+              '<div class="equipe-card">' +
+              '<span class="equipe-avatar">' + inicial + '</span>' +
+              '<div class="equipe-info">' +
+              '<div class="equipe-nome">' + esc(eq.nome) + '</div>' +
+              '<div class="equipe-meta">' + (eq.descricao || "Sem descrição") + " · " + eq.membros.length + " membro" + (eq.membros.length !== 1 ? "s" : "") + '</div>' +
+              '</div>' +
+              '<div class="equipe-acoes">' +
+              '<button class="btn btn--outline btn--sm">Gerenciar</button>' +
+              '</div>' +
+              '</div>';
+            }).join("");
+          }
+
+          // Membros (mock a partir do usuário logado)
+          membrosEl.innerHTML = '' +
+          '<div class="equipe-card">' +
+          '<span class="equipe-avatar avatar-update">' + (me.iniciais || P.iniciaisDoNome(me.nome)) + '</span>' +
+          '<div class="equipe-info">' +
+          '<div class="equipe-nome nome-update">' + esc(me.nome || "Conta") + '</div>' +
+          '<div class="equipe-meta email-update">' + esc(me.email || "—") + " · Você (dono)" + '</div>' +
+          '</div>' +
+          '<div class="equipe-acoes">' +
+          '<button class="btn btn--ghost btn--sm">Editar</button>' +
+          '</div>' +
+          '</div>';
+        }
+
+        function esc(str) { return String(str || "").replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
+
+        render();
+        document.addEventListener("prospecta:mudou", render);
       });
-
-      set('[data-eq="ativos"]', D.num(ativos.length));
-      set('[data-eq="total"]', D.num(membros.length));
-      set('[data-eq="contratos"]', D.num(contratos.length));
-      set('[data-eq="contratos-ativos"]', D.num(contratos.filter(function (c) { return c.status === 'ativo'; }).length));
-      set('[data-eq="leads"]', D.num(D.leads().length));
-      set('[data-eq="convites"]', D.num(convites.length));
-      set('[data-eq="resumo"]', D.num(ativos.length) + ' ativo' + (ativos.length === 1 ? '' : 's') + ' · ' + D.num(convites.length) + ' convite' + (convites.length === 1 ? '' : 's'));
-      set('[data-eq="rodape"]', D.num(membros.length) + ' pessoa' + (membros.length === 1 ? '' : 's'));
-      set('[data-eq="usuarios"]', D.num(membros.length) + ' no total');
-      set('[data-badge-leads]', D.num(D.leads().length));
-      set('[data-badge-contratos]', D.num(contratos.length));
-      var barra = document.querySelector('[data-eq="usuarios-barra"]');
-      if (barra) barra.style.width = (ativos.length && membros.length ? Math.round((ativos.length / membros.length) * 100) : 0) + '%';
-
-      if (convites.length) {
-        set('[data-eq="aviso-titulo"]', convites.length + ' convite' + (convites.length === 1 ? '' : 's') + ' aguardando aceite');
-        set('[data-eq="aviso-texto"]', convites.map(function (u) { return u.email; }).join(', '));
-      } else {
-        set('[data-eq="aviso-titulo"]', 'Nenhum convite pendente');
-        set('[data-eq="aviso-texto"]', 'Usuários com status “convite” aparecem aqui.');
-      }
-
-      var tbody = document.querySelector('[data-eq-rows]');
-      if (tbody) {
-        tbody.innerHTML = membros.map(function (u, i) {
-          var perf = porId[u._id] || { qtd: 0 };
-          return '<tr data-status="' + D.esc(u.papel) + '"><td><div class="cell-user"><span class="avatar avatar--' + AVATARES[i % AVATARES.length] + ' avatar--sm">' + D.esc(u.iniciais || D.iniciais(u.nome)) + '</span>' +
-            '<div><div class="cell-user__name">' + D.esc(u.nome) + '</div><div class="cell-user__sub">' + D.esc(u.email) + '</div></div></div></td>' +
-            '<td>' + D.esc(u.cargo || (u.papel === 'admin' ? 'Administrador' : u.papel === 'cliente' ? 'Cliente' : 'Membro')) + '</td>' +
-            '<td>' + D.num(perf.qtd) + '</td><td>' + statusBadge(u.status) + '</td>' +
-            '<td><div class="t-actions">' +
-              '<select class="select" style="height:32px;font-size:12px;padding:0 8px" data-status-user="' + D.esc(u._id) + '">' +
-                ['ativo', 'convite', 'bloqueado'].map(function (s) {
-                  return '<option value="' + s + '"' + (s === u.status ? ' selected' : '') + '>' + (s === 'ativo' ? 'Ativo' : s === 'convite' ? 'Convite' : 'Bloqueado') + '</option>';
-                }).join('') +
-              '</select></div></td></tr>';
-        }).join('');
-      }
-      var vazio = document.querySelector('[data-eq-vazio]');
-      if (vazio) vazio.innerHTML = membros.length ? '' : '<div class="empty"><div class="empty__title">Nenhum membro</div><div class="empty__text">Convide a primeira pessoa para a equipe.</div></div>';
-
-      var desempenho = document.querySelector('[data-eq="desempenho"]');
-      if (desempenho) {
-        var ranking = membros.map(function (u) {
-          var p = porId[u._id] || { qtd: 0, valor: 0 };
-          return { nome: u.nome, qtd: p.qtd, valor: p.valor };
-        }).sort(function (a, b) { return b.valor - a.valor; }).slice(0, 4);
-        var max = ranking.length ? Math.max.apply(null, ranking.map(function (r) { return r.valor; }).concat([1])) : 1;
-        var cores = ['progress__bar--success', '', 'progress__bar--info', 'progress__bar--warn'];
-        desempenho.innerHTML = ranking.length && contratos.length ? ranking.map(function (r, i) {
-          return '<div class="hbar"><div class="hbar__top"><span class="hbar__label">' + D.esc(r.nome) + '</span><span class="hbar__value">' + D.dinheiro(r.valor) + ' · ' + r.qtd + '</span></div>' +
-            '<div class="progress"><div class="progress__bar ' + cores[i % cores.length] + '" style="width:' + Math.round((r.valor / max) * 100) + '%"></div></div></div>';
-        }).join('') : '<div class="empty"><div class="empty__title">Sem dados de desempenho</div><div class="empty__text">Os contratos por responsável aparecem aqui.</div></div>';
-      }
-    }
-
-    D.pronto().then(function () {
-      if (!D.ehAdmin()) {
-        var lista = document.querySelector('[data-eq-rows]');
-        if (lista) lista.innerHTML = '';
-        var vazio = document.querySelector('[data-eq-vazio]');
-        if (vazio) vazio.innerHTML = '<div class="empty"><div class="empty__title">Acesso restrito</div><div class="empty__text">Apenas administradores gerenciam a equipe.</div></div>';
-        return;
-      }
-      document.body.setAttribute('data-dados-reais', '1');
-      pintar();
-      document.addEventListener('prospecta:mudou', pintar);
-
-      document.getElementById('form-convite').addEventListener('submit', function (e) {
-        e.preventDefault();
-        var payload = {
-          name: document.getElementById('e-nome').value.trim(),
-          email: document.getElementById('e-mail').value.trim(),
-          jobTitle: document.getElementById('cargo').value.trim(),
-          role: document.getElementById('papel').value,
-          status: 'invite'
-        };
-        D.criarUsuario(payload).then(function () {
-          document.getElementById('form-convite').reset();
-          window.Prospecta.closeModals();
-          window.Prospecta.toast('Usuário criado', payload.name + ' foi adicionado à equipe.');
-        }).catch(function (err) { window.Prospecta.toast('Erro ao criar', err.message); });
-      });
-
-      document.addEventListener('change', function (e) {
-        var sel = e.target.closest('[data-status-user]');
-        if (!sel) return;
-        var id = sel.getAttribute('data-status-user');
-        var atual = D.usuarios().filter(function (u) { return u._id === id; })[0];
-        if (!atual) return;
-        D.atualizarUsuario(atual.id, { status: sel.value })
-          .then(function () { window.Prospecta.toast('Usuário atualizado', 'Status: ' + sel.options[sel.selectedIndex].text + '.'); })
-          .catch(function (err) { window.Prospecta.toast('Erro', err.message); });
-      });
-    });
-  })();
+    })();
   </script>
 </body>
 </html>

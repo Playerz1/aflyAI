@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#0a0a0a">
+  <meta name="theme-color" content="#050609">
+  <meta name="robots" content="noindex, nofollow">
   <title>Contratos · Prospecta</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%233b82f6'/%3E%3Ctext x='16' y='22' font-family='Arial' font-size='17' font-weight='bold' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,550 +14,60 @@
 </head>
 <body data-page="contratos">
 
-  <aside class="sidebar" id="sidebar">
-    <a class="sidebar__brand" href="dashboard.html">
-      <span class="brand__logo">P</span>
-      <span>
-        <span class="brand__name">Prospecta</span>
-        <span class="brand__plan">Plano Pro</span>
-      </span>
-    </a>
-    <nav class="sidebar__nav">
-      <div class="nav__label">Principal</div>
-      <a class="nav__item" href="dashboard.html" data-nav="dashboard">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>
-        Dashboard
-      </a>
-      <a class="nav__item" href="prospectar.html" data-nav="prospectar">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/><path d="M11 8v6M8 11h6"/></svg>
-        Prospectar <span class="nav__badge" data-badge-leads>0</span>
-      </a>
-      <a class="nav__item" href="contratos.html" data-nav="contratos">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h4"/></svg>
-        Contratos <span class="nav__badge nav__badge--soft" data-badge-contratos>0</span>
-      </a>
-      <div class="nav__label">Produto</div>
-      <a class="nav__item" href="sites.html" data-nav="sites">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/><circle cx="6.5" cy="6.5" r=".6" fill="currentColor"/><circle cx="9" cy="6.5" r=".6" fill="currentColor"/></svg>
-        Sites
-      </a>
-      <a class="nav__item" href="equipes.html" data-nav="equipes">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3 20a6 6 0 0 1 12 0"/><circle cx="17.5" cy="9.5" r="2.4"/><path d="M16 20a4.5 4.5 0 0 1 5-4.4"/></svg>
-        Equipes
-      </a>
-      <a class="nav__item" href="extensao.html" data-nav="extensao">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L4 17v3h3l5.3-5.3a4 4 0 0 0 5.4-5.4l-2.3 2.3-2.7-2.7z"/></svg>
-        Extensão <span class="nav__badge nav__badge--soft">Novo</span>
-      </a>
-      <div class="nav__label">Conta</div>
-      <a class="nav__item" href="configuracoes.html" data-nav="configuracoes">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.2"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
-        Configuração
-      </a>
-      <button type="button" class="nav__item nav__item--btn" data-support-toggle>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 3.4 2.3c-.6.3-.9.8-.9 1.4v.4"/><circle cx="12" cy="17" r=".8" fill="currentColor"/></svg>
-        Ajuda
-      </button>
-    </nav>
-    <div class="sidebar__promo">
-      <h4>Desbloqueie o Pro</h4>
-      <p>Leads ilimitados, sites com domínio próprio e automações.</p>
-      <a class="btn btn--primary btn--sm btn--block" href="configuracoes.html#plano">Ver planos</a>
-    </div>
-    <a class="sidebar__foot" href="configuracoes.html">
-      <span class="avatar">U</span>
-      <span class="sidebar__foot-info">
-        <span class="sidebar__foot-name">Conta</span>
-        <span class="sidebar__foot-mail">—</span>
-      </span>
-    </a>
-  </aside>
+  <div class="app">
+    <div data-shell-sidebar></div>
+    <div data-shell-topbar></div>
 
-  <div class="overlay" data-overlay></div>
-
-  <div class="main">
-    <header class="topbar">
-      <button class="icon-btn menu-btn" data-menu-toggle aria-label="Abrir menu" aria-expanded="false">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
-      </button>
-      <div>
-        <div class="topbar__title">Contratos</div>
-        <div class="topbar__crumbs">Início <b>/</b> <b>Contratos</b></div>
-      </div>
-      <div class="topbar__spacer"></div>
-      <button class="user-menu" aria-label="Menu do usuário">
-        <span class="avatar avatar--sm">U</span>
-        <span class="user-menu__name">Conta</span>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
-      </button>
-    </header>
-
-    <main class="content">
-      <div class="page-head">
-        <div>
-          <h1 class="page-head__title">Contratos</h1>
-          <p class="page-head__sub">Acompanhe assinaturas, valores e renovações dos seus clientes.</p>
+    <div class="main">
+      <div class="content">
+        <div class="page-head">
+          <div>
+            <h1 class="page-head__title">Contratos</h1>
+            <p class="page-head__sub">Contratos ativos, fechados e vencidos.</p>
+          </div>
+          <div class="page-actions">
+            <button class="btn btn--primary">Novo contrato</button>
+          </div>
         </div>
-        <div class="page-actions">
-          <button class="btn btn--outline" data-exportar-contratos>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M6 11l6-6 6 6"/><path d="M4 21h16"/></svg>
-            Exportar CSV
-          </button>
-          <button class="btn btn--primary" data-modal-open="modal-contrato">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
-            Novo contrato
-          </button>
-        </div>
-      </div>
 
-      <!-- KPIs -->
-      <div class="grid grid--4">
-        <article class="card kpi">
-          <div class="kpi__top">
-            <span class="kpi__icon kpi__icon--success"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="m9 15 2 2 4-4"/></svg></span>
-            <span class="trend trend--flat" data-kpi-total>0 no total</span>
-          </div>
-          <div class="kpi__label">Contratos ativos</div>
-          <div class="kpi__value" data-ctr="ativos">0</div>
-          <div class="kpi__meta">Contratos com status ativo</div>
-        </article>
-        <article class="card kpi">
-          <div class="kpi__top">
-            <span class="kpi__icon kpi__icon--primary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 6.5c0-2-2.2-3-5-3s-5 1-5 3 2.5 2.6 5 3.2 5 1.2 5 3.3-2.2 3-5 3-5-1-5-3"/></svg></span>
-            <span class="trend trend--flat">ativos</span>
-          </div>
-          <div class="kpi__label">Valor em contratos ativos</div>
-          <div class="kpi__value" data-ctr="mrr">R$ 0,00</div>
-          <div class="kpi__meta">Somatório dos contratos ativos</div>
-        </article>
-        <article class="card kpi">
-          <div class="kpi__top">
-            <span class="kpi__icon kpi__icon--warn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>
-            <span class="trend trend--flat">rascunhos</span>
-          </div>
-          <div class="kpi__label">Aguardando assinatura</div>
-          <div class="kpi__value" data-ctr="rascunhos">0</div>
-          <div class="kpi__meta">Valor em negociação: <span data-ctr="negociacao">R$ 0,00</span></div>
-        </article>
-        <article class="card kpi">
-          <div class="kpi__top">
-            <span class="kpi__icon kpi__icon--info"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m7 15 4-5 3 3 4-6"/></svg></span>
-            <span class="trend trend--flat">recebido</span>
-          </div>
-          <div class="kpi__label">Pagamentos recebidos</div>
-          <div class="kpi__value" data-ctr="pagos">R$ 0,00</div>
-          <div class="kpi__meta" data-ctr="pendentes-meta">0 pagamentos pendentes</div>
-        </article>
-      </div>
-
-      <div class="grid grid--sidebar mt-24" style="align-items:start">
-        <!-- Lista de contratos -->
-        <section class="card">
+        <section class="card mt-24">
           <div class="card__head">
             <div>
-              <div class="card__title">Todos os contratos</div>
-              <div class="card__sub" data-ctr="resumo">0 contratos</div>
-            </div>
-            <button class="btn btn--outline btn--sm" data-toast="Filtros|Selecione status ou cliente na barra de busca.">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16l-6 7v6l-4 2v-8z"/></svg>
-              Filtros
-            </button>
-          </div>
-
-          <div class="filter-bar">
-            <div class="input-wrap filter-bar__search">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-              <input class="input input--icon" type="search" placeholder="Buscar contrato, cliente ou ID…" data-search="#tabela-contratos" aria-label="Buscar contratos">
-            </div>
-            <div class="row row--wrap" data-chip-group="contratos">
-              <button class="chip is-active" data-filter="all">Todos</button>
-              <button class="chip" data-filter="ativo">Ativos</button>
-              <button class="chip" data-filter="rascunho">Rascunhos</button>
-              <button class="chip" data-filter="vencido">Vencidos</button>
-              <button class="chip" data-filter="cancelado">Cancelados</button>
+              <div class="card__title">Meus contratos</div>
+              <div class="card__sub">Acompanhe status e valores dos seus contratos</div>
             </div>
           </div>
-
-          <div class="table-wrap">
-            <table class="table table--cards" id="tabela-contratos" data-row-group="contratos">
-              <thead>
-                <tr>
-                  <th>Cliente</th>
-                  <th>Serviço</th>
-                  <th>Início</th>
-                  <th class="num">Valor</th>
-                  <th>Status</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody data-contratos-rows>
-                <!-- Contratos reais de /api/contracts -->
-              </tbody>
-            </table>
-          </div>
-          <div class="card__body" data-contratos-vazio></div>
-          <div class="card__foot">
-            <span data-ctr="rodape">0 contratos</span>
+          <div class="card__body">
+            <div class="empty" style="padding:56px 24px">
+              <div class="empty__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="10" width="18" height="12" rx="2" ry="2"/><path d="M7 7v4a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7z"/></svg></div>
+              <div class="empty__title">Nenhum contrato</div>
+              <div class="empty__text">Seus contratos aparecerão aqui após a contratação de um plano.</div>
+            </div>
           </div>
         </section>
-
-        <aside class="stack" style="gap:0">
-          <section class="card">
-            <div class="card__head"><div class="card__title">Receita por serviço</div></div>
-            <div class="card__body" data-ctr="servicos">
-              <!-- Agrupado pelos contratos reais -->
-            </div>
-          </section>
-
-          <section class="card" style="margin-top:18px">
-            <div class="card__head">
-              <div class="card__title">Próximas renovações</div>
-              <a class="link t-12" href="#" data-toast="Calendário|Renovações sincronizadas com o Google Calendar.">Calendário</a>
-            </div>
-            <div class="card__body card__body--flush" data-ctr="renovacoes">
-              <!-- Contratos reais com data de expiração -->
-            </div>
-          </section>
-
-          <div class="banner banner--warn" style="margin-top:18px">
-            <span class="banner__icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 17h.01"/><path d="M10.3 3.9 2.4 18a2 2 0 0 0 1.7 3h15.8a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg>
-            </span>
-            <div>
-              <div class="banner__title" data-ctr="aviso-titulo">Nenhum contrato vencendo</div>
-              <div class="banner__text" data-ctr="aviso-texto">Contratos com vencimento próximo aparecem aqui.</div>
-            </div>
-          </div>
-        </aside>
-      </div>
-    </main>
-  </div>
-
-  <!-- Modal: novo contrato -->
-  <div class="modal" id="modal-contrato" role="dialog" aria-modal="true" aria-labelledby="t-contrato">
-    <div class="modal__panel">
-      <div class="modal__head">
-        <div>
-          <div class="modal__title" id="t-contrato">Novo contrato</div>
-          <div class="modal__sub">Gere a proposta e envie para assinatura.</div>
-        </div>
-        <button class="icon-btn" data-modal-close aria-label="Fechar">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6 6 18"/></svg>
-        </button>
-      </div>
-      <form class="modal__body" id="form-contrato">
-        <div class="field">
-          <label class="label" for="c-cliente">Cliente</label>
-          <input class="input" id="c-cliente" placeholder="Nome da empresa" required>
-        </div>
-        <div class="field mt-16">
-          <label class="label" for="c-email">E-mail do cliente</label>
-          <input class="input" id="c-email" type="email" placeholder="contato@empresa.com" required>
-        </div>
-        <div class="form-row mt-16">
-          <div class="field">
-            <label class="label" for="c-servico">Serviço</label>
-            <select class="select" id="c-servico">
-              <option>Site institucional</option>
-              <option>Landing page</option>
-              <option>E-commerce</option>
-              <option>Manutenção mensal</option>
-            </select>
-          </div>
-          <div class="field">
-            <label class="label" for="c-valor">Valor mensal (R$)</label>
-            <input class="input" id="c-valor" type="number" placeholder="1900" min="0" step="0.01" required>
-          </div>
-        </div>
-        <div class="form-row mt-16">
-          <div class="field">
-            <label class="label" for="c-status">Status</label>
-            <select class="select" id="c-status">
-              <option value="rascunho">Rascunho</option>
-              <option value="ativo">Ativo</option>
-            </select>
-          </div>
-          <div class="field">
-            <label class="label" for="c-lead">Lead de origem <span class="label__hint">(opcional)</span></label>
-            <select class="select" id="c-lead" data-leads-select>
-              <option value="">Sem lead vinculado</option>
-            </select>
-          </div>
-        </div>
-        <div class="field mt-16">
-          <label class="label" for="c-expira">Vencimento <span class="label__hint">(opcional)</span></label>
-          <input class="input" id="c-expira" type="date">
-        </div>
-        <div class="form-actions">
-          <button type="button" class="btn btn--outline" data-modal-close>Cancelar</button>
-          <button type="submit" class="btn btn--primary">Criar contrato</button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <!-- Modal: detalhe do contrato -->
-  <div class="modal" id="modal-detalhe" role="dialog" aria-modal="true" aria-labelledby="t-detalhe">
-    <div class="modal__panel">
-      <div class="modal__head">
-        <div class="row">
-          <span class="avatar avatar--amber avatar--lg avatar--sq" data-detalhe="iniciais">—</span>
-          <div>
-            <div class="modal__title" id="t-detalhe" data-detalhe="cliente">—</div>
-            <div class="modal__sub" data-detalhe="subtitulo">—</div>
-          </div>
-        </div>
-        <button class="icon-btn" data-modal-close aria-label="Fechar">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6 6 18"/></svg>
-        </button>
-      </div>
-      <div class="modal__body">
-        <div class="stat-strip card" style="box-shadow:none;margin-bottom:18px">
-          <div><div class="stat-strip__label">Valor</div><div class="stat-strip__value" data-detalhe="valor">R$ 0,00</div></div>
-          <div><div class="stat-strip__label">Serviço</div><div class="stat-strip__value" data-detalhe="servico">—</div></div>
-          <div><div class="stat-strip__label">Vencimento</div><div class="stat-strip__value" data-detalhe="vencimento">—</div></div>
-        </div>
-        <div class="tabs" data-tabs="detalhe" style="margin-bottom:16px">
-          <button class="tab is-active" data-target="resumo">Resumo</button>
-          <button class="tab" data-target="faturas">Faturas</button>
-        </div>
-        <div data-owner="detalhe" data-panel="resumo">
-          <div class="timeline" data-detalhe="timeline"></div>
-          <div class="field mt-16">
-            <label class="label" for="d-status">Status do contrato</label>
-            <select class="select" id="d-status" data-detalhe="status-select">
-              <option value="rascunho">Rascunho</option>
-              <option value="ativo">Ativo</option>
-              <option value="vencido">Vencido</option>
-              <option value="cancelado">Cancelado</option>
-            </select>
-          </div>
-        </div>
-        <div data-owner="detalhe" data-panel="faturas" class="hide" data-detalhe="faturas"></div>
-      </div>
-      <div class="modal__foot">
-        <button class="btn btn--outline" data-detalhe="excluir">Excluir</button>
-        <button class="btn btn--primary" data-detalhe="salvar">Salvar status</button>
       </div>
     </div>
   </div>
 
-  <div class="support" id="support" data-support aria-label="Central de ajuda" aria-hidden="true">
-    <!-- Conteúdo montado por assets/js/support.js -->
-  </div>
-
-
-<div class="toast" id="toast" role="status" aria-live="polite">
+  <div class="toast" id="toast" role="status" aria-live="polite">
     <svg class="toast__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg>
     <div><strong data-toast-title>Feito!</strong><small data-toast-text></small></div>
   </div>
 
-  <script src="assets/js/store.js?v=825fa3e-poll"></script>
-  <script src="assets/js/app.js?v=825fa3e-poll"></script>
-  <script src="assets/js/support.js?v=825fa3e-poll"></script>
+  <script src="assets/js/store.js?v=1"></script>
+  <script src="assets/js/app.js?v=1"></script>
+  <script src="assets/js/app-shell.js?v=1"></script>
   <script>
-  /* Contratos: lista, KPIs, criação e edição de status via /api/contracts */
-  (function () {
-    var D = window.Dados;
-    if (!D || !D.pronto) return;
-    var atual = null;
-
-    function set(sel, value) { document.querySelectorAll(sel).forEach(function (el) { el.textContent = value; }); }
-    function badge(status) {
-      var map = { ativo: ['success', 'Ativo'], rascunho: ['warn', 'Rascunho'], vencido: ['danger', 'Vencido'], cancelado: ['neutral', 'Cancelado'] };
-      var b = map[status] || ['neutral', status];
-      return '<span class="badge badge--' + b[0] + '">' + D.esc(b[1]) + '</span>';
-    }
-    var AVATARES = ['amber', 'green', 'sky', 'rose', 'violet'];
-
-    function pintar() {
-      var contratos = D.contratos();
-      var pagamentos = D.pagamentos();
-      var ativos = contratos.filter(function (c) { return c.status === 'ativo'; });
-      var rascunhos = contratos.filter(function (c) { return c.status === 'rascunho'; });
-      var soma = function (list) { return list.reduce(function (s, c) { return s + Number(c.value || 0); }, 0); };
-      var pagos = pagamentos.filter(function (p) { return p.status === 'pago'; });
-      var pendentes = pagamentos.filter(function (p) { return p.status === 'pendente' || p.status === 'atrasado'; });
-
-      set('[data-ctr="ativos"]', D.num(ativos.length));
-      set('[data-kpi-total]', D.num(contratos.length) + ' no total');
-      set('[data-ctr="mrr"]', D.dinheiro(soma(ativos)));
-      set('[data-ctr="rascunhos"]', D.num(rascunhos.length));
-      set('[data-ctr="negociacao"]', D.dinheiro(soma(rascunhos)));
-      set('[data-ctr="pagos"]', D.dinheiro(pagos.reduce(function (s, p) { return s + Number(p.value || 0); }, 0)));
-      set('[data-ctr="pendentes-meta"]', pendentes.length + ' pagamento' + (pendentes.length === 1 ? '' : 's') + ' pendente' + (pendentes.length === 1 ? '' : 's'));
-      set('[data-ctr="resumo"]', D.num(contratos.length) + ' contrato' + (contratos.length === 1 ? '' : 's'));
-      set('[data-ctr="rodape"]', 'Mostrando ' + D.num(contratos.length) + ' contrato' + (contratos.length === 1 ? '' : 's'));
-      set('[data-badge-contratos]', D.num(contratos.length));
-      set('[data-badge-leads]', D.num(D.leads().length));
-
-      var tbody = document.querySelector('[data-contratos-rows]');
-      if (tbody) {
-        tbody.innerHTML = contratos.length ? contratos.map(function (c, i) {
-          return '<tr data-status="' + D.esc(c.status) + '" data-id="' + D.esc(c.id) + '">' +
-            '<td><div class="cell-user"><span class="avatar avatar--sq avatar--' + AVATARES[i % AVATARES.length] + ' avatar--sm">' + D.esc(D.iniciais(c.clientName)) + '</span>' +
-            '<div><div class="cell-user__name">' + D.esc(c.clientName) + '</div><div class="cell-user__sub">' + D.esc(c.clientEmail) + '</div></div></div></td>' +
-            '<td>' + D.esc(c.service) + '</td><td>' + D.data(c.signedAt || c.createdAt) + '</td>' +
-            '<td class="num">' + D.dinheiro(c.value) + '</td><td>' + badge(c.status) + '</td>' +
-            '<td><button class="btn btn--outline btn--sm" data-abrir-contrato="' + D.esc(c.id) + '">Abrir</button></td></tr>';
-        }).join('') : '';
-      }
-      var vazio = document.querySelector('[data-contratos-vazio]');
-      if (vazio) {
-        vazio.innerHTML = contratos.length ? '' : '<div class="empty"><div class="empty__title">Nenhum contrato cadastrado</div><div class="empty__text">Use “Novo contrato” para registrar o primeiro.</div></div>';
-      }
-      if (window.ProspectaFiltro) window.ProspectaFiltro('contratos');
-
-      // Receita por serviço
-      var servicos = document.querySelector('[data-ctr="servicos"]');
-      if (servicos) {
-        var porServico = {};
-        ativos.forEach(function (c) { porServico[c.service] = (porServico[c.service] || 0) + Number(c.value || 0); });
-        var keys = Object.keys(porServico).sort(function (a, b) { return porServico[b] - porServico[a]; });
-        var max = keys.length ? porServico[keys[0]] : 1;
-        var cores = ['', 'progress__bar--info', 'progress__bar--success', 'progress__bar--warn'];
-        servicos.innerHTML = keys.length ? keys.map(function (k, i) {
-          return '<div class="hbar"><div class="hbar__top"><span class="hbar__label">' + D.esc(k) + '</span><span class="hbar__value">' + D.dinheiro(porServico[k]) + '</span></div>' +
-            '<div class="progress"><div class="progress__bar ' + cores[i % cores.length] + '" style="width:' + Math.round((porServico[k] / max) * 100) + '%"></div></div></div>';
-        }).join('') : '<div class="empty"><div class="empty__title">Sem receita registrada</div><div class="empty__text">Os contratos ativos aparecem aqui por serviço.</div></div>';
-      }
-
-      // Próximas renovações
-      var renov = document.querySelector('[data-ctr="renovacoes"]');
-      var comVencimento = contratos.filter(function (c) { return c.expiresAt; }).sort(function (a, b) { return new Date(a.expiresAt) - new Date(b.expiresAt); }).slice(0, 3);
-      if (renov) {
-        renov.innerHTML = comVencimento.length ? comVencimento.map(function (c, i) {
-          return '<div class="list-row"><span class="avatar avatar--' + AVATARES[i % AVATARES.length] + ' avatar--sm">' + D.esc(D.iniciais(c.clientName)) + '</span>' +
-            '<div class="list-row__body"><div class="list-row__title">' + D.esc(c.clientName) + '</div>' +
-            '<div class="list-row__meta">Vence em ' + D.data(c.expiresAt) + '</div></div>' +
-            '<div class="list-row__right t-12 bold">' + D.dinheiro(c.value) + '</div></div>';
-        }).join('') : '<div class="empty"><div class="empty__title">Sem vencimentos</div><div class="empty__text">Defina a data de vencimento nos contratos.</div></div>';
-      }
-      var proximo = comVencimento.filter(function (c) { return c.status === 'ativo'; })[0];
-      if (proximo) {
-        var dias = Math.ceil((new Date(proximo.expiresAt) - new Date()) / 86400000);
-        set('[data-ctr="aviso-titulo"]', '1 contrato vence ' + (dias >= 0 ? 'em ' + dias + ' dia' + (dias === 1 ? '' : 's') : 'atrasado'));
-        set('[data-ctr="aviso-texto"]', 'Envie a proposta de renovação para ' + proximo.clientName + '.');
-      } else {
-        set('[data-ctr="aviso-titulo"]', 'Nenhum contrato vencendo');
-        set('[data-ctr="aviso-texto"]', 'Contratos com vencimento próximo aparecem aqui.');
-      }
-
-      // Select de leads
-      var sel = document.querySelector('[data-leads-select]');
-      if (sel) {
-        var leads = D.leads();
-        sel.innerHTML = '<option value="">Sem lead vinculado</option>' + leads.map(function (l) {
-          return '<option value="' + D.esc(l.id) + '">' + D.esc(l.company || l.name) + '</option>';
-        }).join('');
-      }
-    }
-
-    function abrirDetalhe(id) {
-      var c = D.contratos().filter(function (x) { return x.id === id; })[0];
-      if (!c) return;
-      atual = c;
-      set('[data-detalhe="cliente"]', c.clientName);
-      set('[data-detalhe="iniciais"]', D.iniciais(c.clientName));
-      set('[data-detalhe="subtitulo"]', c.service + ' · ' + (c.signedAt ? 'desde ' + D.data(c.signedAt) : 'criado em ' + D.data(c.createdAt)));
-      set('[data-detalhe="valor"]', D.dinheiro(c.value));
-      set('[data-detalhe="servico"]', c.service);
-      set('[data-detalhe="vencimento"]', c.expiresAt ? D.data(c.expiresAt) : '—');
-      var sel = document.querySelector('[data-detalhe="status-select"]');
-      if (sel) sel.value = c.status;
-      var tl = document.querySelector('[data-detalhe="timeline"]');
-      if (tl) {
-        tl.innerHTML =
-          '<div class="timeline__item is-done"><div class="timeline__title">Contrato criado</div><div class="timeline__meta">' + D.data(c.createdAt) + '</div></div>' +
-          (c.signedAt ? '<div class="timeline__item is-done"><div class="timeline__title">Contrato assinado</div><div class="timeline__meta">' + D.data(c.signedAt) + '</div></div>' : '') +
-          (c.lead ? '<div class="timeline__item"><div class="timeline__title">Lead de origem</div><div class="timeline__meta">' + D.esc(c.lead.company || c.lead.name) + '</div></div>' : '') +
-          (c.expiresAt ? '<div class="timeline__item' + (c.status === 'ativo' ? ' is-current' : '') + '"><div class="timeline__title">Vencimento</div><div class="timeline__meta">' + D.data(c.expiresAt) + '</div></div>' : '');
-      }
-      var faturas = D.pagamentos().filter(function (p) { return p.contractId === c.id; });
-      var box = document.querySelector('[data-detalhe="faturas"]');
-      if (box) {
-        box.innerHTML = faturas.length ? faturas.map(function (p) {
-          var b = { pago: ['success', 'Pago'], pendente: ['warn', 'Pendente'], atrasado: ['danger', 'Atrasado'], estornado: ['neutral', 'Estornado'] }[p.status] || ['neutral', p.status];
-          return '<div class="list-row" style="padding-left:0;padding-right:0"><div class="list-row__body"><div class="list-row__title">' + D.dinheiro(p.value) + '</div>' +
-            '<div class="list-row__meta">' + (p.dueDate ? 'Vence ' + D.data(p.dueDate) : 'Sem vencimento') + (p.paidAt ? ' · pago em ' + D.data(p.paidAt) : '') + '</div></div>' +
-            '<span class="badge badge--' + b[0] + '">' + b[1] + '</span></div>';
-        }).join('') : '<div class="empty"><div class="empty__title">Nenhuma fatura</div><div class="empty__text">Pagamentos vinculados a este contrato aparecem aqui.</div></div>';
-      }
-      window.Prospecta.openModal('modal-detalhe');
-    }
-
-    D.pronto().then(function () {
-      document.body.setAttribute('data-dados-reais', '1');
-      pintar();
-      document.addEventListener('prospecta:mudou', pintar);
-
-      // Vindo de Prospecção ("Contratar"): pré-preenche o formulário com o lead
-      var leadId = new URLSearchParams(location.search).get('lead');
-      if (leadId) {
-        var lead = D.leads().filter(function (l) { return l.id === leadId; })[0];
-        if (lead) {
-          document.getElementById('c-cliente').value = lead.company || lead.name;
-          document.getElementById('c-email').value = lead.email;
-          document.getElementById('c-valor').value = lead.value || '';
-          document.getElementById('c-lead').value = lead.id;
-          document.getElementById('c-status').value = 'ativo';
-          window.Prospecta.openModal('modal-contrato');
-        }
-      }
-
-      document.addEventListener('click', function (e) {
-        var btn = e.target.closest('[data-abrir-contrato]');
-        if (btn) { abrirDetalhe(btn.getAttribute('data-abrir-contrato')); return; }
-        if (e.target.closest('[data-detalhe="salvar"]')) {
-          if (!atual) return;
-          var sel = document.querySelector('[data-detalhe="status-select"]');
-          D.atualizarContrato(atual.id, { status: sel.value }).then(function () {
-            window.Prospecta.closeModals();
-            window.Prospecta.toast('Contrato atualizado', 'Status alterado para ' + sel.value + '.');
-          }).catch(function (err) { window.Prospecta.toast('Erro', err.message); });
-          return;
-        }
-        if (e.target.closest('[data-detalhe="excluir"]')) {
-          if (!atual || !confirm('Excluir o contrato de ' + atual.clientName + '?')) return;
-          D.excluirContrato(atual.id).then(function () {
-            window.Prospecta.closeModals();
-            window.Prospecta.toast('Contrato excluído', 'O registro foi removido.');
-          }).catch(function (err) { window.Prospecta.toast('Erro', err.message); });
-        }
+    (function () {
+      var D = window.Dados;
+      var P = window.Prospecta;
+      D.pronto().then(function () {
+        var me = D.eu ? D.eu() : null;
+        if (!me) { window.location.href = "login.html?destino=contratos.html"; return; }
+        P.initShell({ title: "Contratos", crumbs: "Conta <b>/</b> <b>Contratos</b>", isAdmin: false, user: me });
+        P.iniciarAvatares(me);
       });
-
-      document.getElementById('form-contrato').addEventListener('submit', function (e) {
-        e.preventDefault();
-        var payload = {
-          clientName: document.getElementById('c-cliente').value.trim(),
-          clientEmail: document.getElementById('c-email').value.trim(),
-          service: document.getElementById('c-servico').value,
-          value: Number(document.getElementById('c-valor').value || 0),
-          status: document.getElementById('c-status').value,
-          leadId: document.getElementById('c-lead').value || null,
-          expiresAt: document.getElementById('c-expira').value || null
-        };
-        D.criarContrato(payload).then(function () {
-          document.getElementById('form-contrato').reset();
-          window.Prospecta.closeModals();
-          window.Prospecta.toast('Contrato criado', 'O contrato de ' + payload.clientName + ' foi salvo.');
-          D.carregar('activities').catch(function () {});
-        }).catch(function (err) { window.Prospecta.toast('Erro ao criar', err.message); });
-      });
-
-      var exp = document.querySelector('[data-exportar-contratos]');
-      if (exp) exp.addEventListener('click', function () {
-        var linhas = [['cliente', 'email', 'servico', 'valor', 'status', 'criado']].concat(D.contratos().map(function (c) {
-          return [c.clientName, c.clientEmail, c.service, c.value, c.status, c.createdAt];
-        }));
-        var csv = linhas.map(function (l) { return l.map(function (v) { return '"' + String(v == null ? '' : v).replace(/"/g, '""') + '"'; }).join(','); }).join('\n');
-        var url = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8' }));
-        var a = document.createElement('a'); a.href = url; a.download = 'contratos.csv'; a.click();
-        URL.revokeObjectURL(url);
-        window.Prospecta.toast('Exportação concluída', D.contratos().length + ' contratos exportados.');
-      });
-    });
-  })();
+    })();
   </script>
 </body>
 </html>

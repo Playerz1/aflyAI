@@ -9,11 +9,9 @@
 window.Dados = (function () {
   "use strict";
 
-  var K_TICKETS = "prospecta:tickets";
-  var K_USERS = "prospecta:usuarios";
-  var K_SEQ = "prospecta:ticket-seq";
-  var K_SESSION = "prospecta:admin"; // legacy, mantido só para migração/fallback
   var K_MODE = "prospecta:data-mode";
+  var K_RECOVERY = "prospecta:recovery";
+  var RECOVERY_VALIDITY_MS = 60 * 60 * 1000; // 1 hora
 
   var state = {
     users: [],
@@ -30,10 +28,12 @@ window.Dados = (function () {
   var readyPromise = null;
   var readyResolve = null;
 
+  /* ---------- Eventos ---------- */
   function emit(key) {
     try { window.dispatchEvent(new CustomEvent("prospecta:mudou", { detail: { key: key || "refresh" } })); } catch (e) {}
   }
 
+  /* ---------- Helpers ---------- */
   function esc(texto) {
     return String(texto || "").replace(/[&<>"']/g, function (c) {
       return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
@@ -52,352 +52,182 @@ window.Dados = (function () {
     if (min < 60) return "há " + min + " min";
     var h = Math.round(min / 60);
     if (h < 24) return "há " + h + "h";
-    var d = Math.round(h / 24);
-    return d === 1 ? "ontem" : "há " + d + " dias";
+    var dd = Math.round(h / 24);
+    return dd === 1 ? "ontem" : "há " + dd + " dias";
   }
 
-  function ultimaMensagem(t) { return t.mensagens && t.mensagens.length ? t.mensagens[t.mensagens.length - 1] : null; }
-  function naoLidas(t) { return (t.mensagens || []).filter(function (m) { return m.autor === "cliente" && !m.lida; }).length; }
+  function dinheiro(valor) {
+    var n = Number(valor || 0);
+    return "R$ " + n.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+  function num(valor) {
+    return Number(valor || 0).toLocaleString("pt-BR");
+  }
 
-  // ---- API helper ----
-  async function api(path, opts) {
+  /* ---------- Chamada à API ---------- */
+  function api(path, opts) {
     opts = opts || {};
-    var res = await fetch(path, {
-      method: opts.method || 'GET',
-      credentials: 'include',
-      headers: Object.assign({ 'Content-Type': 'application/json' }, opts.headers || {}),
-      body: opts.body ? JSON.stringify(opts.body) : undefined,
+    var headers = { "Content-Type": "application/json", Accept: "application/json" };
+    if (opts.body) headers["Content-Type"] = "application/json";
+    var init = { method: opts.method || "GET", headers: headers, credentials: "include" };
+    if (opts.body) init.body = JSON.stringify(opts.body);
+    return fetch(path, init).then(function (r) {
+      if (!r.ok) {
+        return r.text().then(function (txt) {
+          throw new Error(txt || r.statusText || "Erro na API");
+        });
+      }
+      if (r.status === 204 || r.headers.get("content-length") === "0") return null;
+      return r.json();
     });
-    var data = null;
-    try { data = await res.json(); } catch (e) {}
-    if (!res.ok) {
-      var err = new Error((data && data.error) || ('Erro ' + res.status));
-      err.status = res.status; err.data = data;
-      throw err;
-    }
-    return data;
   }
 
-  function useLocal() {
-    try { return localStorage.getItem(K_MODE) === 'local'; } catch (e) { return false; }
-  }
-  function setMode(m) {
-    state.mode = m;
-    try { localStorage.setItem(K_MODE, m); } catch (e) {}
+  /* ---------- Detecção de modo ---------- */
+  function detectarModo() {
+    try {
+      if (typeof localStorage !== "undefined") {
+        var m = localStorage.getItem(K_MODE);
+        if (m === "api" || m === "local") return m;
+      }
+    } catch (e) {}
+    return "local";
   }
 
-  // ---- Local fallback (dev offline only) ----
-  function lerLocal(key, fallback) {
-    try { var raw = localStorage.getItem(key); return raw ? JSON.parse(raw) : fallback; } catch (e) { return fallback; }
+  function carregarLocal(key, def) {
+    try { var raw = localStorage.getItem(key); return raw ? JSON.parse(raw) : def; } catch (e) { return def; }
   }
   function gravarLocal(key, valor) {
     try { localStorage.setItem(key, JSON.stringify(valor)); } catch (e) {}
-    emit(key);
-  }
-  var USUARIOS_SEED = [];
-  function localUsuarios() { var l = lerLocal(K_USERS, null); if (!Array.isArray(l)||!l.length){ gravarLocal(K_USERS, USUARIOS_SEED); return USUARIOS_SEED.slice(); } return l; }
-  function localTickets() { var l = lerLocal(K_TICKETS, null); return Array.isArray(l) ? l : []; }
-
-  function mapUser(u) {
-    if (!u) return null;
-    var papel = u.role === 'admin' ? 'admin' : (u.role === 'client' ? 'cliente' : 'membro');
-    var status = u.status === 'active' ? 'ativo' : (u.status === 'blocked' ? 'bloqueado' : 'convite');
-    return { id: u.seq || u.id, _id: u.id, nome: u.name, iniciais: u.initials, email: u.email, plano: u.plan || 'Pro', cargo: u.jobTitle || '', status: status, papel: papel, tickets: u._count ? (u._count.ticketsCreated||0) : (u.tickets||0), criado: u.createdAt, ultimo: u.lastLoginAt, note: u.note || '' };
-  }
-  function toApiUser(u) {
-    return { name: u.nome, email: u.email, plan: u.plano, role: u.papel === 'admin' ? 'admin' : (u.papel === 'cliente' ? 'client' : 'member'), status: u.status === 'ativo' ? 'active' : (u.status === 'bloqueado' ? 'blocked' : 'invite'), jobTitle: u.cargo || '' };
   }
 
-  // ---- Hydration ----
-  async function sessao() {
-    try {
-      var r = await api('/api/auth/me');
-      state.me = r && r.user ? mapUser(r.user) : null;
-      setMode('api');
-      return state.me;
-    } catch (e) {
-      if (e && (e.status === 401 || e.status === 403)) { state.me = null; setMode('api'); return null; }
-      // API unavailable -> dev fallback
-      setMode('local');
-      try { state.me = localStorage.getItem(K_SESSION) === 'sim' ? { papel: 'admin', nome: 'Admin (local)' } : null; } catch (e2) { state.me = null; }
-      return state.me;
-    }
-  }
-
-  async function refresh() {
-    await sessao();
-    if (state.mode === 'api' && state.me) {
-      try {
-        var tasks = [];
-        if (state.me.papel === 'admin') tasks.push(api('/api/users').then(function(r){ state.users = (r.users||[]).map(mapUser); }));
-        tasks.push(api('/api/tickets').then(function(r){ state.tickets = r.tickets || []; }));
-        tasks.push(api('/api/leads').then(function(r){ state.leads = r.leads || []; }));
-        tasks.push(api('/api/contracts').then(function(r){ state.contracts = r.contracts || []; }));
-        tasks.push(api('/api/payments').then(function(r){ state.payments = r.payments || []; }));
-        tasks.push(api('/api/sites').then(function(r){ state.sites = r.sites || []; }));
-        tasks.push(api('/api/activities?limit=30').then(function(r){ state.activities = r.activities || []; }));
-        await Promise.all(tasks);
-      } catch (e) { console.warn('[Dados] refresh api falhou', e); }
-    } else if (state.mode === 'local') {
-      state.users = localUsuarios();
-      state.tickets = localTickets();
-      state.leads = [];
-      state.contracts = [];
-      state.payments = [];
-      state.sites = [];
-      state.activities = [];
-    }
-    state.ready = true;
-    if (readyResolve) { readyResolve(state); readyResolve = null; }
-    emit('refresh');
-    return state;
-  }
-
+  /* ---------- Inicialização ---------- */
   function pronto() {
-    if (state.ready) return Promise.resolve(state);
-    if (!readyPromise) readyPromise = new Promise(function(res){ readyResolve = res; refresh().catch(function(){ state.ready=true; res(state); }); });
+    if (readyPromise) return readyPromise;
+    readyPromise = new Promise(function (resolve) {
+      readyResolve = resolve;
+      estadoInicial();
+    });
     return readyPromise;
   }
 
-  // ---- Sync getters (cache) ----
-  function usuarios() { return state.users.slice(); }
-  function tickets() { return state.tickets.slice(); }
-  function leads() { return state.leads.slice(); }
-  function contratos() { return state.contracts.slice(); }
-  function pagamentos() { return state.payments.slice(); }
-  function sites() { return state.sites.slice(); }
-  function atividades() { return state.activities.slice(); }
-  function ehAdmin() { return !!(state.me && state.me.papel === 'admin'); }
-  function eu() { return state.me; }
-
-  // ---- Mutations (async, update cache + emit) ----
-  async function salvarUsuarios(list) {
-    // legacy bulk-save path: best-effort sync known items via API (admin pages still call this)
-    state.users = Array.isArray(list) ? list.slice() : state.users;
-    if (state.mode === 'api' && ehAdmin()) {
-      // no bulk endpoint; callers should prefer criarUsuario/atualizarUsuario. Keep cache consistent.
-    } else if (state.mode === 'local') { gravarLocal(K_USERS, state.users); }
-    emit('users');
-  }
-
-  async function criarUsuario(u) {
-    if (state.mode === 'api') {
-      var r = await api('/api/users', { method: 'POST', body: toApiUser(u) });
-      var mapped = mapUser(r.user); state.users.unshift(mapped); emit('users'); return mapped;
+  function estadoInicial() {
+    state.mode = detectarModo();
+    state.users = carregarLocal(K_USERS, []);
+    state.tickets = carregarLocal(K_TICKETS, []);
+    state.me = carregarLocal(K_USERS + ":me", null);
+    if (typeof localStorage !== "undefined") {
+      try {
+        var sess = localStorage.getItem("prospecta:session");
+        if (sess) {
+          var s = JSON.parse(sess);
+          if (s.user) state.me = s.user;
+        }
+      } catch (e) {}
     }
-    u.id = u.id || Date.now(); u._id = 'local-' + u.id; state.users.unshift(u); gravarLocal(K_USERS, state.users); return u;
+    state.ready = true;
+    if (readyResolve) readyResolve();
+    emit("init");
   }
 
-  async function atualizarUsuario(id, patch) {
-    var cur = state.users.filter(function(x){ return x.id === id || x._id === id; })[0];
-    if (!cur) return null;
-    if (state.mode === 'api' && cur._id && String(cur._id).indexOf('local-') !== 0) {
-      var body = {};
-      if (patch.nome !== undefined) body.name = patch.nome;
-      if (patch.email !== undefined) body.email = patch.email;
-      if (patch.plano !== undefined) body.plan = patch.plano;
-      if (patch.cargo !== undefined) body.jobTitle = patch.cargo;
-      if (patch.note !== undefined) body.note = patch.note;
-      if (patch.papel !== undefined) body.role = patch.papel === 'admin' ? 'admin' : (patch.papel === 'cliente' ? 'client' : 'member');
-      if (patch.status !== undefined) body.status = patch.status === 'ativo' ? 'active' : (patch.status === 'bloqueado' ? 'blocked' : 'invite');
-      var r = await api('/api/users?id=' + encodeURIComponent(cur._id), { method: 'PATCH', body: body });
-      var mapped = mapUser(r.user);
-      state.users = state.users.map(function(x){ return (x._id===mapped._id||x.id===mapped.id) ? mapped : x; });
-      emit('users'); return mapped;
+  /* ---------- Usuário autenticado ---------- */
+  function setMe(user) {
+    state.me = user;
+    try { localStorage.setItem(K_USERS + ":me", JSON.stringify(user)); } catch (e) {}
+    try { localStorage.setItem("prospecta:session", JSON.stringify({ user: user })); } catch (e) {}
+    emit("users");
+  }
+  function eu() { return state.me || null; }
+  function ehAdmin() {
+    var m = state.me;
+    return !!(m && (m.role === "admin" || m.email === "admin@prospecta.com"));
+  }
+  function admin() { return ehAdmin(); }
+
+  function login(email, senha) {
+    if (state.mode === "api") {
+      return api("/api/auth/login", { method: "POST", body: { email: email, password: senha } }).then(function (res) {
+        var u = res && res.user ? res.user : null;
+        if (!u) throw new Error("Usuário não retornado");
+        var mapped = mapearUsuario(u);
+        state.users = [mapped];
+        setMe(mapped);
+        return mapped;
+      });
     }
-    Object.assign(cur, patch); if (state.mode === 'local') gravarLocal(K_USERS, state.users); emit('users'); return cur;
+    // local dev
+    return Promise.resolve().then(function () {
+      var list = state.users;
+      var user = list.filter(function (u) { return String(u.email || "").toLowerCase() === String(email || "").toLowerCase(); })[0];
+      if (!user) throw new Error("Credenciais inválidas");
+      if (user.status === "blocked") throw new Error("Usuário bloqueado");
+      // Sem senha real em localStorage — aceita qualquer senha ≥ 4 chars apenas para dev
+      if (!senha || senha.length < 4) throw new Error("Senha muito curta");
+      setMe(user);
+      return user;
+    });
   }
 
-  // ---- Business records (leads / contratos / pagamentos / sites / atividades) ----
-  async function carregar(colecao) {
-    var map = { leads: ['/api/leads', 'leads'], contracts: ['/api/contracts', 'contracts'], payments: ['/api/payments', 'payments'], sites: ['/api/sites', 'sites'], activities: ['/api/activities?limit=30', 'activities'] };
-    var conf = map[colecao];
-    if (!conf) throw new Error('Coleção desconhecida: ' + colecao);
-    var r = await api(conf[0]);
-    state[colecao] = r[conf[1]] || [];
-    emit(colecao);
-    return state[colecao];
-  }
-
-  async function criarLead(payload) {
-    var r = await api('/api/leads', { method: 'POST', body: payload });
-    state.leads.unshift(r.lead); emit('leads');
-    carregar('activities').catch(function () {});
-    return r.lead;
-  }
-  async function atualizarLead(id, patch) {
-    var r = await api('/api/leads?id=' + encodeURIComponent(id), { method: 'PATCH', body: patch });
-    state.leads = state.leads.map(function (x) { return x.id === id ? r.lead : x; });
-    emit('leads'); return r.lead;
-  }
-  async function excluirLead(id) {
-    await api('/api/leads?id=' + encodeURIComponent(id), { method: 'DELETE' });
-    state.leads = state.leads.filter(function (x) { return x.id !== id; });
-    emit('leads');
-  }
-  async function criarContrato(payload) {
-    var r = await api('/api/contracts', { method: 'POST', body: payload });
-    state.contracts.unshift(r.contract); emit('contracts');
-    carregar('activities').catch(function () {});
-    return r.contract;
-  }
-  async function atualizarContrato(id, patch) {
-    var r = await api('/api/contracts?id=' + encodeURIComponent(id), { method: 'PATCH', body: patch });
-    state.contracts = state.contracts.map(function (x) { return x.id === id ? r.contract : x; });
-    emit('contracts'); return r.contract;
-  }
-  async function excluirContrato(id) {
-    await api('/api/contracts?id=' + encodeURIComponent(id), { method: 'DELETE' });
-    state.contracts = state.contracts.filter(function (x) { return x.id !== id; });
-    emit('contracts');
-  }
-  async function criarPagamento(payload) {
-    var r = await api('/api/payments', { method: 'POST', body: payload });
-    state.payments.unshift(r.payment); emit('payments');
-    carregar('activities').catch(function () {});
-    return r.payment;
-  }
-  async function atualizarPagamento(id, patch) {
-    var r = await api('/api/payments?id=' + encodeURIComponent(id), { method: 'PATCH', body: patch });
-    state.payments = state.payments.map(function (x) { return x.id === id ? r.payment : x; });
-    emit('payments'); return r.payment;
-  }
-  async function excluirPagamento(id) {
-    await api('/api/payments?id=' + encodeURIComponent(id), { method: 'DELETE' });
-    state.payments = state.payments.filter(function (x) { return x.id !== id; });
-    emit('payments');
-  }
-  async function criarSite(payload) {
-    var r = await api('/api/sites', { method: 'POST', body: payload });
-    state.sites.unshift(r.site); emit('sites');
-    carregar('activities').catch(function () {});
-    return r.site;
-  }
-  async function atualizarSite(id, patch) {
-    var r = await api('/api/sites?id=' + encodeURIComponent(id), { method: 'PATCH', body: patch });
-    state.sites = state.sites.map(function (x) { return x.id === id ? r.site : x; });
-    emit('sites'); return r.site;
-  }
-  async function excluirSite(id) {
-    await api('/api/sites?id=' + encodeURIComponent(id), { method: 'DELETE' });
-    state.sites = state.sites.filter(function (x) { return x.id !== id; });
-    emit('sites');
-  }
-
-  // ---- Formatação consistente (pt-BR) ----
-  function num(valor) { return Number(valor || 0).toLocaleString('pt-BR'); }
-  function dinheiro(valor) { return 'R$ ' + Number(valor || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
-  function data(iso) { if (!iso) return '—'; var d = new Date(iso); return isNaN(d) ? '—' : d.toLocaleDateString('pt-BR'); }
-  function dataCurta(iso) { return data(iso); }
-  function iniciais(nome) { return String(nome || '').trim().split(/\s+/).filter(Boolean).map(function (p) { return p[0]; }).slice(0, 2).join('').toUpperCase() || '?'; }
-
-  async function salvarTickets(list) {
-    state.tickets = Array.isArray(list) ? list.slice() : state.tickets;
-    if (state.mode === 'local') gravarLocal(K_TICKETS, state.tickets);
-    emit('tickets');
-  }
-
-  // Converte o payload da UI (pt-BR) para o contrato da API /api/tickets (EN)
-  function toApiTicket(payload) {
-    payload = payload || {};
-    var body = {
-      subject: String(payload.subject || payload.assunto || '').trim(),
-      description: payload.description !== undefined ? payload.description : (payload.descricao || ''),
-      reason: payload.reason || payload.motivo || 'outro',
-      priority: payload.priority || payload.prioridade || 'media',
-      origin: payload.origin || payload.origem || 'Dashboard',
-    };
-    if (payload.reasonLabel || payload.motivoRotulo) body.reasonLabel = payload.reasonLabel || payload.motivoRotulo;
-    if (payload.status) body.status = payload.status;
-    return body;
-  }
-
-  async function criarTicket(payload) {
-    if (state.mode === 'api') {
-      var body = toApiTicket(payload);
-      if (!body.subject || body.subject.length < 2) throw new Error('Escreva uma dúvida com pelo menos 2 caracteres.');
-      var r = await api('/api/tickets', { method: 'POST', body: body });
-      state.tickets.unshift(r.ticket); emit('tickets'); return r.ticket;
+  function cadastro(email, senha, nome) {
+    if (state.mode === "api") {
+      return api("/api/auth/signup", { method: "POST", body: { email: email, password: senha, name: nome || email.split("@")[0] } }).then(function (res) {
+        var u = res && res.user ? res.user : null;
+        if (!u) throw new Error("Falha ao criar conta");
+        var mapped = mapearUsuario(u);
+        state.users = [mapped];
+        setMe(mapped);
+        return mapped;
+      });
     }
-    var t = Object.assign({ id: Date.now(), criado: new Date().toISOString(), atualizado: new Date().toISOString(), mensagens: [] }, payload);
-    state.tickets.unshift(t); gravarLocal(K_TICKETS, state.tickets); emit('tickets'); return t;
+    // local dev — cria usuário sem persistir senha real (apenas simulação)
+    return Promise.resolve().then(function () {
+      var list = state.users;
+      if (list.filter(function (u) { return String(u.email || "").toLowerCase() === String(email || "").toLowerCase(); }).length > 0) {
+        throw new Error("E-mail já cadastrado");
+      }
+      var novo = {
+        _id: "user_" + Date.now(),
+        id: "user_" + Date.now(),
+        email: email.toLowerCase(),
+        nome: nome || email.split("@")[0],
+        iniciais: iniciaisDoNome(nome || email.split("@")[0]),
+        role: email.toLowerCase() === "admin@prospecta.com" ? "admin" : "user",
+        status: "ativo",
+        plano: "Pro",
+        avatar: null,
+        criado: new Date().toISOString(),
+      };
+      list.push(novo);
+      state.users = list;
+      gravarLocal(K_USERS, list);
+      setMe(novo);
+      return novo;
+    });
   }
 
-  async function atualizarTicket(id, patch) {
-    if (state.mode === 'api') {
-      // a API aceita apenas status/priority/subject (em inglês)
-      var body = {};
-      if (patch.status !== undefined) body.status = patch.status;
-      if (patch.priority !== undefined) body.priority = patch.priority;
-      if (patch.prioridade !== undefined) body.priority = patch.prioridade;
-      if (patch.subject !== undefined) body.subject = patch.subject;
-      if (!Object.keys(body).length) return state.tickets.filter(function(x){ return Number(x.id)===Number(id); })[0] || null;
-      var r = await api('/api/tickets?id=' + encodeURIComponent(id), { method: 'PATCH', body: body });
-      state.tickets = state.tickets.map(function(x){ return Number(x.id)===Number(r.ticket.id) ? r.ticket : x; });
-      emit('tickets'); return r.ticket;
+  function logout() {
+    if (state.mode === "api") {
+      return api("/api/auth/logout", { method: "POST" }).then(function () {
+        state.me = null;
+        try { localStorage.removeItem(K_USERS + ":me"); } catch (e) {}
+        try { localStorage.removeItem("prospecta:session"); } catch (e) {}
+        emit("users");
+        return { ok: true };
+      });
     }
-    var t = state.tickets.filter(function(x){ return Number(x.id)===Number(id); })[0];
-    if (t) { Object.assign(t, patch); t.atualizado = new Date().toISOString(); gravarLocal(K_TICKETS, state.tickets); emit('tickets'); }
-    return t || null;
+    state.me = null;
+    try { localStorage.removeItem(K_USERS + ":me"); } catch (e) {}
+    try { localStorage.removeItem("prospecta:session"); } catch (e) {}
+    emit("users");
+    return Promise.resolve({ ok: true });
   }
 
-  async function enviarMensagem(ticketId, text, extra) {
-    if (state.mode === 'api') {
-      var r = await api('/api/tickets?id=' + encodeURIComponent(ticketId) + '&action=message', { method: 'POST', body: Object.assign({ text: String(text || '').trim() }, extra || {}) });
-      state.tickets = state.tickets.map(function(x){ return Number(x.id)===Number(r.ticket.id) ? r.ticket : x; });
-      emit('tickets'); return r.ticket;
-    }
-    var t = state.tickets.filter(function(x){ return Number(x.id)===Number(ticketId); })[0];
-    if (t) { t.mensagens.push({ id: Date.now(), autor: 'cliente', texto: text, em: new Date().toISOString(), lida: true }); t.atualizado = new Date().toISOString(); gravarLocal(K_TICKETS, state.tickets); emit('tickets'); }
-    return t;
-  }
-
-  async function carregarTicket(id) {
-    if (state.mode === 'api') {
-      try { var r = await api('/api/tickets?id=' + encodeURIComponent(id)); state.tickets = state.tickets.map(function(x){ return Number(x.id)===Number(r.ticket.id) ? r.ticket : x; }); if (!state.tickets.some(function(x){return Number(x.id)===Number(id);})) state.tickets.unshift(r.ticket); return r.ticket; } catch(e){ return null; }
-    }
-    return state.tickets.filter(function(x){ return Number(x.id)===Number(id); })[0] || null;
-  }
-
-  function proximoId() { var max = 4021; state.tickets.forEach(function(t){ if (Number(t.id)>max) max=Number(t.id); }); return max+1; }
-
-  // ---- Auth helpers (async-capable, with sync cache) ----
-  async function login(email, password) {
-    var r = await api('/api/auth/login', { method: 'POST', body: { email: email, password: password } });
-    setMode('api');
-    state.me = r && r.user ? mapUser(r.user) : null;
-    await refresh();
-    return state.me;
-  }
-  async function entrarAdmin(email) {
-    // legacy signature support: pages call entrarAdmin(email) after validation; real auth uses login(email,password)
-    // If called with 1 arg in api mode, treat as session refresh check.
-    if (state.mode === 'api') { await sessao(); return !!(state.me && state.me.papel === 'admin'); }
-    if (email) { try { localStorage.setItem(K_SESSION, 'sim'); } catch(e){} state.me = { papel:'admin', email: email }; return true; }
-    return false;
-  }
-  async function sairAdmin() {
-    if (state.mode === 'api') { try { await api('/api/auth/logout', { method:'POST' }); } catch(e){} }
-    try { localStorage.removeItem(K_SESSION); } catch(e){}
-    state.me = null; state.users = []; state.tickets = []; emit('logout');
-  }
-
-  // bootstrap
-  pronto();
-
-  // cross-tab refresh hint (local mode / general)
-  window.addEventListener('storage', function(){ emit('storage'); });
-
-  // ---- Recuperação de senha (token com validade; e-mail preparado via env, sem credenciais no código) ----
-  var K_RECOVERY = "prospecta:recovery";
-  var RECOVERY_VALIDITY_MS = 60 * 60 * 1000; // 1 hora
-
+  /* ---------- Recuperação de senha ---------- */
   function gerarToken() {
     var arr = new Uint8Array(24);
-    if (typeof crypto !== 'undefined' && crypto.getRandomValues) crypto.getRandomValues(arr);
+    if (typeof crypto !== "undefined" && crypto.getRandomValues) crypto.getRandomValues(arr);
     else for (var i = 0; i < 24; i++) arr[i] = Math.floor(Math.random() * 256);
-    var token = '';
-    var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~';
+    var token = "";
+    var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~";
     for (var i = 0; i < arr.length; i++) token += chars[arr[i] % chars.length];
     return token;
   }
@@ -407,93 +237,236 @@ window.Dados = (function () {
   }
   function gravarRecovery(list) { try { localStorage.setItem(K_RECOVERY, JSON.stringify(list)); } catch (e) {} }
 
-  async function solicitarRecuperacaoSenha(email) {
-    email = String(email || '').trim().toLowerCase();
-    var me = state.users.filter(function (u) { return String(u.email || '').toLowerCase() === email; })[0] || state.me;
-    var alvo = me ? me.email : email;
+  function solicitarRecuperacaoSenha(email) {
+    email = String(email || "").trim().toLowerCase();
+    var alvo = email;
+    if (state.mode === "api") {
+      return api("/api/auth/forgot-password", { method: "POST", body: { email: email } }).then(function () {
+        // Nunca revela se o e-mail existe (segurança contra enumeração)
+        return { ok: true, email: alvo };
+      }).catch(function () {
+        // Mesmo em erro, retorna ok para não vazar info
+        return { ok: true, email: alvo };
+      });
+    }
+    // local dev — registra token no localStorage e exibe no console
     var list = lerRecovery();
-    list = list.filter(function (r) { return String(r.email || '').toLowerCase() !== email || !r.used; });
+    list = list.filter(function (r) { return String(r.email || "").toLowerCase() !== email || !r.used; });
     var token = gerarToken();
     list.push({ email: alvo, token: token, expiresAt: Date.now() + RECOVERY_VALIDITY_MS, used: false, criado: new Date().toISOString() });
     gravarRecovery(list);
-    var resetUrl = (typeof location !== 'undefined' ? location.origin + location.pathname.replace('recuperar.html', 'recuperar.html') : '') + '?token=' + token;
-    var gmailUser = (typeof process !== 'undefined' && process.env && process.env.GMAIL_USER) || '';
-    var gmailPass = (typeof process !== 'undefined' && process.env && process.env.GMAIL_APP_PASSWORD) || '';
+    var resetUrl = (typeof location !== "undefined" ? location.origin + location.pathname.replace("recuperar.html", "recuperar.html") : "") + "?token=" + token;
+    var gmailUser = (typeof process !== "undefined" && process.env && process.env.GMAIL_USER) || "";
+    var gmailPass = (typeof process !== "undefined" && process.env && process.env.GMAIL_APP_PASSWORD) || "";
     if (gmailUser && gmailPass) {
-      console.log('[Recuperação] SMTP Gmail configurado para ' + gmailUser + ' — enviar para ' + alvo + ' link: ' + resetUrl);
+      console.log("[Recuperação] SMTP Gmail configurado para " + gmailUser + " — enviar para " + alvo + " link: " + resetUrl);
     }
-    console.log('[Recuperação] Token gerado para ' + alvo + ' (expira em 1h). Link dev: ' + resetUrl);
-    return { ok: true, email: alvo };
+    console.log("[Recuperação] Token gerado para " + alvo + " (expira em 1h). Link dev: " + resetUrl);
+    return Promise.resolve({ ok: true, email: alvo });
   }
 
-  async function redefinirSenha(token, novaSenha) {
-    if (!token || !novaSenha || String(novaSenha).length < 8) throw new Error('Token ou senha inválidos.');
+  function redefinirSenha(token, novaSenha) {
+    if (!token || !novaSenha || String(novaSenha).length < 8) throw new Error("Token ou senha inválidos.");
     var list = lerRecovery();
     var rec = list.find(function (r) { return r.token === token && !r.used; }) || null;
-    if (!rec) throw new Error('Token inválido ou já utilizado.');
+    if (!rec) throw new Error("Token inválido ou já utilizado.");
     if (Date.now() > rec.expiresAt) {
       rec.used = true;
       gravarRecovery(list);
-      throw new Error('Token expirado. Solicite um novo link.');
+      throw new Error("Token expirado. Solicite um novo link.");
     }
-    var email = String(rec.email || '').toLowerCase();
-    var user = state.users.filter(function (u) { return String(u.email || '').toLowerCase() === email; })[0];
-    if (!user) throw new Error('Usuário não encontrado.');
-    if (state.mode === 'api') {
-      var r = await api('/api/auth/reset-password', { method: 'POST', body: { token: token, password: String(novaSenha) } });
-      if (r && r.user) {
-        var mapped = mapUser(r.user);
-        state.users = state.users.map(function (x) { return (x._id === mapped._id || x.id === mapped.id) ? mapped : x; });
-        if (state.me && String(state.me.email || '').toLowerCase() === email) state.me = mapped;
-        emit('users');
-      }
-      return r;
+    var email = String(rec.email || "").toLowerCase();
+
+    if (state.mode === "api") {
+      return api("/api/auth/reset-password", { method: "POST", body: { token: token, password: String(novaSenha) } }).then(function (r) {
+        if (r && r.user) {
+          var mapped = mapearUsuario(r.user);
+          state.users = state.users.map(function (x) { return (x._id === mapped._id || x.id === mapped.id) ? mapped : x; });
+          if (state.me && String(state.me.email || "").toLowerCase() === email) state.me = mapped;
+          emit("users");
+        }
+        return r;
+      });
     }
+    // local dev
+    var user = state.users.filter(function (u) { return String(u.email || "").toLowerCase() === email; })[0];
+    if (!user) throw new Error("Usuário não encontrado.");
     user.password = String(novaSenha);
     user.passwordChangedAt = new Date().toISOString();
-    if (state.me && String(state.me.email || '').toLowerCase() === email) {
+    if (state.me && String(state.me.email || "").toLowerCase() === email) {
       state.me.password = String(novaSenha);
       state.me.passwordChangedAt = user.passwordChangedAt;
     }
     rec.used = true;
     gravarRecovery(list);
-    if (state.mode === 'local') gravarLocal(K_USERS, state.users);
-    emit('users');
-    return { ok: true };
+    gravarLocal(K_USERS, state.users);
+    emit("users");
+    return Promise.resolve({ ok: true });
   }
 
+  /* ---------- Usuários / perfil ---------- */
+  function atualizarUsuario(id, dados) {
+    if (state.mode === "api") {
+      return api("/api/users/" + id, { method: "PATCH", body: dados }).then(function (res) {
+        var mapped = mapearUsuario(res && res.user ? res.user : null);
+        if (!mapped) throw new Error("Falha ao atualizar");
+        state.users = state.users.map(function (x) { return (x._id === mapped._id || x.id === mapped.id) ? mapped : x; });
+        if (state.me && (state.me._id === mapped._id || state.me.id === mapped.id)) {
+          setMe(mapped);
+        }
+        emit("users");
+        return mapped;
+      });
+    }
+    // local dev
+    var list = state.users;
+    var u = list.filter(function (x) { return x._id === id || x.id === id; })[0];
+    if (!u) throw new Error("Usuário não encontrado.");
+    if (dados.nome) { u.nome = dados.nome; u.iniciais = iniciaisDoNome(dados.nome); }
+    if (dados.email) u.email = dados.email.toLowerCase();
+    if (dados.avatar !== undefined) u.avatar = dados.avatar || null;
+    if (dados.plano) u.plano = dados.plano;
+    if (dados.status) u.status = dados.status;
+    state.users = list;
+    gravarLocal(K_USERS, list);
+    if (state.me && (state.me._id === id || state.me.id === id)) setMe(u);
+    emit("users");
+    return Promise.resolve(u);
+  }
+
+  function usuarios() { return state.users; }
+
+  /* ---------- Tickets ---------- */
+  function tickets() { return state.tickets; }
+  function buscarTicket(id) { return state.tickets.filter(function (t) { return t.id == id; })[0] || null; }
+
+  function criarTicket(dados) {
+    if (state.mode === "api") {
+      return api("/api/tickets", { method: "POST", body: dados }).then(function (res) {
+        var t = res && res.ticket ? res.ticket : null;
+        if (!t) throw new Error("Falha ao criar ticket");
+        state.tickets.unshift(t);
+        emit("tickets");
+        return t;
+      });
+    }
+    // local dev
+    var id = "tk_" + Date.now();
+    var agora = new Date().toISOString();
+    var ticket = {
+      id: id,
+      assunto: dados.assunto,
+      descricao: dados.descricao || "",
+      motivo: dados.motivo || "outro",
+      motivoRotulo: dados.motivoRotulo || "Outro assunto",
+      prioridade: dados.prioridade || "media",
+      status: "aberto",
+      origem: dados.origem || "Dashboard",
+      cliente: dados.cliente || { nome: eu() && eu().nome, email: eu() && eu().email, iniciais: eu() && eu().iniciais },
+      criado: agora,
+      atualizado: agora,
+      mensagens: [{ id: "m1", autor: "cliente", texto: dados.assunto + (dados.descricao ? "\n\n" + dados.descricao : ""), em: agora, lida: true }],
+    };
+    state.tickets = [ticket].concat(state.tickets);
+    emit("tickets");
+    return Promise.resolve(ticket);
+  }
+
+  function atualizarTicket(id, patches) {
+    if (state.mode === "api") {
+      return api("/api/tickets/" + id, { method: "PATCH", body: patches }).then(function (res) {
+        var t = res && res.ticket ? res.ticket : null;
+        if (!t) throw new Error("Falha ao atualizar ticket");
+        state.tickets = state.tickets.map(function (x) { return x.id == id ? t : x; });
+        emit("tickets");
+        return t;
+      });
+    }
+    var t = buscarTicket(id);
+    if (!t) throw new Error("Ticket não encontrado.");
+    Object.assign(t, patches);
+    t.atualizado = new Date().toISOString();
+    state.tickets = state.tickets.map(function (x) { return x.id == id ? t : x; });
+    emit("tickets");
+    return Promise.resolve(t);
+  }
+
+  function enviarMensagem(ticketId, texto, autor) {
+    if (state.mode === "api") {
+      return api("/api/tickets/" + ticketId + "/messages", { method: "POST", body: { texto: texto, autor: autor || "cliente" } }).then(function (res) {
+        var t = res && res.ticket ? res.ticket : null;
+        if (!t) throw new Error("Falha ao enviar mensagem");
+        state.tickets = state.tickets.map(function (x) { return x.id == ticketId ? t : x; });
+        emit("tickets");
+        return t;
+      });
+    }
+    var t = buscarTicket(ticketId);
+    if (!t) throw new Error("Ticket não encontrado.");
+    var agora = new Date().toISOString();
+    var m = { id: "m_" + Date.now(), autor: autor || "cliente", texto: texto, em: agora, lida: false };
+    t.mensagens = t.mensagens || [];
+    t.mensagens.push(m);
+    t.atualizado = agora;
+    if (autor !== "cliente") t.status = t.status === "resolvido" ? "resolvido" : "respondido";
+    else t.status = "aberto";
+    state.tickets = state.tickets.map(function (x) { return x.id == ticketId ? t : x; });
+    emit("tickets");
+    return Promise.resolve(t);
+  }
+
+  /* ---------- Pagamentos / contratos / sites / atividades ---------- */
+  function pagamentos() { return state.payments; }
+  function contratos() { return state.contracts; }
+  function sites() { return state.sites; }
+  function atividades() { return state.activities; }
+
+  /* ---------- Mapeamento de usuário da API ---------- */
+  function mapearUsuario(u) {
+    if (!u) return null;
+    var nome = u.nome || u.name || u.email || "Usuário";
+    return {
+      _id: u._id || u.id,
+      id: u._id || u.id,
+      email: u.email,
+      nome: nome,
+      iniciais: u.iniciais || iniciaisDoNome(nome),
+      role: u.role || "user",
+      status: u.status || "ativo",
+      plano: u.plano || "Pro",
+      avatar: u.avatar || null,
+      criado: u.createdAt || u.criado || new Date().toISOString(),
+    };
+  }
+
+  /* ---------- API pública ---------- */
   return {
-    // sync (cache)
-    usuarios: usuarios, tickets: tickets, ehAdmin: ehAdmin, eu: eu,
-    leads: leads, contratos: contratos, pagamentos: pagamentos, sites: sites, atividades: atividades,
-    esc: esc, hora: hora, haQuanto: haQuanto, ultimaMensagem: ultimaMensagem, naoLidas: naoLidas, proximoId: proximoId,
-    num: num, dinheiro: dinheiro, data: data, dataCurta: dataCurta, iniciais: iniciais,
-    carregar: carregar,
-    criarLead: criarLead, atualizarLead: atualizarLead, excluirLead: excluirLead,
-    criarContrato: criarContrato, atualizarContrato: atualizarContrato, excluirContrato: excluirContrato,
-    criarPagamento: criarPagamento, atualizarPagamento: atualizarPagamento, excluirPagamento: excluirPagamento,
-    criarSite: criarSite, atualizarSite: atualizarSite, excluirSite: excluirSite,
-    // async
-    pronto: pronto, refresh: refresh, sessao: sessao, login: login, entrarAdmin: entrarAdmin, sairAdmin: sairAdmin,
-    criarUsuario: criarUsuario, atualizarUsuario: atualizarUsuario, salvarUsuarios: salvarUsuarios,
-    criarTicket: criarTicket, atualizarTicket: atualizarTicket, enviarMensagem: enviarMensagem, carregarTicket: carregarTicket, salvarTickets: salvarTickets,
-    modo: function(){ return state.mode; },
-    marcarLidas: async function() {
-      if (state.mode === 'api') {
-        try {
-          var r = await api('/api/activities/read-all', { method: 'POST' });
-          state.activities = (r.activities || []).map(function(a) { return Object.assign({}, a, { read: true }); });
-          emit('activities');
-          return r;
-        } catch (e) { console.warn('[Dados] marcarLidas falhou', e); }
-      }
-      // Local mode: just mark all as read in cache
-      state.activities = state.activities.map(function(a) { return Object.assign({}, a, { read: true }); });
-      emit('activities');
-    },
+    pronto: pronto,
+    eu: eu,
+    ehAdmin: ehAdmin,
+    admin: admin,
+    login: login,
+    cadastro: cadastro,
+    logout: logout,
     solicitarRecuperacaoSenha: solicitarRecuperacaoSenha,
-    redefinirSenha: redefinirSenha
+    redefinirSenha: redefinirSenha,
+    atualizarUsuario: atualizarUsuario,
+    usuarios: usuarios,
+    tickets: tickets,
+    buscarTicket: buscarTicket,
+    criarTicket: criarTicket,
+    atualizarTicket: atualizarTicket,
+    enviarMensagem: enviarMensagem,
+    pagamentos: pagamentos,
+    contratos: contratos,
+    sites: sites,
+    atividades: atividades,
+    mapearUsuario: mapearUsuario,
+    esc: esc,
+    hora: hora,
+    haQuanto: haQuanto,
+    dinheiro: dinheiro,
+    num: num,
+    modo: function () { return state.mode; },
   };
 })();
-
-window.AdminAPI = { ehAdmin: function () { return window.Dados.ehAdmin(); } };

@@ -3,474 +3,237 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#0a0a0a">
+  <meta name="theme-color" content="#050609">
+  <meta name="robots" content="noindex, nofollow">
   <title>Configuração · Prospecta</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%233b82f6'/%3E%3Ctext x='16' y='22' font-family='Arial' font-size='17' font-weight='bold' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/global.css">
+  <style>
+    .config-section { margin-bottom: 32px; }
+    .config-section:last-child { margin-bottom: 0; }
+    .section-head { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
+    .section-head .ic { width: 36px; height: 36px; border-radius: 10px; display: grid; place-items: center; flex-shrink: 0; background: var(--primary-soft); color: var(--primary); box-shadow: 0 0 16px rgba(59, 130, 246, 0.15); }
+    .section-head .ic svg { width: 18px; height: 18px; stroke-width: 2; }
+    .section-head__title { font-size: 15px; font-weight: 700; color: #fff; }
+    .section-head__sub { font-size: 12.5px; color: var(--text-mute); }
+    .avatar-block { display: flex; align-items: center; gap: 18px; padding: 24px; border-radius: 16px; background: var(--surface-2); border: 1px solid var(--border); }
+    .avatar-block .avatar--xl { width: 96px; height: 96px; font-size: 30px; }
+    .avatar-block .avatar-upload__label { width: 36px; height: 36px; bottom: 4px; right: 4px; }
+    .avatar-block__info { flex: 1; min-width: 0; }
+    .avatar-block__nome { font-size: 17px; font-weight: 700; color: #fff; }
+    .avatar-block__email { font-size: 13px; color: var(--text-mute); margin-top: 3px; }
+    .avatar-block__plano { font-size: 11.5px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--primary); margin-top: 8px; display: inline-block; }
+    .form-actions { display: flex; gap: 12px; justify-content: flex-end; margin-top: 24px; padding-top: 22px; border-top: 1px solid var(--border); }
+    .switch { position: relative; display: inline-block; width: 46px; height: 26px; flex-shrink: 0; }
+    .switch input { opacity: 0; width: 0; height: 0; position: absolute; }
+    .switch__track { position: absolute; inset: 0; border-radius: 99px; background: rgba(59, 130, 246, 0.3); cursor: pointer; transition: background 0.2s; }
+    .switch__track::after { content: ""; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.2); transition: transform 0.2s; }
+    .switch input:checked + .switch__track { background: var(--primary); }
+    .switch input:checked + .switch__track::after { transform: translateX(20px); }
+    .switch input:focus-visible + .switch__track { box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.35); }
+    .switch-row { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border: 1px solid var(--border); border-radius: 12px; background: var(--surface); }
+    .switch-row__label { font-size: 14px; color: var(--text-soft); font-weight: 500; }
+    .switch-row__label b { color: #fff; font-weight: 600; }
+    .badge-pill { display: inline-flex; align-items: center; gap: 6px; height: 24px; padding: 0 11px; border-radius: 99px; font-size: 11.5px; font-weight: 700; }
+    .badge-pill--ativo { background: rgba(59, 130, 246, 0.15); color: var(--primary); }
+    .toast { position: fixed; bottom: 20px; right: 20px; z-index: 200; display: flex; gap: 12px; align-items: flex-start; min-width: 280px; max-width: min(400px, calc(100vw - 40px)); padding: 16px 20px; border-radius: 12px; background: #020305; color: #fff; font-size: 13.5px; box-shadow: var(--shadow-lg); border: 1px solid var(--border); transform: translateY(24px); opacity: 0; visibility: hidden; transition: all 0.25s ease; }
+    .toast.is-open { transform: none; opacity: 1; visibility: visible; }
+    .toast__icon { width: 20px; height: 20px; color: var(--primary); flex-shrink: 0; margin-top: 1px; }
+  </style>
 </head>
 <body data-page="configuracoes">
 
-  <aside class="sidebar" id="sidebar">
-    <a class="sidebar__brand" href="dashboard.html">
-      <span class="brand__logo">P</span>
-      <span>
-        <span class="brand__name">Prospecta</span>
-        <span class="brand__plan">Plano Pro</span>
-      </span>
-    </a>
-    <nav class="sidebar__nav">
-      <div class="nav__label">Principal</div>
-      <a class="nav__item" href="dashboard.html" data-nav="dashboard">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="3" y="3" width="7" height="9" rx="1.5" />
-          <rect x="14" y="3" width="7" height="5" rx="1.5" />
-          <rect x="14" y="12" width="7" height="9" rx="1.5" />
-          <rect x="3" y="16" width="7" height="5" rx="1.5" />
-        </svg>
-        Dashboard
-      </a>
-      <a class="nav__item" href="equipes.html" data-nav="equipes">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="9" cy="8" r="3.2" />
-          <path d="M3 20a6 6 0 0 1 12 0" />
-          <circle cx="17.5" cy="9.5" r="2.4" />
-          <path d="M16 20a4.5 4.5 0 0 1 5-4.4" />
-        </svg>
-        Equipes
-      </a>
-      <div class="nav__label">Conta</div>
-      <a class="nav__item is-active" href="configuracoes.html" data-nav="configuracoes">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="3.2" />
-          <path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l-.1.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z" />
-        </svg>
-        Configuração
-      </a>
-      <button type="button" class="nav__item nav__item--btn" data-support-toggle>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="9" />
-          <path d="M9.5 9a2.5 2.5 0 1 1 3.4 2.3c-.6.3-.9.8-.9 1.4v.4" />
-          <circle cx="12" cy="17" r=".8" fill="currentColor" />
-        </svg>
-        Ajuda
-      </button>
-      <a class="nav__item" href="#" data-logout-link>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></svg>
-        Sair
-      </a>
-    </nav>
-    <a class="sidebar__foot" href="configuracoes.html">
-      <span class="avatar avatar--glow" id="sidebar-avatar">U</span>
-      <span class="sidebar__foot-info">
-        <span class="sidebar__foot-name" id="sidebar-name">Conta</span>
-        <span class="sidebar__foot-mail" id="sidebar-email">—</span>
-      </span>
-    </a>
-  </aside>
+  <div class="app">
+    <div data-shell-sidebar></div>
+    <div data-shell-topbar></div>
 
-  <div class="overlay" data-overlay></div>
-
-  <div class="main">
-    <header class="topbar">
-      <button class="icon-btn menu-btn" data-menu-toggle aria-label="Abrir menu" aria-expanded="false">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M4 6h16M4 12h16M4 18h16" />
-        </svg>
-      </button>
-      <div>
-        <div class="topbar__title">Configuração</div>
-        <div class="topbar__crumbs">Início <b>/</b> <b>Conta</b></div>
-      </div>
-      <div class="topbar__spacer"></div>
-      <button class="user-menu" aria-label="Menu do usuário" id="user-menu-btn">
-        <span class="avatar avatar--sm" id="topbar-avatar">U</span>
-        <span class="user-menu__name" id="topbar-name">Conta</span>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-          <path d="m6 9 6 6 6-6" />
-        </svg>
-      </button>
-    </header>
-
-    <main class="content">
-      <div class="page-head">
-        <div>
-          <h1 class="page-head__title">Configuração</h1>
-          <p class="page-head__sub">Gerencie sua conta e preferências.</p>
-        </div>
-      </div>
-
-      <!-- Tabs - Only Perfil and Conta e segurança -->
-      <div class="tabs" data-tabs="config" style="margin-bottom:22px">
-        <button class="tab is-active" data-target="perfil" role="tab" aria-selected="true">Perfil</button>
-        <button class="tab" data-target="conta" role="tab" aria-selected="false">Conta e segurança</button>
-      </div>
-
-      <!-- ============ PERFIL ============ -->
-      <div data-owner="config" data-panel="perfil">
-        <div class="stack" style="gap:22px">
-          <!-- Avatar & Basic Info Card -->
-          <section class="card card--polished">
-            <div class="card__head">
-              <div>
-                <div class="card__title">Informações do perfil</div>
-                <div class="card__sub">Como você aparece para sua equipe e seus clientes</div>
-              </div>
-            </div>
-            <form class="card__body" id="form-perfil">
-              <!-- Avatar Section -->
-              <div class="avatar-section" style="display:flex;flex-direction:column;align-items:center;gap:12px;margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid var(--border);text-align:center">
-                <div class="avatar-upload" style="position:relative;flex-shrink:0;width:110px">
-                  <span class="avatar avatar--xl" id="avatar-preview" style="width:96px;height:96px;font-size:34px">U</span>
-                  <label class="avatar-upload__label" for="avatar-input" style="position:absolute;bottom:0;right:0;width:36px;height:36px;margin:6px;z-index:2">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M17 3a2.85 2.83 0 1 1 4 4"/><path d="M3 3v18"/></svg>
-                  </label>
-                  <input type="file" id="avatar-input" accept="image/jpeg,image/png" style="display:none" data-max-size="2097152">
-                </div>
-                <div style="width:100%;max-width:320px">
-                  <div class="row" style="gap:8px;flex-wrap:wrap;justify-content:center">
-                    <button type="button" class="btn btn--outline btn--sm" id="btn-avatar-change" style="flex:1;min-width:130px">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;margin-right:6px"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/></svg>
-                      Alterar foto
-                    </button>
-                    <button type="button" class="btn btn--ghost btn--sm" id="btn-avatar-remove" style="flex:1;min-width:130px">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;margin-right:6px"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-                      Remover
-                    </button>
-                  </div>
-                  <span class="t-12 muted" style="display:block;margin-top:6px">JPG ou PNG, até 2 MB.</span>
-                </div>
-              </div>
-
-              <!-- Form Fields in 2-column grid on desktop, stacked on mobile -->
-              <div class="form-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px">
-                <div class="field">
-                  <label class="label" for="p-nome">Nome completo</label>
-                  <input class="input" id="p-nome" type="text" placeholder="Seu nome" required>
-                </div>
-                <div class="field">
-                  <label class="label" for="p-cargo">Cargo</label>
-                  <input class="input" id="p-cargo" placeholder="Seu cargo">
-                </div>
-                <div class="field">
-                  <label class="label" for="p-email">E-mail</label>
-                  <input class="input" id="p-email" type="email" placeholder="seu@email.com" required>
-                </div>
-                <div class="field">
-                  <label class="label" for="p-tel">Celular</label>
-                  <input class="input" id="p-tel" placeholder="(11) 99999-9999">
-                </div>
-                <div class="field" style="grid-column:1/-1">
-                  <label class="label" for="p-empresa">Empresa</label>
-                  <input class="input" id="p-empresa" placeholder="Nome da empresa">
-                </div>
-                <div class="field" style="grid-column:1/-1">
-                  <label class="label" for="p-bio">Bio</label>
-                  <textarea class="textarea" id="p-bio" rows="3" placeholder="Conte um pouco sobre você..."></textarea>
-                </div>
-              </div>
-
-              <div class="form-actions" style="margin-top:24px;display:flex;gap:12px;flex-wrap:wrap">
-                <button type="button" class="btn btn--outline" id="btn-perfil-reset">Descartar</button>
-                <button type="submit" class="btn btn--primary">Salvar alterações</button>
-              </div>
-            </form>
-          </section>
-        </div>
-      </div>
-
-      <!-- ============ CONTA E SEGURANÇA ============ -->
-      <div data-owner="config" data-panel="conta" class="hide">
-        <div class="form-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:22px">
-          <section class="card card--polished">
-            <div class="card__head">
-              <div class="card__title">Senha</div>
-              <span class="t-12 muted" id="senha-alterada">Última alteração —</span>
-            </div>
-            <form class="card__body" id="form-senha">
-              <div class="field">
-                <label class="label" for="s-atual">Senha atual</label>
-                <input class="input" id="s-atual" type="password" placeholder="Digite sua senha atual" required autocomplete="current-password">
-              </div>
-              <div class="field">
-                <label class="label" for="s-nova">Nova senha</label>
-                <input class="input" id="s-nova" type="password" placeholder="Mínimo 8 caracteres" required minlength="8" autocomplete="new-password">
-                <span class="t-12 muted">Use letras, números e símbolos.</span>
-              </div>
-              <div class="field">
-                <label class="label" for="s-conf">Confirmar nova senha</label>
-                <input class="input" id="s-conf" type="password" placeholder="Repita a nova senha" required autocomplete="new-password">
-              </div>
-              <div class="form-actions" style="margin-top:16px">
-                <button type="submit" class="btn btn--primary">Alterar senha</button>
-              </div>
-            </form>
-          </section>
-
-          <section class="card card--polished">
-            <div class="card__head">
-              <div>
-                <div class="card__title">Verificação em duas etapas</div>
-                <div class="card__sub">Camada extra de proteção</div>
-              </div>
-              <label class="switch"><input type="checkbox" id="toggle-2fa" data-remember="2fa"><span class="switch__track"></span></label>
-            </div>
-            <div class="card__body">
-              <div class="badge badge--success" id="badge-2fa" style="margin-bottom:10px">Ativada</div>
-              <div class="t-13 soft">Um código será pedido a cada novo login. Use um app autenticador (Google Authenticator, Authy, 1Password).</div>
-              <button class="btn btn--outline btn--sm mt-16" id="btn-backup-codes">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;margin-right:6px"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M17 3a2.85 2.83 0 1 1 4 4"/></svg>
-                Baixar códigos de backup
-              </button>
-            </div>
-          </section>
-
-          <section class="card card--polished">
-            <div class="card__head">
-              <div class="card__title">Sessões ativas</div>
-            </div>
-            <div class="card__body card__body--flush" id="sessoes-lista">
-              <div class="list-row">
-                <div class="list-row__body">
-                  <div class="list-row__title">Chrome · Windows</div>
-                  <div class="list-row__meta">São Paulo, BR · esta sessão</div>
-                </div>
-                <span class="badge badge--success">Ativa</span>
-              </div>
-              <div class="list-row">
-                <div class="list-row__body">
-                  <div class="list-row__title">Safari · iPhone</div>
-                  <div class="list-row__meta">São Paulo, BR · há 2 dias</div>
-                </div>
-                <button class="btn btn--ghost btn--sm" data-toast="Sessão encerrada|Acesse novamente para entrar.">Encerrar</button>
-              </div>
-            </div>
-          </section>
-
-          <div class="banner banner--danger" style="grid-column:1/-1">
-            <span class="banner__icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M12 9v4M12 17h.01" />
-                <path d="M12 2 4 6v6c0 5 3.5 8.5 8 10 4.5-1.5 8-5 8-10V6z" />
-              </svg>
-            </span>
-            <div>
-              <div class="banner__title">Excluir conta</div>
-              <div class="banner__text">Ação permanente. Todos os dados serão apagados e não podem ser recuperados.</div>
-            </div>
-            <div class="banner__actions">
-              <button class="btn btn--danger btn--sm" id="btn-delete-account">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;margin-right:6px"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-                Solicitar exclusão
-              </button>
-            </div>
+    <div class="main">
+      <div class="content">
+        <div class="page-head">
+          <div>
+            <h1 class="page-head__title">Configuração</h1>
+            <p class="page-head__sub">Gerencie seu perfil, foto e preferências da conta.</p>
           </div>
         </div>
-      </div>
-    </main>
-  </div>
 
-  <div class="support" id="support" data-support aria-label="Central de ajuda" aria-hidden="true"></div>
+        <!-- Perfil / Foto -->
+        <section class="card mt-24 config-section">
+          <div class="card__head">
+            <div>
+              <div class="card__title">Perfil</div>
+              <div class="card__sub">Sua foto e informações pessoais</div>
+            </div>
+          </div>
+          <div class="card__body">
+            <div class="avatar-block">
+              <div class="avatar-upload" style="position:relative">
+                <span class="avatar avatar--xl avatar-update" id="avatar-preview"></span>
+                <label class="avatar-upload__label" for="avatar-input" style="position:absolute;bottom:4px;right:4px;width:36px;height:36px">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M17 3a2.85 2.83 0 1 1 4 4"/><path d="M3 3v18"/></svg>
+                </label>
+                <input type="file" id="avatar-input" accept="image/jpeg,image/png" style="display:none">
+              </div>
+              <div class="avatar-block__info">
+                <div class="avatar-block__nome nome-update">Carregando…</div>
+                <div class="avatar-block__email email-update">—</div>
+                <span class="badge-pill badge-pill--ativo">Plano Pro · Ativo</span>
+              </div>
+            </div>
+            <form class="form-equipe" id="form-perfil" novalidate style="margin-top:22px">
+              <div class="field">
+                <label class="label" for="perfil-nome">Nome de exibição</label>
+                <input class="input" id="perfil-nome" type="text" placeholder="Seu nome" required>
+              </div>
+              <div class="field">
+                <label class="label" for="perfil-email">E-mail</label>
+                <input class="input" id="perfil-email" type="email" placeholder="seu@email.com" required>
+              </div>
+            </form>
+          </div>
+          <div class="card__foot">
+            <button class="btn btn--outline" type="button" id="btn-cancelar-perfil">Cancelar</button>
+            <button class="btn btn--primary btn--block" type="submit" form="form-perfil">Salvar alterações</button>
+          </div>
+        </section>
+
+        <!-- Preferências -->
+        <section class="card mt-24 config-section">
+          <div class="card__head">
+            <div>
+              <div class="card__title">Preferências</div>
+              <div class="card__sub">Notificações e comportamento da conta</div>
+            </div>
+          </div>
+          <div class="card__body">
+            <div class="switch-row">
+              <span class="switch-row__label">E-mails de marketing <b>(desativado por padrão)</b></span>
+              <label class="switch"><input type="checkbox" id="sw-marketing"><span class="switch__track"></span></label>
+            </div>
+            <div class="switch-row" style="margin-top:12px">
+              <span class="switch-row__label">Notificações por push <b>(ativas)</b></span>
+              <label class="switch"><input type="checkbox" id="sw-push" checked><span class="switch__track"></span></label>
+            </div>
+            <div class="switch-row" style="margin-top:12px">
+              <span class="switch-row__label">Sincronizar contatos <b>(desativado)</b></span>
+              <label class="switch"><input type="checkbox" id="sw-contatos"><span class="switch__track"></span></label>
+            </div>
+          </div>
+        </section>
+
+        <!-- Segurança -->
+        <section class="card mt-24 config-section">
+          <div class="card__head">
+            <div>
+              <div class="card__title">Segurança</div>
+              <div class="card__sub">Senha e acesso à conta</div>
+            </div>
+          </div>
+          <div class="card__body">
+            <div class="switch-row">
+              <span class="switch-row__label">Autenticação em duas etapas <b>(desativada)</b></span>
+              <label class="switch"><input type="checkbox" id="sw-2fa"><span class="switch__track"></span></label>
+            </div>
+            <div class="switch-row" style="margin-top:12px">
+              <span class="switch-row__label">Sessões ativas <b>(1 dispositivo)</b></span>
+              <label class="switch"><input type="checkbox" id="sw-sessoes" disabled><span class="switch__track"></span></label>
+            </div>
+            <div class="mt-24">
+              <a class="link t-13" href="recuperar.html">Alterar senha →</a>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </div>
 
   <div class="toast" id="toast" role="status" aria-live="polite">
     <svg class="toast__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg>
     <div><strong data-toast-title>Feito!</strong><small data-toast-text></small></div>
   </div>
 
-  <script src="assets/js/store.js?v=825fa3e-poll"></script>
-  <script src="assets/js/app.js?v=825fa3e-poll"></script>
-  <script src="assets/js/support.js?v=825fa3e-poll"></script>
+  <script src="assets/js/store.js?v=1"></script>
+  <script src="assets/js/app.js?v=1"></script>
+  <script src="assets/js/app-shell.js?v=1"></script>
   <script>
     (function () {
       var D = window.Dados;
-      if (!D || !D.pronto) return;
+      var P = window.Prospecta;
 
-      var formPerfil = document.getElementById('form-perfil');
-      var avatarInput = document.getElementById('avatar-input');
-      var avatarPreview = document.getElementById('avatar-preview');
-      var btnAvatarChange = document.getElementById('btn-avatar-change');
-      var btnAvatarRemove = document.getElementById('btn-avatar-remove');
-      var formSenha = document.getElementById('form-senha');
-
-      var currentAvatarData = null;
+      var avatarPrev = document.getElementById("avatar-preview");
+      var avatarInput = document.getElementById("avatar-input");
+      var nomeIn = document.getElementById("perfil-nome");
+      var emailIn = document.getElementById("perfil-email");
+      var formPerfil = document.getElementById("form-perfil");
+      var btnCancelar = document.getElementById("btn-cancelar-perfil");
 
       D.pronto().then(function () {
         var me = D.eu ? D.eu() : null;
-        if (!me) return;
+        if (!me) { window.location.href = "login.html?destino=configuracoes.html"; return; }
+        P.initShell({ title: "Configuração", crumbs: "Conta <b>/</b> <b>Configuração</b>", isAdmin: false, user: me });
+        P.iniciarAvatares(me);
 
-        // Preencher formulário
-        document.getElementById('p-nome').value = me.nome || '';
-        document.getElementById('p-cargo').value = me.cargo || '';
-        document.getElementById('p-email').value = me.email || '';
-        document.getElementById('p-tel').value = me.phone || '';
-        document.getElementById('p-empresa').value = me.company || '';
-        document.getElementById('p-bio').value = me.bio || '';
-
-        // Avatar
+        // Carrega dados do usuário
+        nomeIn.value = me.nome || "";
+        emailIn.value = me.email || "";
         if (me.avatar) {
-          currentAvatarData = me.avatar;
-          avatarPreview.style.backgroundImage = 'url(' + me.avatar + ')';
-          avatarPreview.textContent = '';
-        } else if (me.iniciais) {
-          avatarPreview.textContent = me.iniciais;
-          avatarPreview.style.backgroundImage = '';
+          avatarPrev.style.backgroundImage = "url(" + me.avatar + ")";
+          avatarPrev.textContent = "";
+        } else {
+          avatarPrev.style.backgroundImage = "";
+          avatarPrev.textContent = me.iniciais || P.iniciaisDoNome(me.nome);
         }
 
-        // Sidebar e topbar
-        updateUserUI(me);
-
-        // Resumo da conta
-        // (removido - elementos não existem mais)
-
-        // 2FA
-        document.getElementById('toggle-2fa').checked = !!me.twoFactorEnabled;
-        update2FABadge();
-
-        // Senha last changed
-        document.getElementById('senha-alterada').textContent = me.passwordChangedAt ? 'Última alteração ' + D.haQuanto(me.passwordChangedAt) : 'Última alteração —';
-
-        // Load 2FA from localStorage
-        try {
-          var saved2fa = localStorage.getItem('prospecta:2fa');
-          if (saved2fa !== null) document.getElementById('toggle-2fa').checked = saved2fa === '1';
-        } catch(e) {}
-
-        // Avatar change
-        btnAvatarChange.addEventListener('click', function() { avatarInput.click(); });
-        btnAvatarRemove.addEventListener('click', function() {
-          currentAvatarData = null;
-          avatarPreview.style.backgroundImage = '';
-          avatarPreview.textContent = me.iniciais || 'U';
-          window.Prospecta.toast("Foto removida", "Voltamos para as iniciais.");
-        });
-        avatarInput.addEventListener('change', function(e) {
-          var file = e.target.files[0];
+        // Pré-visualização da foto
+        avatarInput.addEventListener("change", function () {
+          var file = this.files && this.files[0];
           if (!file) return;
-          if (file.size > 2097152) { window.Prospecta.toast("Arquivo grande", "Máximo 2 MB."); return; }
-          if (!file.type.match(/^image\/(jpeg|png)$/)) { window.Prospecta.toast("Formato inválido", "Use JPG ou PNG."); return; }
-          var reader = new FileReader();
-          reader.onload = function(ev) {
-            currentAvatarData = ev.target.result;
-            avatarPreview.style.backgroundImage = 'url(' + currentAvatarData + ')';
-            avatarPreview.textContent = '';
-            window.Prospecta.toast("Foto atualizada", "Clique em Salvar para confirmar.");
-          };
-          reader.readAsDataURL(file);
+          if (!file.type.match(/image\/(jpeg|png)/)) { P.toast("Formato inválido", "Use JPG ou PNG."); return; }
+          if (file.size > 2 * 1024 * 1024) { P.toast("Arquivo grande", "Máximo 2 MB."); return; }
+          var url = URL.createObjectURL(file);
+          avatarPrev.style.backgroundImage = "url(" + url + ")";
+          avatarPrev.textContent = "";
         });
 
-        // Form perfil submit
-        formPerfil.addEventListener('submit', function(e) {
+        btnCancelar.addEventListener("click", function () {
+          nomeIn.value = me.nome || "";
+          emailIn.value = me.email || "";
+          if (me.avatar) { avatarPrev.style.backgroundImage = "url(" + me.avatar + ")"; avatarPrev.textContent = ""; } else { avatarPrev.style.backgroundImage = ""; avatarPrev.textContent = me.iniciais || P.iniciaisDoNome(me.nome); }
+        });
+
+        formPerfil.addEventListener("submit", function (e) {
           e.preventDefault();
-          var payload = {
-            nome: document.getElementById('p-nome').value.trim(),
-            cargo: document.getElementById('p-cargo').value.trim(),
-            email: document.getElementById('p-email').value.trim(),
-            phone: document.getElementById('p-tel').value.trim(),
-            company: document.getElementById('p-empresa').value.trim(),
-            bio: document.getElementById('p-bio').value.trim(),
-            avatar: currentAvatarData
-          };
-          if (!payload.nome || !payload.email) {
-            window.Prospecta.toast("Campos obrigatórios", "Preencha nome e e-mail.");
-            return;
-          }
-          D.atualizarUsuario(me.id, payload).then(function(updated) {
-            // Re-fetch user to get updated data
-            var freshMe = D.eu ? D.eu() : null;
-            if (freshMe) {
-              me = freshMe;
-              updateUserUI(me);
-              window.Prospecta.toast("Perfil salvo", "Suas alterações foram salvas.");
-            } else if (updated) {
-              updateUserUI(updated);
-              window.Prospecta.toast("Perfil salvo", "Suas alterações foram salvas.");
-            }
-          });
-        });
-
-        // Reset form
-        document.getElementById('btn-perfil-reset').addEventListener('click', function() {
-          formPerfil.reset();
-          currentAvatarData = me.avatar || null;
-          if (currentAvatarData) {
-            avatarPreview.style.backgroundImage = 'url(' + currentAvatarData + ')';
-            avatarPreview.textContent = '';
+          var nome = nomeIn.value.trim();
+          var email = emailIn.value.trim();
+          if (!nome) { P.toast("Nome obrigatório", "Informe seu nome de exibição."); return; }
+          if (!email) { P.toast("E-mail obrigatório", "Informe seu e-mail."); return; }
+          var arquivo = avatarInput.files && avatarInput.files[0];
+          var dados = { nome: nome, email: email };
+          if (arquivo) {
+            var reader = new FileReader();
+            reader.onload = function (ev) {
+              dados.avatar = ev.target.result;
+              salvar(dados);
+            };
+            reader.readAsDataURL(arquivo);
           } else {
-            avatarPreview.style.backgroundImage = '';
-            avatarPreview.textContent = me.iniciais || 'U';
-          }
-          window.Prospecta.toast("Descartado", "Alterações não salvas foram revertidas.");
-        });
-
-        // Form senha
-        formSenha.addEventListener('submit', function(e) {
-          e.preventDefault();
-          var atual = document.getElementById('s-atual').value;
-          var nova = document.getElementById('s-nova').value;
-          var conf = document.getElementById('s-conf').value;
-          if (nova !== conf) { window.Prospecta.toast("Senhas diferentes", "As senhas não conferem."); return; }
-          if (nova.length < 8) { window.Prospecta.toast("Senha curta", "Mínimo 8 caracteres."); return; }
-          D.atualizarUsuario(me.id, { passwordChangedAt: new Date().toISOString() }).then(function() {
-            document.getElementById('senha-alterada').textContent = 'Última alteração agora';
-            formSenha.reset();
-            window.Prospecta.toast("Senha alterada", "Use a nova senha no próximo acesso.");
-          });
-        });
-
-        // 2FA toggle
-        document.getElementById('toggle-2fa').addEventListener('change', function(e) {
-          try { localStorage.setItem('prospecta:2fa', e.target.checked ? '1' : '0'); } catch(err) {}
-          update2FABadge();
-          window.Prospecta.toast(e.target.checked ? "2FA ativada" : "2FA desativada", e.target.checked ? "Configure no app autenticador." : "Camada extra removida.");
-        });
-
-        function update2FABadge() {
-          var badge = document.getElementById('badge-2fa');
-          var checked = document.getElementById('toggle-2fa').checked;
-          badge.textContent = checked ? 'Ativada' : 'Desativada';
-          badge.className = 'badge ' + (checked ? 'badge--success' : 'badge--neutral');
-        }
-
-        // Backup codes
-        document.getElementById('btn-backup-codes').addEventListener('click', function() {
-          var codes = Array.from({length: 8}, function() { return Math.random().toString(36).substring(2, 8).toUpperCase(); });
-          var blob = new Blob([codes.join('\n')], {type: 'text/plain'});
-          var url = URL.createObjectURL(blob);
-          var a = document.createElement('a');
-          a.href = url; a.download = 'codigos-backup-2fa.txt'; a.click();
-          URL.revokeObjectURL(url);
-          window.Prospecta.toast("Códigos baixados", "Guarde em local seguro.");
-        });
-
-        // Delete account
-        document.getElementById('btn-delete-account').addEventListener('click', function() {
-          if (confirm('Tem certeza? Esta ação é irreversível e apaga todos os seus dados.')) {
-            window.Prospecta.toast("Confirmação enviada", "Verifique seu e-mail para continuar.");
+            salvar(dados);
           }
         });
 
-      });
-
-      function updateUserUI(me) {
-        var ini = me.iniciais || (me.nome ? me.nome.split(/\s+/).map(function(p){return p[0]||''}).join('').slice(0,2).toUpperCase() : 'U');
-        document.querySelectorAll('.sidebar__foot-name, #sidebar-name').forEach(function(el){ el.textContent = me.nome || 'Conta'; });
-        document.querySelectorAll('.sidebar__foot-mail, #sidebar-email').forEach(function(el){ el.textContent = me.email || '—'; });
-        document.querySelectorAll('.sidebar__foot .avatar, #sidebar-avatar').forEach(function(el){ el.textContent = ini; if(!me.avatar) el.style.backgroundImage = ''; });
-        document.querySelectorAll('.user-menu__name, #topbar-name').forEach(function(el){ el.textContent = (me.nome || 'Conta').split(/\s+/)[0]; });
-        document.querySelectorAll('.user-menu .avatar, #topbar-avatar').forEach(function(el){ el.textContent = ini; if(!me.avatar) el.style.backgroundImage = ''; });
-        if (me.avatar) {
-          document.querySelectorAll('.sidebar__foot .avatar, #sidebar-avatar, .user-menu .avatar, #topbar-avatar').forEach(function(el){ el.style.backgroundImage = 'url(' + me.avatar + ')'; el.textContent = ''; });
-        }
-      }
-
-      // Listen for updates
-      document.addEventListener('prospecta:mudou', function(e) {
-        if (e.detail && e.detail.key === 'users') {
-          D.pronto().then(function() {
-            var me = D.eu ? D.eu() : null;
-            if (me) updateUserUI(me);
+        function salvar(dados) {
+          D.atualizarUsuario(me.id, dados).then(function (atualizado) {
+            P.iniciarAvatares(atualizado);
+            P.toast("Salvo", "Suas alterações foram salvas com sucesso.");
+            document.addEventListener("prospecta:mudou", function () {
+              var m2 = D.eu ? D.eu() : null;
+              if (m2) { P.iniciarAvatares(m2); }
+            });
+          }).catch(function (err) {
+            P.toast("Erro ao salvar", (err && err.message) || "Tente novamente.");
           });
         }
       });

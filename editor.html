@@ -1,520 +1,70 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#0a0a0a">
-  <title>Editor de site · Prospecta</title>
-  <link rel="icon"
-    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%233b82f6'/%3E%3Ctext x='16' y='22' font-family='Arial' font-size='17' font-weight='bold' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
+  <meta name="theme-color" content="#050609">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Editor · Prospecta</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%233b82f6'/%3E%3Ctext x='16' y='22' font-family='Arial' font-size='17' font-weight='bold' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
-    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/global.css">
 </head>
+<body data-page="editor">
 
-<body data-page="sites">
+  <div class="app">
+    <div data-shell-sidebar></div>
+    <div data-shell-topbar></div>
 
-  <aside class="sidebar" id="sidebar">
-    <a class="sidebar__brand" href="dashboard.html">
-      <span class="brand__logo">P</span>
-      <span>
-        <span class="brand__name">Prospecta</span>
-        <span class="brand__plan">Plano Pro</span>
-      </span>
-    </a>
-    <nav class="sidebar__nav">
-      <div class="nav__label">Principal</div>
-      <a class="nav__item" href="dashboard.html" data-nav="dashboard">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="3" y="3" width="7" height="9" rx="1.5" />
-          <rect x="14" y="3" width="7" height="5" rx="1.5" />
-          <rect x="14" y="12" width="7" height="9" rx="1.5" />
-          <rect x="3" y="16" width="7" height="5" rx="1.5" />
-        </svg>
-        Dashboard
-      </a>
-      <a class="nav__item" href="prospectar.html" data-nav="prospectar">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="11" cy="11" r="7" />
-          <path d="m20 20-3.5-3.5" />
-          <path d="M11 8v6M8 11h6" />
-        </svg>
-        Prospectar <span class="nav__badge">12</span>
-      </a>
-      <a class="nav__item" href="contratos.html" data-nav="contratos">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z" />
-          <path d="M14 3v5h5" />
-          <path d="M9 13h6M9 17h4" />
-        </svg>
-        Contratos <span class="nav__badge nav__badge--soft">4</span>
-      </a>
-      <div class="nav__label">Produto</div>
-      <a class="nav__item" href="sites.html" data-nav="sites">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="3" y="4" width="18" height="16" rx="2" />
-          <path d="M3 9h18" />
-          <circle cx="6.5" cy="6.5" r=".6" fill="currentColor" />
-          <circle cx="9" cy="6.5" r=".6" fill="currentColor" />
-        </svg>
-        Sites
-      </a>
-      <a class="nav__item" href="equipes.html" data-nav="equipes">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="9" cy="8" r="3.2" />
-          <path d="M3 20a6 6 0 0 1 12 0" />
-          <circle cx="17.5" cy="9.5" r="2.4" />
-          <path d="M16 20a4.5 4.5 0 0 1 5-4.4" />
-        </svg>
-        Equipes
-      </a>
-      <a class="nav__item" href="extensao.html" data-nav="extensao">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L4 17v3h3l5.3-5.3a4 4 0 0 0 5.4-5.4l-2.3 2.3-2.7-2.7z" />
-        </svg>
-        Extensão <span class="nav__badge nav__badge--soft">Novo</span>
-      </a>
-      <div class="nav__label">Conta</div>
-      <a class="nav__item" href="configuracoes.html" data-nav="configuracoes">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="3.2" />
-          <path
-            d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z" />
-        </svg>
-        Configuração
-      </a>
-      <button type="button" class="nav__item nav__item--btn" data-support-toggle>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="9" />
-          <path d="M9.5 9a2.5 2.5 0 1 1 3.4 2.3c-.6.3-.9.8-.9 1.4v.4" />
-          <circle cx="12" cy="17" r=".8" fill="currentColor" />
-        </svg>
-        Ajuda
-      </button>
-    </nav>
-    <div class="sidebar__promo">
-      <h4>Desbloqueie o Pro</h4>
-      <p>Leads ilimitados, sites com domínio próprio e automações.</p>
-      <a class="btn btn--primary btn--sm btn--block" href="configuracoes.html#plano">Ver planos</a>
-    </div>
-    <a class="sidebar__foot" href="configuracoes.html">
-      <span class="avatar">U</span>
-      <span class="sidebar__foot-info">
-        <span class="sidebar__foot-name">Conta</span>
-        <span class="sidebar__foot-mail">—</span>
-      </span>
-    </a>
-  </aside>
-
-  <div class="overlay" data-overlay></div>
-
-  <div class="main">
-    <header class="topbar">
-      <button class="icon-btn menu-btn" data-menu-toggle aria-label="Abrir menu" aria-expanded="false">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M4 6h16M4 12h16M4 18h16" />
-        </svg>
-      </button>
-      <div>
-        <div class="topbar__title">Padaria Trigo D'ouro</div>
-        <div class="topbar__crumbs"><a href="sites.html" class="link">Sites</a> <b>/</b> <b>Editor</b> · salvo
-          automaticamente</div>
-      </div>
-      <div class="topbar__spacer"></div>
-      <button class="icon-btn" aria-label="Desfazer" data-toast="Desfazer|A última alteração foi revertida.">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M9 14 4 9l5-5" />
-          <path d="M4 9h10a6 6 0 0 1 0 12h-3" />
-        </svg>
-      </button>
-      <button class="icon-btn" aria-label="Refazer" data-toast="Refazer|A alteração foi reaplicada.">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-          <path d="m15 14 5-5-5-5" />
-          <path d="M20 9H10a6 6 0 0 0 0 12h3" />
-        </svg>
-      </button>
-      <button class="btn btn--outline btn--sm" data-toast="Rascunho salvo|Você pode continuar depois.">Salvar</button>
-      <button class="btn btn--primary btn--sm" data-toast="Site publicado!|trigo-douro.prospecta.site está no ar.">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M12 16V4M7 9l5-5 5 5" />
-          <path d="M4 20h16" />
-        </svg>
-        Publicar
-      </button>
-    </header>
-
-    <main class="content">
-      <div class="page-head">
-        <div>
-          <h1 class="page-head__title">Editor de site</h1>
-          <p class="page-head__sub">Edite o conteúdo à esquerda e veja o resultado na hora.</p>
+    <div class="main">
+      <div class="content">
+        <div class="page-head">
+          <div>
+            <h1 class="page-head__title">Editor de sites</h1>
+            <p class="page-head__sub">Personalize o design do seu site publicado.</p>
+          </div>
         </div>
-      </div>
 
-      <div class="editor-layout">
-        <!-- ============ PAINEL DE EDIÇÃO ============ -->
-        <section class="card" style="overflow:hidden;position:sticky;top:calc(var(--topbar-h) + 16px)">
-          <div class="tabs" data-tabs="editor" style="padding:0 8px">
-            <button class="tab is-active" data-target="conteudo">Conteúdo</button>
-            <button class="tab" data-target="design">Design</button>
-            <button class="tab" data-target="seo">SEO</button>
-          </div>
-
-          <!-- Conteúdo -->
-          <div data-owner="editor" data-panel="conteudo">
-            <div class="panel__section">
-              <div class="panel__title">Identidade</div>
-              <div class="field">
-                <label class="label" for="e-marca">Nome do site</label>
-                <input class="input" id="e-marca" value="Padaria Trigo D'ouro" data-live="brand">
-              </div>
-              <div class="field mt-16">
-                <label class="label" for="e-slogan">Slogan</label>
-                <input class="input" id="e-slogan" value="Receitas artesanais desde 1998" data-live="slogan">
-              </div>
-            </div>
-
-            <div class="panel__section">
-              <div class="panel__title">Hero (topo)</div>
-              <div class="field">
-                <label class="label" for="e-titulo">Título principal</label>
-                <textarea class="textarea" id="e-titulo" style="min-height:70px"
-                  data-live="title">Pão quente todo dia, pertinho de você</textarea>
-              </div>
-              <div class="field mt-16">
-                <label class="label" for="e-sub">Subtítulo</label>
-                <textarea class="textarea" id="e-sub" style="min-height:64px"
-                  data-live="subtitle">Receitas artesanais, fermentação natural e aquele cheirinho de padaria de bairro.</textarea>
-              </div>
-              <div class="form-row mt-16">
-                <div class="field">
-                  <label class="label" for="e-cta">Botão</label>
-                  <input class="input" id="e-cta" value="Fazer pedido" data-live="cta">
-                </div>
-                <div class="field">
-                  <label class="label" for="e-tel">WhatsApp</label>
-                  <input class="input" id="e-tel" value="(11) 3555-1287" data-live="phone">
-                </div>
-              </div>
-            </div>
-
-            <div class="panel__section">
-              <div class="panel__title">Seções</div>
-              <div class="block-item">
-                <span class="block-item__grip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                    stroke-width="2" stroke-linecap="round">
-                    <path d="M9 6h.01M9 12h.01M9 18h.01M15 6h.01M15 12h.01M15 18h.01" />
-                  </svg></span>
-                <div>
-                  <div class="block-item__title">Hero</div>
-                  <div class="block-item__sub">Título, texto e botão</div>
-                </div>
-                <label class="switch" style="margin-left:auto"><input type="checkbox" checked
-                    data-live-block="hero"><span class="switch__track"></span></label>
-              </div>
-              <div class="block-item">
-                <span class="block-item__grip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                    stroke-width="2" stroke-linecap="round">
-                    <path d="M9 6h.01M9 12h.01M9 18h.01M15 6h.01M15 12h.01M15 18h.01" />
-                  </svg></span>
-                <div>
-                  <div class="block-item__title">Diferenciais</div>
-                  <div class="block-item__sub">3 cards</div>
-                </div>
-                <label class="switch" style="margin-left:auto"><input type="checkbox" checked
-                    data-live-block="cards"><span class="switch__track"></span></label>
-              </div>
-              <div class="block-item">
-                <span class="block-item__grip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                    stroke-width="2" stroke-linecap="round">
-                    <path d="M9 6h.01M9 12h.01M9 18h.01M15 6h.01M15 12h.01M15 18h.01" />
-                  </svg></span>
-                <div>
-                  <div class="block-item__title">Contato</div>
-                  <div class="block-item__sub">WhatsApp e endereço</div>
-                </div>
-                <label class="switch" style="margin-left:auto"><input type="checkbox" checked
-                    data-live-block="contact"><span class="switch__track"></span></label>
-              </div>
-              <button class="btn btn--ghost btn--sm btn--block mt-16"
-                data-toast="Bloco adicionado|Novo bloco de galeria no site.">+ Adicionar bloco</button>
+        <section class="card mt-24">
+          <div class="card__head">
+            <div>
+              <div class="card__title">Selecione um site</div>
+              <div class="card__sub">Escolha qual site deseja editar</div>
             </div>
           </div>
-
-          <!-- Design -->
-          <div data-owner="editor" data-panel="design" class="hide">
-            <div class="panel__section">
-              <div class="panel__title">Paleta de cores</div>
-              <div class="palette">
-                <span class="swatch is-active" style="background:#ef4444" data-theme="#ef4444" data-soft="#2d0a0a"
-                  title="Vermelho" role="button" tabindex="0"></span>
-                <span class="swatch" style="background:#dc2626" data-theme="#dc2626" data-soft="#1f0a0a" title="Vermelho Escuro"
-                  role="button" tabindex="0"></span>
-                <span class="swatch" style="background:#b91c1c" data-theme="#b91c1c" data-soft="#1a0505" title="Vermelho Profundo"
-                  role="button" tabindex="0"></span>
-                <span class="swatch" style="background:#991b1b" data-theme="#991b1b" data-soft="#150404" title="Vermelho Queimado"
-                  role="button" tabindex="0"></span>
-                <span class="swatch" style="background:#7f1d1d" data-theme="#7f1d1d" data-soft="#100303" title="Vermelho Sombra"
-                  role="button" tabindex="0"></span>
-                <span class="swatch swatch--white" data-theme="#ef4444" data-soft="#2d0a0a" title="Vermelho" role="button"
-                  tabindex="0"></span>
-              </div>
-            </div>
-            <div class="panel__section">
-              <div class="panel__title">Tipografia</div>
-              <div class="field">
-                <label class="label" for="e-fonte">Fonte</label>
-                <select class="select" id="e-fonte" data-live-font>
-                  <option>Inter (moderna)</option>
-                  <option>Georgia (clássica)</option>
-                  <option>Trebuchet (amigável)</option>
-                </select>
-              </div>
-              <div class="field mt-16">
-                <label class="label" for="e-radius">Cantos dos cards</label>
-                <select class="select" id="e-radius" data-live-radius>
-                  <option value="16px">Arredondado</option>
-                  <option value="6px">Suave</option>
-                  <option value="0px">Reto</option>
-                </select>
-              </div>
-            </div>
-            <div class="panel__section">
-              <div class="panel__title">Layout</div>
-              <div class="row row--between" style="padding:6px 0">
-                <span class="t-13 soft">Cabeçalho fixo</span>
-                <label class="switch"><input type="checkbox" checked data-remember="ed-sticky"><span
-                    class="switch__track"></span></label>
-              </div>
-              <div class="row row--between" style="padding:6px 0">
-                <span class="t-13 soft">Botão flutuante do WhatsApp</span>
-                <label class="switch"><input type="checkbox" checked data-remember="ed-wpp"><span
-                    class="switch__track"></span></label>
-              </div>
-              <div class="row row--between" style="padding:6px 0">
-                <span class="t-13 soft">Animações ao rolar</span>
-                <label class="switch"><input type="checkbox" data-remember="ed-anim"><span
-                    class="switch__track"></span></label>
-              </div>
-            </div>
-          </div>
-
-          <!-- SEO -->
-          <div data-owner="editor" data-panel="seo" class="hide">
-            <div class="panel__section">
-              <div class="panel__title">Google</div>
-              <div class="field">
-                <label class="label" for="e-title-seo">Título da página <span class="label__hint">60
-                    caracteres</span></label>
-                <input class="input" id="e-title-seo" value="Padaria Trigo D'ouro — pão artesanal em São Paulo">
-              </div>
-              <div class="field mt-16">
-                <label class="label" for="e-desc">Descrição</label>
-                <textarea class="textarea" id="e-desc"
-                  style="min-height:70px">Padaria artesanal com fermentação natural, pães fresquinhos e confeitaria todos os dias em São Paulo.</textarea>
-              </div>
-            </div>
-            <div class="panel__section">
-              <div class="panel__title">Domínio</div>
-              <div class="field">
-                <label class="label" for="e-dominio">Subdomínio</label>
-                <input class="input" id="e-dominio" value="trigo-douro.prospecta.site">
-              </div>
-              <button class="btn btn--outline btn--sm btn--block mt-16"
-                data-toast="Domínio próprio|Conecte um domínio em 2 passos.">Conectar domínio próprio</button>
-            </div>
-            <div class="panel__section">
-              <div class="panel__title">Prévia no Google</div>
-              <div style="padding:12px;border:1px solid var(--border);border-radius:10px;background:var(--surface-2)">
-                <div style="font-size:11px;color:var(--text-mute)">trigo-douro.prospecta.site</div>
-                <div style="font-size:14px;color:var(--primary);margin-top:2px">Padaria Trigo D'ouro — pão artesanal em São
-                  Paulo</div>
-                <div style="font-size:11.5px;color:var(--text-mute);margin-top:3px">Padaria artesanal com fermentação natural,
-                  pães fresquinhos e confeitaria todos os dias…</div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <!-- ============ PREVIEW ============ -->
-        <section>
-          <div class="row row--between" style="margin-bottom:12px;flex-wrap:wrap;gap:10px">
-            <div class="seg">
-              <button class="is-active" data-view="desktop">Desktop</button>
-              <button data-view="mobile">Mobile</button>
-            </div>
-            <span class="t-12 muted">Prévia ao vivo · clique e edite no painel</span>
-          </div>
-
-          <div class="preview-frame" id="preview-shell"
-            style="max-width:100%;margin:0 auto;transition:max-width .25s ease">
-            <div class="preview-toolbar">
-              <span class="preview-dots"><i></i><i></i><i></i></span>
-              <span class="preview-url">https://trigo-douro.prospecta.site</span>
-              <span class="badge badge--success" style="margin-left:auto">Publicado</span>
-            </div>
-
-            <div class="site-preview" id="site"
-              style="--site-accent:#ef4444;--site-soft:#2d0a0a;--site-radius:16px;--site-font:Inter, sans-serif">
-              <div class="site-preview__nav">
-                <span class="site-preview__brand" data-slot="brand">Padaria Trigo D'ouro</span>
-                <span class="site-preview__links">
-                  <span>Sobre</span><span>Produtos</span><span>Contato</span>
-                </span>
-              </div>
-
-              <div class="site-preview__hero" data-block="hero"
-                style="background:linear-gradient(135deg,var(--site-soft),var(--surface))">
-                <span class="badge badge--plain" style="background:var(--surface);color:var(--site-accent);margin-bottom:10px;border:1px solid var(--border)"
-                  data-slot="slogan">Receitas artesanais desde 1998</span>
-                <h2 data-slot="title" style="font-family:var(--site-font)">Pão quente todo dia, pertinho de você</h2>
-                <p data-slot="subtitle">Receitas artesanais, fermentação natural e aquele cheirinho de padaria de
-                  bairro.</p>
-                <div class="site-preview__cta-row">
-                  <span class="btn btn--sm" style="background:var(--site-accent);color:#fff" data-slot="cta">Fazer
-                    pedido</span>
-                  <span class="btn btn--outline btn--sm">Ver cardápio</span>
-                </div>
-              </div>
-
-              <div class="site-preview__cards" data-block="cards">
-                <div class="site-preview__card" style="border-radius:var(--site-radius)">
-                  <strong>Pães artesanais</strong>
-                  <span>Fermentação natural de 18h</span>
-                </div>
-                <div class="site-preview__card" style="border-radius:var(--site-radius)">
-                  <strong>Confeitaria</strong>
-                  <span>Bolos, tortas e doces finos</span>
-                </div>
-                <div class="site-preview__card" style="border-radius:var(--site-radius)">
-                  <strong>Encomendas</strong>
-                  <span>Peça pelo WhatsApp</span>
-                </div>
-              </div>
-
-              <div data-block="contact"
-                style="margin-top:22px;padding:18px;border-radius:var(--site-radius);background:var(--surface-2);border:1px solid var(--border)">
-                <div style="font-size:13px;font-weight:700">Fale com a gente</div>
-                <div style="font-size:12px;color:var(--text-soft);margin-top:4px">Rua Augusta, 1240 · São Paulo — SP</div>
-                <div style="font-size:12px;font-weight:600;margin-top:8px;color:var(--site-accent)" data-slot="phone">
-                  (11) 3555-1287</div>
-                <span class="btn btn--sm" style="background:var(--site-accent);color:#fff;margin-top:12px"
-                  data-slot="cta-2">Fazer pedido</span>
-              </div>
-
-              <div class="site-preview__foot">
-                <span>© 2026 <span data-slot="brand">Padaria Trigo D'ouro</span></span>
-                <span>Feito com Prospecta</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="card mt-24">
-            <div class="card__body">
-              <div class="row row--between row--wrap" style="gap:14px">
-                <div>
-                  <div class="card__title">Tudo pronto para publicar</div>
-                  <div class="card__sub">O site ficará no ar em trigo-douro.prospecta.site</div>
-                </div>
-                <div class="row">
-                  <button class="btn btn--outline"
-                    data-toast="Prévia aberta|Link copiado para compartilhar.">Compartilhar prévia</button>
-                  <button class="btn btn--primary"
-                    data-toast="Site publicado!|Seu cliente já pode acessar o link.">Publicar site</button>
-                </div>
-              </div>
+          <div class="card__body">
+            <div class="empty" style="padding:56px 24px">
+              <div class="empty__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg></div>
+              <div class="empty__title">Nenhum site para editar</div>
+              <div class="empty__text">Publique um site primeiro através da extensão Prospecta.</div>
             </div>
           </div>
         </section>
       </div>
-    </main>
+    </div>
   </div>
 
-  <div class="support" id="support" data-support aria-label="Central de ajuda" aria-hidden="true">
-    <!-- Conteúdo montado por assets/js/support.js -->
-  </div>
-
-
-<div class="toast" id="toast" role="status" aria-live="polite">
-    <svg class="toast__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"
-      stroke-linejoin="round">
-      <circle cx="12" cy="12" r="9" />
-      <path d="m8.5 12 2.5 2.5 4.5-5" />
-    </svg>
+  <div class="toast" id="toast" role="status" aria-live="polite">
+    <svg class="toast__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg>
     <div><strong data-toast-title>Feito!</strong><small data-toast-text></small></div>
   </div>
 
-  <script src="assets/js/store.js?v=825fa3e-poll"></script>
-  <script src="assets/js/app.js?v=825fa3e-poll"></script>
-  <script src="assets/js/support.js?v=825fa3e-poll"></script>
+  <script src="assets/js/store.js?v=1"></script>
+  <script src="assets/js/app.js?v=1"></script>
+  <script src="assets/js/app-shell.js?v=1"></script>
   <script>
-    /* ---------- Editor: prévia ao vivo (vanilla JS) ---------- */
     (function () {
-      var site = document.getElementById("site");
-      if (!site) return;
-
-      function setSlot(name, value) {
-        site.querySelectorAll('[data-slot="' + name + '"]').forEach(function (el) {
-          el.textContent = value;
-        });
-      }
-
-      // Textos
-      document.querySelectorAll("[data-live]").forEach(function (input) {
-        var slot = input.getAttribute("data-live");
-        var apply = function () { setSlot(slot, input.value || " "); };
-        input.addEventListener("input", apply);
-        apply();
-      });
-
-      // Blocos on/off
-      document.querySelectorAll("[data-live-block]").forEach(function (sw) {
-        sw.addEventListener("change", function () {
-          var block = site.querySelector('[data-block="' + sw.getAttribute("data-live-block") + '"]');
-          if (block) block.style.display = sw.checked ? "" : "none";
-        });
-      });
-
-      // Paleta
-      document.querySelectorAll(".swatch").forEach(function (sw) {
-        sw.addEventListener("click", function () {
-          document.querySelectorAll(".swatch").forEach(function (s) { s.classList.remove("is-active"); });
-          sw.classList.add("is-active");
-          site.style.setProperty("--site-accent", sw.getAttribute("data-theme"));
-          site.style.setProperty("--site-soft", sw.getAttribute("data-soft"));
-        });
-      });
-
-      // Fonte e cantos
-      var fontSelect = document.querySelector("[data-live-font]");
-      if (fontSelect) {
-        fontSelect.addEventListener("change", function () {
-          var map = { "Inter (moderna)": "Inter, sans-serif", "Georgia (clássica)": "Georgia, serif", "Trebuchet (amigável)": "'Trebuchet MS', sans-serif" };
-          site.style.setProperty("--site-font", map[fontSelect.value] || "Inter, sans-serif");
-        });
-      }
-      var radiusSelect = document.querySelector("[data-live-radius]");
-      if (radiusSelect) {
-        radiusSelect.addEventListener("change", function () {
-          site.style.setProperty("--site-radius", radiusSelect.value);
-        });
-      }
-
-      // Alternar desktop / mobile na prévia
-      document.querySelectorAll("[data-view]").forEach(function (btn) {
-        btn.addEventListener("click", function () {
-          document.querySelectorAll("[data-view]").forEach(function (b) { b.classList.remove("is-active"); });
-          btn.classList.add("is-active");
-          var shell = document.getElementById("preview-shell");
-          shell.style.maxWidth = btn.getAttribute("data-view") === "mobile" ? "390px" : "100%";
-        });
+      var D = window.Dados;
+      var P = window.Prospecta;
+      D.pronto().then(function () {
+        var me = D.eu ? D.eu() : null;
+        if (!me) { window.location.href = "login.html?destino=editor.html"; return; }
+        P.initShell({ title: "Editor", crumbs: "Sites <b>/</b> <b>Editor</b>", isAdmin: false, user: me });
+        P.iniciarAvatares(me);
       });
     })();
   </script>
 </body>
-
 </html>

@@ -3,223 +3,195 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#0a0a0a">
+  <meta name="theme-color" content="#050609">
+  <meta name="robots" content="noindex, nofollow">
   <title>Dashboard · Prospecta</title>
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%232563eb'/%3E%3Ctext x='16' y='22' font-family='Arial' font-size='17' font-weight='bold' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%233b82f6'/%3E%3Ctext x='16' y='22' font-family='Arial' font-size='17' font-weight='bold' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/global.css">
+  <style>
+    .stat-chip { display: flex; align-items: center; gap: 10px; padding: 16px 20px; border-radius: 16px; background: var(--surface-2); border: 1px solid var(--border); }
+    .stat-chip .ic { width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; flex-shrink: 0; background: var(--primary-soft); color: var(--primary); box-shadow: 0 0 16px rgba(59, 130, 246, 0.15); }
+    .stat-chip .ic svg { width: 20px; height: 20px; stroke-width: 2.2; }
+    .stat-chip .v { font-size: 13px; font-weight: 600; color: #fff; line-height: 1.2; }
+    .stat-chip .v span { font-weight: 700; font-size: 20px; font-variant-numeric: tabular-nums; }
+    .chart-wrap { border-radius: 20px; overflow: hidden; border: 1px solid var(--border); background: var(--surface); }
+    .chart__head { padding: 20px 24px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+    .chart__title { font-size: 15px; font-weight: 700; color: #fff; }
+    .chart__sub { font-size: 12.5px; color: var(--text-mute); }
+    .card--fill .card__foot { justify-content: flex-start; gap: 16px; padding: 18px 24px; }
+    .empty-chart { padding: 60px 24px; text-align: center; }
+    .empty-chart__icon { width: 64px; height: 64px; border-radius: 18px; margin: 0 auto 16px; background: var(--surface-2); border: 1px solid var(--border); display: grid; place-items: center; color: var(--text-mute); }
+    .empty-chart__icon svg { width: 28px; height: 28px; }
+    .greeting-row { display: flex; flex-direction: column; gap: 4px; margin-bottom: 6px; }
+    .greeting__text { font-size: 28px; font-weight: 800; letter-spacing: -.03em; line-height: 1.1; color: #fff; }
+    .greeting__nome { color: var(--primary); }
+    .sub-line { font-size: 14px; color: var(--text-soft); }
+    .date-chip { font-size: 12px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; color: var(--text-mute); margin-top: 2px; }
+  </style>
 </head>
 <body data-page="dashboard">
 
-  <aside class="sidebar" id="sidebar">
-    <a class="sidebar__brand" href="dashboard.html">
-      <span class="brand__logo">P</span>
-      <span>
-        <span class="brand__name">Prospecta</span>
-        <span class="brand__plan">Plano Pro</span>
-      </span>
-    </a>
-    <nav class="sidebar__nav">
-      <div class="nav__label">Principal</div>
-      <a class="nav__item is-active" href="dashboard.html" data-nav="dashboard">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="3" y="3" width="7" height="9" rx="1.5" />
-          <rect x="14" y="3" width="7" height="5" rx="1.5" />
-          <rect x="14" y="12" width="7" height="9" rx="1.5" />
-          <rect x="3" y="16" width="7" height="5" rx="1.5" />
-        </svg>
-        Dashboard
-      </a>
-      <a class="nav__item" href="equipes.html" data-nav="equipes">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="9" cy="8" r="3.2" />
-          <path d="M3 20a6 6 0 0 1 12 0" />
-          <circle cx="17.5" cy="9.5" r="2.4" />
-          <path d="M16 20a4.5 4.5 0 0 1 5-4.4" />
-        </svg>
-        Equipes
-      </a>
-      <div class="nav__label">Conta</div>
-      <a class="nav__item" href="configuracoes.html" data-nav="configuracoes">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="3.2" />
-          <path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z" />
-        </svg>
-        Configuração
-      </a>
-      <button type="button" class="nav__item nav__item--btn" data-support-toggle>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="9" />
-          <path d="M9.5 9a2.5 2.5 0 1 1 3.4 2.3c-.6.3-.9.8-.9 1.4v.4" />
-          <circle cx="12" cy="17" r=".8" fill="currentColor" />
-        </svg>
-        Ajuda
-      </button>
-      <a class="nav__item" href="#" data-logout-link>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></svg>
-        Sair
-      </a>
-    </nav>
-    <a class="sidebar__foot" href="configuracoes.html">
-      <span class="avatar avatar--glow" id="sidebar-avatar">U</span>
-      <span class="sidebar__foot-info">
-        <span class="sidebar__foot-name" id="sidebar-name">Conta</span>
-        <span class="sidebar__foot-mail" id="sidebar-email">—</span>
-      </span>
-    </a>
-  </aside>
+  <div class="app">
+    <div data-shell-sidebar></div>
+    <div data-shell-topbar></div>
 
-  <div class="overlay" data-overlay></div>
-
-  <div class="main">
-    <header class="topbar">
-      <button class="icon-btn menu-btn" data-menu-toggle aria-label="Abrir menu" aria-expanded="false">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M4 6h16M4 12h16M4 18h16" />
-        </svg>
-      </button>
-      <div>
-        <div class="topbar__title"><span class="text-gradient">Dashboard</span></div>
-        <div class="topbar__crumbs">Início <b>/</b> <b>Visão geral</b></div>
-      </div>
-      <div class="topbar__spacer"></div>
-      <button class="user-menu" aria-label="Menu do usuário" id="user-menu-btn">
-        <span class="avatar avatar--sm" id="topbar-avatar">U</span>
-        <span class="user-menu__name" id="topbar-name">Conta</span>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-          <path d="m6 9 6 6 6-6" />
-        </svg>
-      </button>
-    </header>
-
-    <main class="content">
-      <div class="page-head">
-        <div>
-          <h1 class="page-head__title"><span id="dashboard-greeting">Boa noite</span>, <span id="dashboard-nome">Usuário</span>.</h1>
-          <p class="page-head__sub">Aqui está o resumo da sua operação <span id="dashboard-data"></span>.</p>
-        </div>
-      </div>
-
-      <!-- 4 Cards KPI - Glass Effect -->
-      <div class="grid grid--4">
-        <article class="card kpi kpi--glass">
-          <div class="kpi__top">
-            <div class="kpi__icon-wrap">
-              <span class="kpi__icon kpi__icon--success">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="m5 13 4 4L19 7"/>
-                </svg>
-              </span>
-            </div>
-            <div class="kpi__trend" data-trend="revenue">
-              <svg class="trend__icon trend__icon--up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
-              <span class="trend__value" data-trend-revenue-pct>+0%</span>
-            </div>
-          </div>
-          <div class="kpi__label">Faturamento Total</div>
-          <div class="kpi__value" data-dash="faturamento-total">R$ 0,00</div>
-        </article>
-
-        <article class="card kpi kpi--glass">
-          <div class="kpi__top">
-            <div class="kpi__icon-wrap">
-              <span class="kpi__icon kpi__icon--primary">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
-                </svg>
-              </span>
-            </div>
-            <div class="kpi__trend" data-trend="mrr">
-              <svg class="trend__icon trend__icon--up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
-              <span class="trend__value" data-trend-mrr-pct>+0%</span>
-            </div>
-          </div>
-          <div class="kpi__label">Recorrência Mensal (MRR)</div>
-          <div class="kpi__value" data-dash="mrr">R$ 0,00</div>
-        </article>
-
-        <article class="card kpi kpi--glass">
-          <div class="kpi__top">
-            <div class="kpi__icon-wrap">
-              <span class="kpi__icon kpi__icon--warn">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                  <path d="M14 2v6h6"/>
-                  <path d="m9 15 2 2 4-4"/>
-                </svg>
-              </span>
-            </div>
-            <div class="kpi__trend" data-trend="tickets">
-              <svg class="trend__icon trend__icon--down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
-              <span class="trend__value" data-trend-tickets-pct>-0%</span>
-            </div>
-          </div>
-          <div class="kpi__label">Tickets Abertos</div>
-          <div class="kpi__value" data-dash="tickets-abertos">0</div>
-        </article>
-
-        <article class="card kpi kpi--glass">
-          <div class="kpi__top">
-            <div class="kpi__icon-wrap">
-              <span class="kpi__icon kpi__icon--info">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/>
-                  <path d="M14 3v5h5"/>
-                  <path d="m9 15 2 2 4-4"/>
-                </svg>
-              </span>
-            </div>
-            <div class="kpi__trend" data-trend="sales">
-              <svg class="trend__icon trend__icon--up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
-              <span class="trend__value" data-trend-sales-pct>+0%</span>
-            </div>
-          </div>
-          <div class="kpi__label">Vendas Total</div>
-          <div class="kpi__value" data-dash="vendas-total">0</div>
-        </article>
-      </div>
-
-      <!-- Gráfico de Faturamento -->
-      <section class="card card--polished card--chart mt-24">
-        <div class="card__head">
+    <div class="main">
+      <div class="content">
+        <div class="page-head">
           <div>
-            <div class="card__title">Faturamento mensal</div>
+            <div class="greeting-row">
+              <div class="greeting__text"><span id="dashboard-greeting">Boa noite</span>, <span id="dashboard-nome" class="greeting__nome">Usuário</span>.</div>
+              <div class="sub-line" id="dashboard-data"></div>
+              <div class="date-chip" id="dashboard-hora"></div>
+            </div>
+          </div>
+          <div class="page-actions">
+            <a class="btn btn--outline" href="tickets.html">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+              Meus tickets
+            </a>
+            <a class="btn btn--primary" href="configuracoes.html">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.2"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
+              Configuração
+            </a>
           </div>
         </div>
-        <div class="card__body">
-          <div class="chart chart--area" data-dash-faturamento-chart style="height:300px" role="img" aria-label="Gráfico de faturamento mensal"></div>
-          <div class="chart__legend" style="margin-top:16px;justify-content:center">
-            <span><i style="background:var(--primary)"></i>Receita recebida</span>
-          </div>
-        </div>
-      </section>
-    </main>
-  </div>
 
-  <div class="support" id="support" data-support aria-label="Central de ajuda" aria-hidden="true"></div>
+        <!-- 4 KPIs -->
+        <div class="grid grid--4">
+          <article class="card kpi kpi--polished kpi--revenue">
+            <div class="kpi__top">
+              <div class="kpi__icon-wrap">
+                <span class="kpi__icon kpi__icon--primary">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2z"/><path d="M9 10h6M9 14h4"/></svg>
+                </span>
+              </div>
+              <div class="kpi__trend trend--up" data-trend="revenue">
+                <svg class="trend__icon trend__icon--up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
+                <span class="trend__value" data-trend-revenue-pct>+0%</span>
+              </div>
+            </div>
+            <div class="kpi__label">Faturamento Total</div>
+            <div class="kpi__value" data-dash="faturamento-total">R$ 0,00</div>
+          </article>
+
+          <article class="card kpi kpi--polished kpi--mrr">
+            <div class="kpi__top">
+              <div class="kpi__icon-wrap">
+                <span class="kpi__icon kpi__icon--primary">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                </span>
+              </div>
+              <div class="kpi__trend trend--up" data-trend="mrr">
+                <svg class="trend__icon trend__icon--up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
+                <span class="trend__value" data-trend-mrr-pct>+0%</span>
+              </div>
+            </div>
+            <div class="kpi__label">Recorrência Mensal (MRR)</div>
+            <div class="kpi__value" data-dash="mrr">R$ 0,00</div>
+          </article>
+
+          <article class="card kpi kpi--polished kpi--tickets">
+            <div class="kpi__top">
+              <div class="kpi__icon-wrap">
+                <span class="kpi__icon kpi__icon--primary">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M8 9h8M8 13h5"/></svg>
+                </span>
+              </div>
+              <div class="kpi__trend trend--down" data-trend="tickets">
+                <svg class="trend__icon trend__icon--down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                <span class="trend__value" data-trend-tickets-pct>-0%</span>
+              </div>
+            </div>
+            <div class="kpi__label">Tickets Abertos</div>
+            <div class="kpi__value" data-dash="tickets-abertos">0</div>
+          </article>
+
+          <article class="card kpi kpi--polished kpi--sales">
+            <div class="kpi__top">
+              <div class="kpi__icon-wrap">
+                <span class="kpi__icon kpi__icon--primary">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="m9 15 2 2 4-4"/></svg>
+                </span>
+              </div>
+              <div class="kpi__trend trend--up" data-trend="sales">
+                <svg class="trend__icon trend__icon--up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
+                <span class="trend__value" data-trend-sales-pct>+0%</span>
+              </div>
+            </div>
+            <div class="kpi__label">Vendas Total</div>
+            <div class="kpi__value" data-dash="vendas-total">0</div>
+          </article>
+        </div>
+
+        <!-- Gráfico de faturamento -->
+        <section class="card card--chart mt-24">
+          <div class="card__head">
+            <div>
+              <div class="card__title">Faturamento mensal</div>
+              <div class="card__sub">Recebimentos dos últimos 12 meses · valores em reais</div>
+            </div>
+          </div>
+          <div class="card__body">
+            <div class="chart-wrap" style="height:320px">
+              <div class="chart chart--area" data-dash-faturamento-chart style="height:100%;width:100%"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Resumo rápido -->
+        <section class="card mt-24">
+          <div class="card__head">
+            <div>
+              <div class="card__title">Visão rápida</div>
+              <div class="card__sub">Principais números da sua conta</div>
+            </div>
+          </div>
+          <div class="card__body">
+            <div class="grid grid--3" style="margin-top:16px">
+              <div class="stat-chip">
+                <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2z"/><path d="M9 10h6M9 14h4"/></svg></span>
+                <div class="v">Faturamento total<span id="stat-faturamento">R$ 0,00</span></div>
+              </div>
+              <div class="stat-chip">
+                <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span>
+                <div class="v">MRR<span id="stat-mrr">R$ 0,00</span></div>
+              </div>
+              <div class="stat-chip">
+                <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M8 9h8M8 13h5"/></svg></span>
+                <div class="v">Tickets abertos<span id="stat-tickets">0</span></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </div>
 
   <div class="toast" id="toast" role="status" aria-live="polite">
     <svg class="toast__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg>
     <div><strong data-toast-title>Feito!</strong><small data-toast-text></small></div>
   </div>
 
-  <script src="assets/js/store.js?v=825fa3e-poll"></script>
-  <script src="assets/js/app.js?v=825fa3e-poll"></script>
-  <script src="assets/js/support.js?v=825fa3e-poll"></script>
+  <script src="assets/js/store.js?v=1"></script>
+  <script src="assets/js/app.js?v=1"></script>
+  <script src="assets/js/app-shell.js?v=1"></script>
   <script>
     (function () {
       var D = window.Dados;
-      if (!D || !D.pronto) return;
+      var P = window.Prospecta;
 
       function set(sel, value) {
         document.querySelectorAll(sel).forEach(function (el) { el.textContent = value; });
       }
 
       function fmtPct(val) {
-        var s = val >= 0 ? '+' : '';
-        return s + val.toFixed(1).replace('.', ',') + '%';
+        var s = val >= 0 ? "+" : "";
+        return s + val.toFixed(1).replace(".", ",") + "%";
       }
 
       function calcTrend(current, previous) {
@@ -227,235 +199,176 @@
         return ((current - previous) / previous) * 100;
       }
 
-
       function pintar() {
+        var pagamentos = D.pagamentos();
         var contratos = D.contratos();
         var tickets = D.tickets();
-        var pagamentos = D.pagamentos();
 
-        // Faturamento total (soma de todos os pagamentos recebidos)
-        var faturamentoTotal = pagamentos
-          .filter(function(p) { return p.status === 'recebido'; })
-          .reduce(function(s, p) { return s + Number(p.value || 0); }, 0);
-
-        // MRR: contratos ativos com billing mensal
-        var ativos = contratos.filter(function (c) { return c.status === 'ativo'; });
+        var faturamentoTotal = pagamentos.filter(function (p) { return p.status === "recebido"; }).reduce(function (s, p) { return s + Number(p.value || 0); }, 0);
+        var ativos = contratos.filter(function (c) { return c.status === "ativo"; });
         var mrr = ativos.reduce(function (s, c) { return s + Number(c.value || 0); }, 0);
+        var abertos = tickets.filter(function (t) { return t.status === "aberto"; }).length;
+        var vendasTotal = contratos.filter(function (c) { return ["ativo", "fechado"].indexOf(c.status) >= 0; }).length;
 
-        // Tickets abertos
-        var abertos = tickets.filter(function (t) { return t.status === 'aberto'; }).length;
-
-        // Vendas total: contratos fechados/ativos
-        var vendasTotal = contratos.filter(function (c) { return ['ativo', 'fechado'].indexOf(c.status) >= 0; }).length;
-
-        // Tendências (comparar com mês anterior)
+        // Tendências mês anterior
         var hoje = new Date();
         var mesAtual = hoje.getMonth();
         var anoAtual = hoje.getFullYear();
         var mesAnt = mesAtual === 0 ? 11 : mesAtual - 1;
         var anoAnt = mesAtual === 0 ? anoAtual - 1 : anoAtual;
+        var keyAtual = anoAtual + "-" + mesAtual;
+        var keyAnt = anoAnt + "-" + mesAnt;
 
-        var keyAtual = anoAtual + '-' + mesAtual;
-        var keyAnt = anoAnt + '-' + mesAnt;
+        var faturamentoMesAtual = pagamentos.filter(function (p) { return p.status === "recebido" && p.paidAt; }).filter(function (p) { var d = new Date(p.paidAt); return d.getFullYear() + "-" + d.getMonth() === keyAtual; }).reduce(function (s, p) { return s + Number(p.value || 0); }, 0);
+        var faturamentoMesAnt = pagamentos.filter(function (p) { return p.status === "recebido" && p.paidAt; }).filter(function (p) { var d = new Date(p.paidAt); return d.getFullYear() + "-" + d.getMonth() === keyAnt; }).reduce(function (s, p) { return s + Number(p.value || 0); }, 0);
 
-        var faturamentoMesAtual = pagamentos
-          .filter(function(p) { return p.status === 'recebido' && p.paidAt; })
-          .filter(function(p) {
-            var d = new Date(p.paidAt);
-            return d.getFullYear() + '-' + d.getMonth() === keyAtual;
-          })
-          .reduce(function(s, p) { return s + Number(p.value || 0); }, 0);
-
-        var faturamentoMesAnt = pagamentos
-          .filter(function(p) { return p.status === 'recebido' && p.paidAt; })
-          .filter(function(p) {
-            var d = new Date(p.paidAt);
-            return d.getFullYear() + '-' + d.getMonth() === keyAnt;
-          })
-          .reduce(function(s, p) { return s + Number(p.value || 0); }, 0);
-
-        var mrrAtual = ativos.reduce(function(s, c) { return s + Number(c.value || 0); }, 0);
-        var mrrAnt = mrrAtual * 0.95; // placeholder
-
-        var ticketsMesAtual = tickets.filter(function(t) {
-          var d = new Date(t.criado);
-          return d.getFullYear() + '-' + d.getMonth() === keyAtual;
-        }).length;
-        var ticketsMesAnt = tickets.filter(function(t) {
-          var d = new Date(t.criado);
-          return d.getFullYear() + '-' + d.getMonth() === keyAnt;
-        }).length;
-
-        var vendasMesAtual = contratos.filter(function(c) {
-          var d = new Date(c.createdAt);
-          return d.getFullYear() + '-' + d.getMonth() === keyAtual && ['ativo', 'fechado'].indexOf(c.status) >= 0;
-        }).length;
-        var vendasMesAnt = contratos.filter(function(c) {
-          var d = new Date(c.createdAt);
-          return d.getFullYear() + '-' + d.getMonth() === keyAnt && ['ativo', 'fechado'].indexOf(c.status) >= 0;
-        }).length;
+        var ticketsMesAtual = tickets.filter(function (t) { var d = new Date(t.criado); return d.getFullYear() + "-" + d.getMonth() === keyAtual; }).length;
+        var ticketsMesAnt = tickets.filter(function (t) { var d = new Date(t.criado); return d.getFullYear() + "-" + d.getMonth() === keyAnt; }).length;
+        var vendasMesAtual = contratos.filter(function (c) { var d = new Date(c.createdAt); return d.getFullYear() + "-" + d.getMonth() === keyAtual && ["ativo", "fechado"].indexOf(c.status) >= 0; }).length;
+        var vendasMesAnt = contratos.filter(function (c) { var d = new Date(c.createdAt); return d.getFullYear() + "-" + d.getMonth() === keyAnt && ["ativo", "fechado"].indexOf(c.status) >= 0; }).length;
 
         var trendRevenue = calcTrend(faturamentoMesAtual, faturamentoMesAnt);
-        var trendMrr = calcTrend(mrrAtual, mrrAnt);
         var trendTickets = calcTrend(ticketsMesAtual, ticketsMesAnt);
         var trendSales = calcTrend(vendasMesAtual, vendasMesAnt);
 
-        // Update KPIs
-        set('[data-dash="faturamento-total"]', D.dinheiro(faturamentoTotal));
-        set('[data-dash="mrr"]', D.dinheiro(mrr));
-        set('[data-dash="tickets-abertos"]', D.num(abertos));
-        set('[data-dash="vendas-total"]', D.num(vendasTotal));
-        set('#dashboard-data', new Date().toLocaleDateString('pt-BR', { day: 'numeric', month: 'long' }));
+        set("[data-dash='faturamento-total']", D.dinheiro(faturamentoTotal));
+        set("[data-dash='mrr']", D.dinheiro(mrr));
+        set("[data-dash='tickets-abertos']", D.num(abertos));
+        set("[data-dash='vendas-total']", D.num(vendasTotal));
 
-        // Update trends
-        set('[data-trend-revenue-pct]', fmtPct(trendRevenue));
-        set('[data-trend-mrr-pct]', fmtPct(trendMrr));
-        set('[data-trend-tickets-pct]', fmtPct(trendTickets));
-        set('[data-trend-sales-pct]', fmtPct(trendSales));
+        set("#stat-faturamento", D.dinheiro(faturamentoTotal));
+        set("#stat-mrr", D.dinheiro(mrr));
+        set("#stat-tickets", D.num(abertos));
 
-        // Update trend icons (up/down)
-        document.querySelectorAll('[data-trend]').forEach(function(el){
-          var pctEl = el.querySelector('.trend__value');
-          var icon = el.querySelector('.trend__icon');
-          var val = parseFloat(pctEl.textContent.replace(',', '.').replace('%', '').replace('+', ''));
+        set("[data-trend-revenue-pct]", fmtPct(trendRevenue));
+        set("[data-trend-tickets-pct]", fmtPct(trendTickets));
+        set("[data-trend-sales-pct]", fmtPct(trendSales));
+
+        document.querySelectorAll("[data-trend]").forEach(function (el) {
+          var pctEl = el.querySelector(".trend__value");
+          var icon = el.querySelector(".trend__icon");
+          var val = parseFloat(pctEl.textContent.replace(",", ".").replace("%", "").replace("+", ""));
           if (val >= 0) {
-            icon.className = 'trend__icon trend__icon--up';
+            icon.className = "trend__icon trend__icon--up";
             icon.innerHTML = '<path d="m18 15-6-6-6 6"/>';
-            el.className = 'kpi__trend trend--up';
+            el.className = "kpi__trend trend--up";
           } else {
-            icon.className = 'trend__icon trend__icon--down';
+            icon.className = "trend__icon trend__icon--down";
             icon.innerHTML = '<path d="m6 9 6 6 6-6"/>';
-            el.className = 'kpi__trend trend--down';
+            el.className = "kpi__trend trend--down";
           }
         });
 
-        // Greeting (America/Sao_Paulo) + nome persistido
-        var spNow = new Date(new Date().toLocaleString('en-US', { timeZone: 'America/Sao_Paulo' }));
+        // Saudação SP + nome
+        var spNow = new Date(new Date().toLocaleString("en-US", { timeZone: "America/Sao_Paulo" }));
         var sh = spNow.getHours();
-        var sgreeting = sh < 6 ? 'Boa madrugada' : sh < 12 ? 'Bom dia' : sh < 18 ? 'Boa tarde' : 'Boa noite';
-        set('#dashboard-greeting', sgreeting);
-        var sme = D.eu ? D.eu() : null;
-        if (sme && sme.nome) set('#dashboard-nome', sme.nome);
+        set("#dashboard-greeting", sh < 6 ? "Boa madrugada" : sh < 12 ? "Bom dia" : sh < 18 ? "Boa tarde" : "Boa noite");
+        var me = D.eu ? D.eu() : null;
+        if (me && me.nome) set("#dashboard-nome", me.nome);
 
-        // Gráfico de faturamento - 12 meses (Area chart SVG)
-        var chart = document.querySelector('[data-dash-faturamento-chart]');
+        set("#dashboard-data", new Date().toLocaleDateString("pt-BR", { weekday: "long", day: "numeric", month: "long" }));
+        set("#dashboard-hora", spNow.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" }));
+
+        // Gráfico de faturamento - 12 meses
+        var chart = document.querySelector("[data-dash-faturamento-chart]");
         if (chart) {
           var meses = [];
           for (var i = 11; i >= 0; i--) {
             var d = new Date(hoje.getFullYear(), hoje.getMonth() - i, 1);
-            meses.push({ key: d.getFullYear() + '-' + d.getMonth(), label: d.toLocaleDateString('pt-BR', { month: 'short' }).replace('.', ''), valor: 0 });
+            meses.push({ key: d.getFullYear() + "-" + d.getMonth(), label: d.toLocaleDateString("pt-BR", { month: "short" }).replace(".", ""), valor: 0 });
           }
           function idx(iso) {
             var d = new Date(iso);
-            var key = d.getFullYear() + '-' + d.getMonth();
+            var key = d.getFullYear() + "-" + d.getMonth();
             for (var k = 0; k < meses.length; k++) { if (meses[k].key === key) return k; }
             return -1;
           }
-          pagamentos
-            .filter(function(p) { return p.status === 'recebido' && p.paidAt; })
-            .forEach(function(p) { var k = idx(p.paidAt); if (k >= 0) meses[k].valor += Number(p.value || 0); });
+          pagamentos.filter(function (p) { return p.status === "recebido" && p.paidAt; }).forEach(function (p) { var k = idx(p.paidAt); if (k >= 0) meses[k].valor += Number(p.value || 0); });
 
           var max = Math.max.apply(null, meses.map(function (m) { return m.valor; }).concat([1]));
-          var total = meses.reduce(function(s, m) { return s + m.valor; }, 0);
+          var total = meses.reduce(function (s, m) { return s + m.valor; }, 0);
 
-          // Build area chart SVG
-          var points = meses.map(function(m, i) {
+          var points = meses.map(function (m, i) {
             var x = (i / (meses.length - 1)) * 100;
-            var h = m.valor / max * 80; // 80% height for area
+            var h = m.valor / max * 80;
             var y = 100 - h;
             return { x: x, y: y, valor: m.valor, label: m.label };
-          }).concat({ x: 100, y: 100 }, { x: 0, y: 100 }); // close path
+          }).concat({ x: 100, y: 100 }, { x: 0, y: 100 });
 
-          var pathData = 'M' + points.map(function(p){ return p.x + '% ' + p.y + '%'; }).join(' L') + ' Z';
-          var lineData = 'M' + points.slice(0, -2).map(function(p){ return p.x + '% ' + p.y + '%'; }).join(' L');
+          var pathData = "M" + points.map(function (p) { return p.x + "% " + p.y + "%"; }).join(" L") + " Z";
+          var lineData = "M" + points.slice(0, -2).map(function (p) { return p.x + "% " + p.y + "%"; }).join(" L");
 
           chart.innerHTML =
             '<svg class="chart__svg" viewBox="0 0 100 100" preserveAspectRatio="none" style="width:100%;height:100%">' +
-              '<defs>' +
-                '<linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">' +
-                  '<stop offset="0%" stop-color="var(--primary)" stop-opacity="0.28"/>' +
-                  '<stop offset="100%" stop-color="var(--primary)" stop-opacity="0"/>' +
-                '</linearGradient>' +
-                '<linearGradient id="lineGrad" x1="0" y1="0" x2="0" y2="1">' +
-                  '<stop offset="0%" stop-color="var(--primary)"/>' +
-                  '<stop offset="100%" stop-color="var(--primary)" stop-opacity="0.5"/>' +
-                '</linearGradient>' +
-              '</defs>' +
-              '<rect width="100%" height="100%" fill="none"/>' +
-              '<path class="chart__area" d="' + pathData + '" fill="url(#areaGrad)"/>' +
-              '<path class="chart__line" d="' + lineData + '" fill="none" stroke="url(#lineGrad)" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round"/>' +
-              meses.map(function(m, i) {
-                var x = (i / (meses.length - 1)) * 100;
-                var h = m.valor / max * 80;
-                var y = 100 - h;
-                return '<circle class="chart__point" cx="' + x + '%" cy="' + y + '%" r="2.5" data-tooltip="' + m.label + ' · ' + D.dinheiro(m.valor) + '" style="opacity:0;transition:opacity .2s"/>';
-              }).join('') +
-              '<rect class="chart__hover-area" x="0" y="0" width="100%" height="100%" fill="transparent"/>' +
+            '<defs>' +
+            '<linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">' +
+            '<stop offset="0%" stop-color="var(--primary)" stop-opacity="0.28"/>' +
+            '<stop offset="100%" stop-color="var(--primary)" stop-opacity="0"/>' +
+            '</linearGradient>' +
+            '<linearGradient id="lineGrad" x1="0" y1="0" x2="0" y2="1">' +
+            '<stop offset="0%" stop-color="var(--primary)"/>' +
+            '<stop offset="100%" stop-color="var(--primary)" stop-opacity="0.5"/>' +
+            '</linearGradient>' +
+            '</defs>' +
+            '<rect width="100%" height="100%" fill="none"/>' +
+            '<path class="chart__area" d="' + pathData + '" fill="url(#areaGrad)"/>' +
+            '<path class="chart__line" d="' + lineData + '" fill="none" stroke="url(#lineGrad)" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round"/>' +
+            meses.map(function (m, i) {
+              var x = (i / (meses.length - 1)) * 100;
+              var h = m.valor / max * 80;
+              var y = 100 - h;
+              return '<circle class="chart__point" cx="' + x + '%" cy="' + y + '%" r="2.5" data-tooltip="' + m.label + ' · ' + D.dinheiro(m.valor) + '" style="opacity:0;transition:opacity .2s"/>';
+            }).join("") +
+            '<rect class="chart__hover-area" x="0" y="0" width="100%" height="100%" fill="transparent"/>' +
             '</svg>' +
             '<div class="chart__labels">' +
-              meses.map(function(m) { return '<span>' + m.label + '</span>'; }).join('') +
-            '</div>';
+            meses.map(function (m) { return '<span>' + m.label + '</span>'; }).join("") +
+            "</div>";
 
-          // Hover tooltip
-          var svg = chart.querySelector('.chart__svg');
-          var tooltip = document.createElement('div');
-          tooltip.className = 'chart__tooltip';
+          var svg = chart.querySelector(".chart__svg");
+          var tooltip = document.createElement("div");
+          tooltip.className = "chart__tooltip";
           chart.appendChild(tooltip);
-
-          svg.addEventListener('mousemove', function(e) {
+          svg.addEventListener("mousemove", function (e) {
             var rect = svg.getBoundingClientRect();
             var x = e.clientX - rect.left;
             var relX = (x / rect.width) * 100;
-            var idx = Math.round(relX / 100 * (meses.length - 1));
-            idx = Math.max(0, Math.min(meses.length - 1, idx));
-            var m = meses[idx];
-            tooltip.textContent = m.label + ' · ' + D.dinheiro(m.valor);
-            tooltip.style.left = (x + 10) + 'px';
-            tooltip.style.top = (e.clientY - rect.top - 40) + 'px';
-            tooltip.style.opacity = '1';
+            var i2 = Math.round(relX / 100 * (meses.length - 1));
+            i2 = Math.max(0, Math.min(meses.length - 1, i2));
+            var m = meses[i2];
+            tooltip.textContent = m.label + " · " + D.dinheiro(m.valor);
+            tooltip.style.left = (x + 10) + "px";
+            tooltip.style.top = (e.clientY - rect.top - 40) + "px";
+            tooltip.style.opacity = "1";
           });
-          svg.addEventListener('mouseleave', function() { tooltip.style.opacity = '0'; });
+          svg.addEventListener("mouseleave", function () { tooltip.style.opacity = "0"; });
         }
       }
 
+      // Inicializa shell com dados do usuário
       D.pronto().then(function () {
         var me = D.eu ? D.eu() : null;
-        var el = document.getElementById('dashboard-nome');
-        if (el && me && me.nome) el.textContent = me.nome;
+        if (!me) { window.location.href = "login.html?destino=dashboard.html"; return; }
 
-        // Atualiza saudação a cada minuto (fuso America/Sao_Paulo)
+        P.initShell({ title: "Dashboard", crumbs: "Início <b>/</b> <b>Visão geral</b>", isAdmin: false, user: me });
+        P.iniciarAvatares(me);
+
         setInterval(function () {
-          var sp = new Date(new Date().toLocaleString('en-US', { timeZone: 'America/Sao_Paulo' }));
+          var sp = new Date(new Date().toLocaleString("en-US", { timeZone: "America/Sao_Paulo" }));
           var h = sp.getHours();
-          set('#dashboard-greeting', h < 6 ? 'Boa madrugada' : h < 12 ? 'Bom dia' : h < 18 ? 'Boa tarde' : 'Boa noite');
+          set("#dashboard-greeting", h < 6 ? "Boa madrugada" : h < 12 ? "Bom dia" : h < 18 ? "Boa tarde" : "Boa noite");
           var m = D.eu ? D.eu() : null;
-          if (m && m.nome) set('#dashboard-nome', m.nome);
+          if (m && m.nome) set("#dashboard-nome", m.nome);
+          set("#dashboard-hora", sp.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" }));
         }, 60000);
-        
-        // Update sidebar/topbar avatar and name
-        function updateUserUI() {
-          if (!me) return;
-          var ini = me.iniciais || (me.nome ? me.nome.split(/\s+/).map(function(p){return p[0]||''}).join('').slice(0,2).toUpperCase() : 'U');
-          document.querySelectorAll('.sidebar__foot-name, #sidebar-name').forEach(function(el){ el.textContent = me.nome || 'Conta'; });
-          document.querySelectorAll('.sidebar__foot-mail, #sidebar-email').forEach(function(el){ el.textContent = me.email || '—'; });
-          document.querySelectorAll('.sidebar__foot .avatar, #sidebar-avatar').forEach(function(el){ el.textContent = ini; if(!me.avatar) el.style.backgroundImage = ''; });
-          document.querySelectorAll('.user-menu__name, #topbar-name').forEach(function(el){ el.textContent = (me.nome || 'Conta').split(/\s+/)[0]; });
-          document.querySelectorAll('.user-menu .avatar, #topbar-avatar').forEach(function(el){ el.textContent = ini; if(!me.avatar) el.style.backgroundImage = ''; });
-          if (me.avatar) {
-            document.querySelectorAll('.sidebar__foot .avatar, #sidebar-avatar, .user-menu .avatar, #topbar-avatar').forEach(function(el){ el.style.backgroundImage = 'url(' + me.avatar + ')'; el.textContent = ''; });
-          }
-        }
-        updateUserUI();
 
-        document.body.setAttribute('data-dados-reais', '1');
-        pintar();
-        document.addEventListener('prospecta:mudou', function(e) {
-          if (e.detail && (e.detail.key === 'users' || e.detail.key === 'refresh')) {
-            var updatedMe = D.eu ? D.eu() : null;
-            if (updatedMe) { me = updatedMe; updateUserUI(); }
-          }
+        document.addEventListener("prospecta:mudou", function () {
+          var m2 = D.eu ? D.eu() : null;
+          if (m2 && m2.nome) set("#dashboard-nome", m2.nome);
           pintar();
         });
+
+        pintar();
       });
     })();
   </script>
