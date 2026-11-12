@@ -1,61 +1,65 @@
-# Prospecta SaaS
+# AflyAI — SaaS Dashboard Black & Red
 
-Frontend estático (HTML/CSS/JS) + API serverless (Vercel Functions) + **Neon PostgreSQL** via **Prisma**.
+SaaS completo com autenticação, cadastro de usuários e painel administrativo individual.
 
-## Requisitos
-- Node.js >= 18
-- Conta/projeto no [Neon](https://neon.tech) (PostgreSQL)
+## Stack
 
-## Configuração local
-1. Instale dependências:
-   ```bash
-   npm install
-   ```
-2. Copie variáveis e configure:
-   ```bash
-   copy .env.example .env
-   ```
-   Edite `.env` e defina:
-   - `DATABASE_URL` — connection string **pooled** do Neon (`?sslmode=require`)
-   - `JWT_SECRET` — segredo forte (ex.: `node -e "console.log(require('crypto').randomBytes(48).toString('hex'))"`)
-   - `ADMIN_EMAIL` / `ADMIN_PASSWORD` / `ADMIN_NAME` — seed do admin (troque a senha)
-3. Gere o client Prisma e rode migrations:
-   ```bash
-   npx prisma generate
-   npx prisma migrate dev --name init
-   npm run db:seed
-   ```
-4. Desenvolvimento: para testar o front estático use `npm run dev` (`.serve.cjs`). Para testar as rotas `/api/*` localmente, use `npx vercel dev` (recomendado) com as mesmas variáveis de `.env`.
+- **Next.js 14** (App Router) + **React 18** + **TypeScript**
+- **Prisma ORM** + **PostgreSQL** (Neon)
+- Sessões por cookie `httpOnly` (tokens aleatórios de 256 bits, expiração em 7 dias)
+- Senhas com salt + SHA-256 (via `crypto` nativo)
+- Tema dark exclusivamente **black & red** (`#050505` / `#E50914`)
 
-## Deploy na Vercel
-1. Importe o repositório/projeto na Vercel.
-2. Em **Project Settings → Environment Variables**, adicione:
-   - `DATABASE_URL` (Neon pooled)
-   - `JWT_SECRET`
-   - `NODE_ENV=production`
-   - (opcional) `APP_URL`
-3. Build command: `npm run build` (executa `prisma generate`). As migrations devem ser aplicadas com `npx prisma migrate deploy` apontando para o banco de produção (rode localmente com `DATABASE_URL` de produção ou em um job controlado).
-4. A Vercel servirá os arquivos estáticos e as funções em `/api/*`.
+## Funcionalidades
 
-## Segurança
-- Senhas armazenadas com **bcrypt** (hash) — nunca em texto plano.
-- Sessão via **JWT em cookie HttpOnly, SameSite=Lax, Secure (produção)**.
-- Rotas protegidas validam sessão/role; clientes só acessam seus próprios tickets.
-- Validação server-side (Zod) e queries via Prisma (parametrizadas).
-- **Nunca** commite `.env` nem exponha `DATABASE_URL`/`JWT_SECRET` no frontend.
+- **Tela de login** (`/`) com e-mail e senha
+- **Tela de cadastro** (`/cadastro`) com nome, e-mail, senha e confirmação de senha
+- **Sair da conta** na sidebar e na página "Minha conta"
+- **Painel individual** (`/dashboard`):
+  - **Visão geral** — cards de estatísticas e atividade recente
+  - **Atividade** — registro e listagem de eventos da conta
+  - **Métricas** — cadastro de valores com barra comparativa
+  - **Minha conta** — dados do usuário e logout
+- Proteção de rotas: `/dashboard` redireciona para login quando não autenticado
+- APIs próprias: `/api/auth/{register,login,logout,me}`, `/api/logs`, `/api/metrics`
 
-## API (resumo)
-- `POST /api/auth/login` `{ email, password }`
-- `POST /api/auth/logout`
-- `GET  /api/auth/me`
-- `POST /api/auth/register` (admin)
-- `GET/POST /api/users` (admin)
-- `GET/PATCH/DELETE /api/users/[id]` (admin)
-- `GET/POST /api/tickets` (admin: todos; autenticado: próprios)
-- `GET/PATCH /api/tickets/[id]`
-- `POST /api/tickets/[id]/messages`
+## Como rodar
 
-## Notas
-- Sem SQLite/JSON como banco. Dados persistem no Neon PostgreSQL.
-- Backups/PITR: gerenciados pelo Neon (veja o painel do projeto Neon).
-- Se a API não estiver disponível (ex.: abrir HTML direto sem `vercel dev`), o front mantém fallback local limitado para navegação, mas **o alvo de produção é o banco real**.
+```bash
+npm install
+npx prisma db push   # cria/atualiza as tabelas no Neon
+npm run dev          # desenvolvimento em http://localhost:3000
+```
+
+Produção:
+
+```bash
+npm run build
+npm start
+```
+
+## Variáveis de ambiente (.env)
+
+```
+DATABASE_URL   # string de conexão PostgreSQL (Neon, com pooler)
+DIRECT_URL     # conexão direta para migrações
+APP_URL        # URL pública do app
+JWT_SECRET     # reservado para futura troca de assinatura de tokens
+```
+
+## Estrutura
+
+```
+app/                  # páginas (App Router) e rotas de API
+  page.tsx            # login
+  cadastro/page.tsx   # cadastro
+  dashboard/          # painel protegido (visão geral, atividade, métricas, conta)
+  api/auth/...        # endpoints de autenticação
+components/
+  AuthForm.tsx        # formulário compartilhado de login/cadastro
+  Sidebar.tsx         # navegação lateral + logout
+lib/
+  auth.ts             # hash de senha, sessões e getCurrentUser
+  db.ts               # client Prisma singleton
+prisma/schema.prisma  # modelos User, Session, ActivityLog, Metric
+```

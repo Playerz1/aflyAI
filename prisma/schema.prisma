@@ -3,271 +3,64 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
 }
 
-enum UserRole {
-  admin
-  member
-  client
-}
-
-enum UserStatus {
-  active
-  invite
-  blocked
-}
-
-enum TicketStatus {
-  aberto
-  respondido
-  resolvido
-}
-
-enum TicketPriority {
-  baixa
-  media
-  alta
-}
-
-enum MessageAuthor {
-  cliente
-  suporte
-  admin
-}
-
-enum LeadStatus {
-  novo
-  contato
-  qualificado
-  proposta
-  fechado
-  perdido
-}
-
-enum ContractStatus {
-  rascunho
-  ativo
-  vencido
-  cancelado
-}
-
-enum PaymentStatus {
-  pendente
-  pago
-  atrasado
-  estornado
-}
-
-enum SiteStatus {
-  rascunho
-  publicado
-  arquivado
-}
-
-enum ActivityType {
-  lead_created
-  lead_contacted
-  lead_qualified
-  contract_created
-  contract_signed
-  payment_received
-  payment_overdue
-  site_published
-  user_created
-  user_blocked
-  ticket_created
-  ticket_resolved
-}
-
 model User {
-  id           String     @id @default(cuid())
-  seq          Int        @unique @default(autoincrement()) // stable numeric ref for UI
-  name         String
-  initials     String
-  email        String     @unique
-  passwordHash String?
-  plan         String     @default("Pro")
-  role         UserRole   @default(member)
-  status       UserStatus @default(invite)
-  jobTitle     String     @default("")
-  note         String?
-  createdAt    DateTime   @default(now())
-  updatedAt    DateTime   @updatedAt
-  lastLoginAt  DateTime?
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  password  String
+  role      Role     @default(MEMBER)
+  status    Status   @default(ACTIVE)
+  lastLogin DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  ticketsCreated Ticket[]        @relation("TicketCreator")
-  messages       TicketMessage[] @relation("UserMessages")
-  leads          Lead[]          @relation("LeadCreator")
-  contracts      Contract[]      @relation("ContractCreator")
-  sitesCreated   Site[]          @relation("SiteCreator")
-  sitesOwned     Site[]          @relation("SiteClient")
-  activities     Activity[]      @relation("ActivityUser")
-
-  @@index([email])
-  @@index([status])
-  @@index([role])
-  @@map("users")
+  sessions Session[]
+  logs     ActivityLog[]
+  metrics  Metric[]
 }
 
-model Ticket {
-  id          Int            @id @default(autoincrement())
-  subject     String
-  reason      String
-  reasonLabel String
-  priority    TicketPriority @default(media)
-  status      TicketStatus   @default(aberto)
-  origin      String         @default("Dashboard")
-  createdAt   DateTime       @default(now())
-  updatedAt   DateTime       @updatedAt
-
-  createdById String?
-  createdBy   User?   @relation("TicketCreator", fields: [createdById], references: [id], onDelete: SetNull)
-
-  // Denormalized creator snapshot for display (survives user changes/deletion context)
-  creatorName     String @default("")
-  creatorInitials String @default("")
-  creatorEmail    String @default("")
-  creatorPlan     String @default("")
-
-  messages TicketMessage[]
-
-  @@index([status])
-  @@index([createdById])
-  @@index([updatedAt])
-  @@map("tickets")
+enum Role {
+  ADMIN
+  MEMBER
 }
 
-model TicketMessage {
-  id         Int           @id @default(autoincrement())
-  ticketId   Int
-  ticket     Ticket        @relation(fields: [ticketId], references: [id], onDelete: Cascade)
-  authorId   String?
-  authorUser User?         @relation("UserMessages", fields: [authorId], references: [id], onDelete: SetNull)
-  authorType MessageAuthor
-  text       String
-  read       Boolean       @default(false)
-  createdAt  DateTime      @default(now())
-
-  @@index([ticketId])
-  @@index([createdAt])
-  @@map("ticket_messages")
+enum Status {
+  ACTIVE
+  SUSPENDED
 }
 
-model Lead {
-  id          String     @id @default(cuid())
-  name        String
-  email       String     @unique
-  phone       String?
-  company     String?
-  status      LeadStatus @default(novo)
-  source      String?
-  value       Decimal    @db.Decimal(10, 2) @default(0)
-  note        String?
-  createdById String?
-  createdBy   User?      @relation("LeadCreator", fields: [createdById], references: [id], onDelete: SetNull)
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
-  lastContact DateTime?
-
-  contracts  Contract[]
-  activities Activity[]
-
-  @@index([status])
-  @@index([createdById])
-  @@map("leads")
+model Session {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
 }
 
-model Contract {
-  id          String         @id @default(cuid())
-  clientName  String
-  clientEmail String
-  service     String
-  value       Decimal        @db.Decimal(10, 2) @default(0)
-  status      ContractStatus @default(rascunho)
-  signedAt    DateTime?
-  expiresAt   DateTime?
-  leadId      String?
-  lead        Lead?          @relation(fields: [leadId], references: [id], onDelete: SetNull)
-  createdById String?
-  createdBy   User?          @relation("ContractCreator", fields: [createdById], references: [id], onDelete: SetNull)
-  createdAt   DateTime       @default(now())
-  updatedAt   DateTime       @updatedAt
-
-  payments   Payment[]
-  activities Activity[]
-
-  @@index([status])
-  @@index([clientEmail])
-  @@index([leadId])
-  @@index([createdById])
-  @@map("contracts")
+model ActivityLog {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  action    String
+  detail    String?
+  createdAt DateTime @default(now())
 }
 
-model Payment {
-  id         String        @id @default(cuid())
-  contractId String
-  contract   Contract      @relation(fields: [contractId], references: [id], onDelete: Cascade)
-  value      Decimal       @db.Decimal(10, 2) @default(0)
-  status     PaymentStatus @default(pendente)
-  dueDate    DateTime?
-  paidAt     DateTime?
-  method     String?
-  note       String?
-  createdAt  DateTime      @default(now())
-  updatedAt  DateTime      @updatedAt
+model Metric {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  label     String
+  value     Float
+  unit      String?
+  day       DateTime
+  createdAt DateTime @default(now())
 
-  @@index([contractId])
-  @@index([status])
-  @@index([dueDate])
-  @@map("payments")
-}
-
-model Site {
-  id          String     @id @default(cuid())
-  name        String
-  domain      String     @unique
-  subdomain   String     @unique
-  status      SiteStatus @default(rascunho)
-  plan        String     @default("gratis")
-  createdById String?
-  createdBy   User?      @relation("SiteCreator", fields: [createdById], references: [id], onDelete: SetNull)
-  clientId    String?
-  client      User?      @relation("SiteClient", fields: [clientId], references: [id], onDelete: SetNull)
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
-  publishedAt DateTime?
-
-  activities Activity[]
-
-  @@index([status])
-  @@index([createdById])
-  @@index([clientId])
-  @@map("sites")
-}
-
-model Activity {
-  id          String       @id @default(cuid())
-  type        ActivityType
-  title       String
-  description String?
-  userId      String?
-  user        User?        @relation("ActivityUser", fields: [userId], references: [id], onDelete: SetNull)
-  leadId      String?
-  lead        Lead?        @relation(fields: [leadId], references: [id], onDelete: SetNull)
-  contractId  String?
-  contract    Contract?    @relation(fields: [contractId], references: [id], onDelete: SetNull)
-  siteId      String?
-  site        Site?        @relation(fields: [siteId], references: [id], onDelete: SetNull)
-  createdAt   DateTime     @default(now())
-
-  @@index([type])
-  @@index([userId])
-  @@index([leadId])
-  @@index([contractId])
-  @@index([siteId])
-  @@index([createdAt])
-  @@map("activities")
+  @@index([userId, day])
 }
