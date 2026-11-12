@@ -31,10 +31,6 @@ export async function POST(req: Request) {
       data: { name, email, password: hashPassword(password) },
     });
 
-    await db.activityLog.create({
-      data: { userId: user.id, action: "account.created", detail: `Conta criada para ${email}` },
-    });
-
     await createSession(user.id);
     return NextResponse.json({ user: { id: user.id, name: user.name, email: user.email, role: user.role } });
   } catch (err) {

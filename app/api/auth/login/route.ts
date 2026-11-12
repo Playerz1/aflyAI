@@ -21,9 +21,6 @@ export async function POST(req: Request) {
     }
 
     await db.user.update({ where: { id: user.id }, data: { lastLogin: new Date() } });
-    await db.activityLog.create({
-      data: { userId: user.id, action: "auth.login", detail: "Login realizado" },
-    });
 
     await createSession(user.id);
     return NextResponse.json({ user: { id: user.id, name: user.name, email: user.email, role: user.role } });

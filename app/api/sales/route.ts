@@ -6,12 +6,11 @@ export async function GET() {
   const user = await getCurrentUser();
   if (!user) return NextResponse.json({ error: "Não autenticado." }, { status: 401 });
 
-  const logs = await db.activityLog.findMany({
+  const sales = await db.sale.findMany({
     where: { userId: user.id },
-    orderBy: { createdAt: "desc" },
-    take: 20,
+    orderBy: { createdAt: "asc" },
   });
-  return NextResponse.json({ logs });
+  return NextResponse.json({ sales });
 }
 
 export async function POST(req: Request) {
@@ -20,13 +19,17 @@ export async function POST(req: Request) {
 
   try {
     const body = await req.json();
-    const action = String(body.action ?? "").trim();
-    if (!action) return NextResponse.json({ error: "Ação obrigatória." }, { status: 400 });
+    const title = String(body.title ?? "").trim() || "Venda";
+    const amount = Number(body.amount);
 
-    const log = await db.activityLog.create({
-      data: { userId: user.id, action, detail: body.detail ? String(body.detail) : null },
+    if (Number.isNaN(amount) || amount <= 0) {
+      return NextResponse.json({ error: "Valor inválido." }, { status: 400 });
+    }
+
+    const sale = await db.sale.create({
+      data: { userId: user.id, title, amount },
     });
-    return NextResponse.json({ log });
+    return NextResponse.json({ sale });
   } catch {
     return NextResponse.json({ error: "Payload inválido." }, { status: 400 });
   }

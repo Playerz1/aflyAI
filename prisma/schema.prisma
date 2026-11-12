@@ -20,8 +20,7 @@ model User {
   updatedAt DateTime @updatedAt
 
   sessions Session[]
-  logs     ActivityLog[]
-  metrics  Metric[]
+  sales    Sale[]
 }
 
 enum Role {
@@ -43,24 +42,13 @@ model Session {
   createdAt DateTime @default(now())
 }
 
-model ActivityLog {
+model Sale {
   id        String   @id @default(cuid())
   userId    String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  action    String
-  detail    String?
-  createdAt DateTime @default(now())
-}
-
-model Metric {
-  id        String   @id @default(cuid())
-  userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  label     String
-  value     Float
-  unit      String?
-  day       DateTime
+  title     String
+  amount    Float
   createdAt DateTime @default(now())
 
-  @@index([userId, day])
+  @@index([userId, createdAt])
 }
