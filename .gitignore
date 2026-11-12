@@ -6,3 +6,6 @@ node_modules
 .qa
 .serve.cjs
 .DS_Store
+
+.vercel
+.env*
