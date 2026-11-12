@@ -9,9 +9,16 @@
     }
   },
   "rewrites": [
-    {
-      "source": "/",
-      "destination": "/dashboard.html"
-    }
+    { "source": "/", "destination": "/dashboard.html" },
+    { "source": "/api/leads", "destination": "/api/business?resource=leads" },
+    { "source": "/api/leads/:id", "destination": "/api/business?resource=leads&id=:id" },
+    { "source": "/api/contracts", "destination": "/api/business?resource=contracts" },
+    { "source": "/api/contracts/:id", "destination": "/api/business?resource=contracts&id=:id" },
+    { "source": "/api/payments", "destination": "/api/business?resource=payments" },
+    { "source": "/api/payments/:id", "destination": "/api/business?resource=payments&id=:id" },
+    { "source": "/api/sites", "destination": "/api/business?resource=sites" },
+    { "source": "/api/sites/:id", "destination": "/api/business?resource=sites&id=:id" },
+    { "source": "/api/activities", "destination": "/api/business?resource=activities" },
+    { "source": "/api/activities/:id", "destination": "/api/business?resource=activities&id=:id" }
   ]
 }
