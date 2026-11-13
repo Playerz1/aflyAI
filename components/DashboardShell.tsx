@@ -36,13 +36,15 @@ export default function DashboardShell({ user, stats, sales, products }: Props) 
     setTab(t);
   };
 
-  // Saudação personalizada dinâmica baseada no horário
+  // Saudação personalizada dinâmica baseada no horário de São Paulo
   const getSaudacao = (): string => {
     const now = new Date();
-    const hour = now.getHours();
+    // Ajustar para fuso horário America/Sao_Paulo (UTC-3)
+    const saoPauloTime = new Date(now.getTime() - 3 * 60 * 60 * 1000);
+    const hour = saoPauloTime.getUTCHours();
     if (hour >= 5 && hour < 12) return "Bom dia";
     if (hour >= 12 && hour < 18) return "Boa tarde";
-    if (hour >= 18 && hour < 24) return "Boa noite";
+    if (hour >= 18 && hour < 22) return "Boa noite";
     return "Boa madrugada";
   };
 
@@ -53,17 +55,19 @@ export default function DashboardShell({ user, stats, sales, products }: Props) 
     <div style={{ display: "flex", flexDirection: "column", height: "100%", minHeight: 0 }}>
       {tab === "dashboard" && (
         <div className="dash-header-section">
-          <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }}>
-            <span style={{ fontSize: 13, color: "var(--text-dim)" }}>{saudacao}</span>
-            {nomeUsuario && (
-              <span style={{ fontSize: 16, fontWeight: 700, color: "var(--text)", marginLeft: 4 }}>
-                , {nomeUsuario}
-              </span>
-            )}
-            <span style={{ fontSize: 13, color: "var(--text-dim)" }}>{nomeUsuario ? "" : "!"}</span>
+          <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 16 }}>
+            <span
+              style={{
+                fontSize: 17,
+                fontWeight: 700,
+                color: "var(--text)",
+              }}
+            >
+              {saudacao}, {nomeUsuario || "usuário"}!
+            </span>
           </div>
           <p style={{ color: "var(--text-dim)", marginBottom: 20 }}>
-            Bom dia!
+            Aqui esta o resumo do desempenho dos seus infoprodutos.
           </p>
         </div>
       )}

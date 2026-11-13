@@ -32,6 +32,7 @@ export function Sidebar({ user }: { user: { id: string; name: string } }) {
             role="button"
             tabIndex={0}
             onKeyDown={(e) => { if (e.key === "Enter") router.push("/dashboard?tab=historico"); }}
+            style={{ cursor: "pointer" }}
           >
             <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M12 2L2 7l10 5 10-5-10-5z" />
@@ -46,6 +47,7 @@ export function Sidebar({ user }: { user: { id: string; name: string } }) {
             role="button"
             tabIndex={0}
             onKeyDown={(e) => { if (e.key === "Enter") router.push("/configuracoes"); }}
+            style={{ cursor: "pointer" }}
           >
             <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
               <circle cx="12" cy="12" r="3" />
@@ -88,6 +90,7 @@ export function Hotbar({ userId }: { userId: string }) {
           onClick={() => router.push("/dashboard?tab=")}
           role="button"
           tabIndex={0}
+          style={{ cursor: "pointer" }}
         >
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
             <rect x="3" y="3" width="7" height="9" rx="1.5" />
@@ -103,6 +106,7 @@ export function Hotbar({ userId }: { userId: string }) {
           onClick={() => router.push("/dashboard?tab=historico")}
           role="button"
           tabIndex={0}
+          style={{ cursor: "pointer" }}
         >
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
             <path d="M12 2L2 7l10 5 10-5-10-5z" />
@@ -124,6 +128,7 @@ export function Hotbar({ userId }: { userId: string }) {
           onClick={() => router.push("/configuracoes")}
           role="button"
           tabIndex={0}
+          style={{ cursor: "pointer" }}
         >
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
             <circle cx="12" cy="12" r="3" />
