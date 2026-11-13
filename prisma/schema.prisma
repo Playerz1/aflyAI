@@ -66,8 +66,24 @@ model Infoproduct {
   description String   @default("")
   currentStep Int      @default(1)
   data        Json     @default("{}")
+  pdfUrl      String   @default("")
+  modulesData Json     @default("{}")
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
+  productSales ProductSale[]
+
   @@index([userId, createdAt])
+}
+
+model ProductSale {
+  id        String   @id @default(cuid())
+  productId String
+  product   Infoproduct @relation(fields: [productId], references: [id], onDelete: Cascade)
+  amount    Float
+  quantity  Int      @default(1)
+  note      String   @default("")
+  createdAt DateTime @default(now())
+
+  @@index([productId, createdAt])
 }

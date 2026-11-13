@@ -16,6 +16,8 @@ type NicheData = {
   demand: number;
   offer: number;
   competition: number;
+  oppIndex: number;
+  oppLevel: string;
 };
 
 type ProductData = {
@@ -336,6 +338,7 @@ export default function InfoprodutoWizard({
             )}
             {step === 2 && (
               <Step2Product
+                dbId={dbId}
                 niche={draft.niche}
                 product={draft.product}
                 price={draft.price}

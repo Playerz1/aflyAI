@@ -2,7 +2,7 @@
 
 import { useCallback, useMemo, useState } from "react";
 
-export type PriceSuggestion = {
+type PriceSuggestion = {
   label: string;
   value: number;
   position: string;
@@ -14,6 +14,7 @@ export type ModuleData = {
 };
 
 type Props = {
+  dbId: string | null;
   niche: any;
   product: any;
   price: number | null;
@@ -34,7 +35,32 @@ const DEFAULT_MODULES: ModuleData[] = [
   { title: "Conclusao", lessons: ["Proximos passos", "Checklist final"] },
 ];
 
+const NAME_TEMPLATES = [
+  "Guia Completo de {n}",
+  "{n}: Do Zero ao Avancado",
+  "MasterClass {n}",
+  "{n} para Iniciantes",
+  "O Metodo Definitivo de {n}",
+  "{n} Passo a Passo",
+  "Segredos de {n}",
+  "{n} na Pratica",
+  "{n} Essencial",
+  "{n} Profissional",
+];
+
+const DESC_TEMPLATES = [
+  "Descubra tudo o que voce precisa saber sobre {n}. Este material foi criado para quem deseja aprender de forma pratica e direta.",
+  "Um guia completo e passo a passo sobre {n}, com conteudos organizados para aplicacao imediata.",
+  "Tudo sobre {n} reunido em um unico infoproduto, pensado para quem busca resultados reais.",
+  "O caminho mais curto para dominar {n}, com exemplos e exercicios.",
+  "Aprenda {n} do zero com um material direto ao ponto e focado em resultados.",
+  "{n} descomplicado: tudo que voce precisa saber em um so lugar.",
+  "Domine {n} com um metodo testado e aprovado.",
+  "O guia definitivo de {n} para quem quer resultados reais.",
+];
+
 export default function Step2Product({
+  dbId,
   niche,
   product,
   price,
@@ -50,31 +76,94 @@ export default function Step2Product({
 }: Props) {
   const [nameSuggestions, setNameSuggestions] = useState<string[]>([]);
   const [descSuggestions, setDescSuggestions] = useState<string[]>([]);
+  const [genCount, setGenCount] = useState(0);
   const [editingName, setEditingName] = useState(false);
   const [editingDesc, setEditingDesc] = useState(false);
+  const [pdfGenerated, setPdfGenerated] = useState(false);
+  const [pdfUrl, setPdfUrl] = useState("");
+  const [generating, setGenerating] = useState(false);
+
+  const handleGeneratePdf = useCallback(async () => {
+    if (!dbId) return;
+    setGenerating(true);
+    try {
+      const res = await fetch(`/api/infoproducts/${dbId}/pdf`, { method: "POST" });
+      if (!res.ok) throw new Error("Erro ao gerar PDF");
+      const data = await res.json();
+      if (data.pdfUrl) {
+        setPdfUrl(data.pdfUrl);
+        setPdfGenerated(true);
+      }
+    } catch {
+      // error handled silently
+    } finally {
+      setGenerating(false);
+    }
+  }, [dbId]);
+
+  const handleDownloadZip = useCallback(async () => {
+    if (!dbId) return;
+    setGenerating(true);
+    try {
+      const res = await fetch(`/api/infoproducts/${dbId}/zip`);
+      if (!res.ok) throw new Error("Erro ao gerar ZIP");
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `curso_completo_${dbId}.zip`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    } catch {
+      // error handled silently
+    } finally {
+      setGenerating(false);
+    }
+  }, [dbId]);
+
+  const handleDownloadModule = useCallback(async (idx: number) => {
+    if (!dbId) return;
+    // For now, download individual module as text/PDF
+    const content = `MODULO ${idx + 1}\nConteudo do modulo ${idx + 1}\n`;
+    const blob = new Blob([content], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `modulo_${idx + 1}.txt`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }, [dbId]);
 
   const nicheName = niche?.name ?? "este nicho";
 
   const nameSugg = useMemo(() => {
-    if (nameSuggestions.length) return nameSuggestions;
+    if (nameSuggestions.length > 0) return nameSuggestions;
     const base = product.name || `Guia Completo de ${nicheName}`;
+    const seed = genCount;
+    const t = NAME_TEMPLATES[seed % NAME_TEMPLATES.length];
     return [
-      base,
-      `${nicheName}: Do Zero ao Avancado`,
-      `MasterClass ${nicheName}`,
-      `${nicheName} para Iniciantes`,
-      `O Metodo Definitivo de ${nicheName}`,
+      t.replace("{n}", base),
+      NAME_TEMPLATES[(seed + 1) % NAME_TEMPLATES.length].replace("{n}", nicheName),
+      NAME_TEMPLATES[(seed + 2) % NAME_TEMPLATES.length].replace("{n}", nicheName),
+      NAME_TEMPLATES[(seed + 3) % NAME_TEMPLATES.length].replace("{n}", nicheName),
+      NAME_TEMPLATES[(seed + 4) % NAME_TEMPLATES.length].replace("{n}", nicheName),
     ];
-  }, [nameSuggestions, product.name, nicheName]);
+  }, [nameSuggestions, genCount, product.name, nicheName]);
 
   const descSugg = useMemo(() => {
-    if (descSuggestions.length) return descSuggestions;
+    if (descSuggestions.length > 0) return descSuggestions;
+    const seed = genCount;
     return [
-      `Descubra tudo o que voce precisa saber sobre ${nicheName}. Este material foi criado para ${product.targetAudience || "quem deseja aprender"} de forma pratica e direta.`,
-      `Um guia completo e passo a passo sobre ${nicheName}, com conteudos organizados para voce aplicar imediatamente.`,
-      `Tudo sobre ${nicheName} reunido em um unico infoproduto, pensado para quem quer resultados reais.`,
+      DESC_TEMPLATES[seed % DESC_TEMPLATES.length].replace("{n}", nicheName),
+      DESC_TEMPLATES[(seed + 1) % DESC_TEMPLATES.length].replace("{n}", nicheName),
+      DESC_TEMPLATES[(seed + 2) % DESC_TEMPLATES.length].replace("{n}", nicheName),
+      DESC_TEMPLATES[(seed + 3) % DESC_TEMPLATES.length].replace("{n}", nicheName),
     ];
-  }, [descSuggestions, product.targetAudience, nicheName]);
+  }, [descSuggestions, genCount, nicheName]);
 
   const fmtLabel = format === "MODULES" ? "Modulos e aulas" : "PDF completo";
 
@@ -99,27 +188,14 @@ export default function Step2Product({
   }, [product, onProductChange]);
 
   const generateNames = useCallback(() => {
-    const base = nicheName;
-    setNameSuggestions([
-      `Guia Completo de ${base}`,
-      `${base}: Do Zero ao Avancado`,
-      `MasterClass ${base}`,
-      `${base} para Iniciantes`,
-      `O Metodo Definitivo de ${base}`,
-      `${base} Passo a Passo`,
-      `Segredos de ${base}`,
-      `${base} na Pratica`,
-    ]);
-  }, [nicheName]);
+    setGenCount((c) => c + 1);
+    setNameSuggestions([]);
+  }, []);
 
   const generateDescs = useCallback(() => {
-    setDescSuggestions([
-      `Descubra tudo o que voce precisa saber sobre ${nicheName}. Este material foi criado para quem deseja aprender de forma pratica e direta.`,
-      `Um guia completo e passo a passo sobre ${nicheName}, com conteudos organizados para aplicacao imediata.`,
-      `Tudo sobre ${nicheName} reunido em um unico infoproduto, pensado para quem busca resultados reais.`,
-      `O caminho mais curto para dominar ${nicheName}, com exemplos e exercicios.`,
-    ]);
-  }, [nicheName]);
+    setGenCount((c) => c + 1);
+    setDescSuggestions([]);
+  }, []);
 
   const handlePriceChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const v = Number(e.target.value.replace(",", "."));
@@ -170,12 +246,7 @@ export default function Step2Product({
           </button>
         </div>
         <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
-          <input
-            className="input"
-            value={product.name}
-            onChange={handleNameChange}
-            placeholder="Nome do seu infoproduto"
-          />
+          <input className="input" value={product.name} onChange={handleNameChange} placeholder="Nome do seu infoproduto" />
           {editingName ? (
             <button className="gen-btn primary" onClick={() => setEditingName(false)}>Cancelar</button>
           ) : (
@@ -198,12 +269,7 @@ export default function Step2Product({
           <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--red)" }}>Descricao do produto</div>
           <button className="gen-btn primary small" onClick={generateDescs}>Gerar outras versoes</button>
         </div>
-        <textarea
-          className="textarea"
-          value={product.description}
-          onChange={handleDescChange}
-          placeholder="Descricao comercial do infoproduto..."
-        />
+        <textarea className="textarea" value={product.description} onChange={handleDescChange} placeholder="Descricao comercial do infoproduto..." />
         <div style={{ display: "flex", gap: 10, alignItems: "center", marginTop: 8 }}>
           {editingDesc ? (
             <button className="gen-btn primary" onClick={() => setEditingDesc(false)}>Cancelar</button>
@@ -240,7 +306,7 @@ export default function Step2Product({
         </div>
         <div className="field" style={{ marginTop: 10 }}>
           <label>O que esta incluso</label>
-          <textarea className="textarea" value={product.includes} onChange={(e) => onProductChange({ ...product, includes: e.target.value })}           placeholder="Ex: E-book + planilhas + videos..." />
+          <textarea className="textarea" value={product.includes} onChange={(e) => onProductChange({ ...product, includes: e.target.value })} placeholder="Ex: E-book + planilhas + videos..." />
         </div>
         <div className="field-row" style={{ marginTop: 10 }}>
           <div className="field">
@@ -339,9 +405,59 @@ export default function Step2Product({
         </div>
       )}
 
+      {/* PDF / Module download area */}
+      {dbId && format && (
+        <div className="card pdf-module-card" style={{ marginTop: 16 }}>
+          <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--red)", marginBottom: 12 }}>
+            Gerar e baixar material
+          </div>
+          {format === "PDF" ? (
+            <>
+              <p style={{ fontSize: 13, color: "var(--text-dim)", marginBottom: 12 }}>
+                Gerar o PDF completo do seu infoproduto "{product.name || "Meu infoproduto"}" para download.
+              </p>
+              {pdfGenerated ? (
+                <div className="pdf-actions">
+                  <a href={pdfUrl} className="btn btn-primary" target="_blank" rel="noopener noreferrer">
+                    Visualizar PDF
+                  </a>
+                  <a href={pdfUrl} className="btn btn-outline" download>
+                    BAIXAR PDF
+                  </a>
+                </div>
+              ) : (
+                <button className="btn btn-primary" onClick={handleGeneratePdf} disabled={generating}>
+                  {generating ? "Gerando PDF..." : "Gerar PDF Completo"}
+                </button>
+              )}
+            </>
+          ) : (
+            <>
+              <p style={{ fontSize: 13, color: "var(--text-dim)", marginBottom: 12 }}>
+                Gerar e baixar os modulos e aulas do seu infoproduto "{product.name || "Meu infoproduto"}".
+              </p>
+              <div style={{ marginBottom: 12 }}>
+                {modules.map((m, mi) => (
+                  <div key={mi} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, marginBottom: 8 }}>
+                    <span style={{ fontSize: 13, color: "var(--text)" }}>{m.title}</span>
+                    <span style={{ fontSize: 11, color: "var(--text-mute)" }}>{m.lessons?.length || 0} aulas</span>
+                    <button className="gen-btn primary small" onClick={() => handleDownloadModule(mi)}>Baixar modulo {mi + 1}</button>
+                  </div>
+                ))}
+              </div>
+              <div className="pdf-actions">
+                <button className="btn btn-primary" onClick={handleDownloadZip} disabled={generating}>
+                  {generating ? "Gerando ZIP..." : "BAIXAR CURSO COMPLETO (ZIP)"}
+                </button>
+              </div>
+            </>
+          )}
+        </div>
+      )}
+
       {/* Reset */}
       <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 12 }}>
-        <button className="gen-btn" onClick={onReset} style={{ color: "#ff6b71", borderColor: "rgba(255, 107, 113, 0.4)" }}>
+        <button className="gen-btn" onClick={onReset} style={{ color: "#e8838c", borderColor: "rgba(232, 131, 140, 0.4)" }}>
           Resetar e gerar novamente
         </button>
       </div>

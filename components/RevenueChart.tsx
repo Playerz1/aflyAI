@@ -41,20 +41,19 @@ export default function RevenueChart({ sales }: { sales: SalePoint[] }) {
     }));
   }, [sales, period]);
 
-  const W = 800;
-  const H = 260;
-  const PAD = { t: 20, r: 16, b: 28, l: 16 };
+  const W = 700;
+  const H = 220;
+  const PAD = { t: 24, r: 24, b: 24, l: 40 };
   const innerW = W - PAD.l - PAD.r;
   const innerH = H - PAD.t - PAD.b;
 
-  const maxVal = Math.max(...series.map((p) => p.amount), 1) * 1.15;
+  const maxVal = Math.max(...series.map((p) => p.amount), 1) * 1.1;
   const pts = series.map((p, i) => ({
     ...p,
     x: PAD.l + (i / Math.max(series.length - 1, 1)) * innerW,
     y: PAD.t + innerH - (p.amount / maxVal) * innerH,
   }));
 
-  // smooth path (catmull-rom-ish via midpoint curves)
   const linePath = useMemo(() => {
     if (pts.length < 2) return "";
     let d = `M ${pts[0].x} ${pts[0].y}`;
@@ -67,24 +66,14 @@ export default function RevenueChart({ sales }: { sales: SalePoint[] }) {
     return d;
   }, [pts]);
 
-  const areaPath = useMemo(() => {
-    if (!linePath) return "";
-    const last = pts[pts.length - 1];
-    const first = pts[0];
-    return `${linePath} L ${last.x} ${PAD.t + innerH} L ${first.x} ${PAD.t + innerH} Z`;
-  }, [linePath, pts, innerH]);
-
   const total = series.reduce((a, p) => a + p.amount, 0);
 
-  // grid lines
-  const gridVals = [0, 0.25, 0.5, 0.75, 1].map((f) => maxVal * f);
-
   return (
-    <div className="card chart-card">
-      <div className="chart-head">
+    <div className="card chart-card" style={{ padding: 20 }}>
+      <div className="chart-head" style={{ marginBottom: 16 }}>
         <div>
           <h2 className="chart-title">Faturamento</h2>
-          <p className="chart-sub">{fmtBRL(total)} no período</p>
+          <p className="chart-sub">{fmtBRL(total)} no periodo</p>
         </div>
         <div className="period-toggle" role="tablist">
           {PERIODS.map((p) => (
@@ -105,27 +94,40 @@ export default function RevenueChart({ sales }: { sales: SalePoint[] }) {
         <svg viewBox={`0 0 ${W} ${H}`} className="chart-svg" preserveAspectRatio="none">
           <defs>
             <linearGradient id="areaFill" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#E50914" stopOpacity="0.28" />
-              <stop offset="100%" stopColor="#E50914" stopOpacity="0" />
+              <stop offset="0%" stopColor="#B8202E" stopOpacity="0.12" />
+              <stop offset="100%" stopColor="#B8202E" stopOpacity="0" />
             </linearGradient>
           </defs>
 
-          {gridVals.map((v, i) => {
+          {/* Grid lines */}
+          {[0, 0.25, 0.5, 0.75, 1].map((f, i) => {
+            const v = maxVal * f;
             const y = PAD.t + innerH - (v / maxVal) * innerH;
             return (
               <g key={i}>
-                <line x1={PAD.l} x2={W - PAD.r} y1={y} y2={y} stroke="#1c1c21" strokeWidth="1" />
-                <text x={PAD.l + 2} y={y - 4} fill="#5c5c64" fontSize="10">
+                <line x1={PAD.l} x2={W - PAD.r} y1={y} y2={y} stroke="#1f1f1f" strokeWidth="1" />
+                <text x={PAD.l - 6} y={y + 4} fill="#71717A" fontSize="10" textAnchor="end">
                   {v >= 1000 ? `${(v / 1000).toFixed(1)}k` : Math.round(v)}
                 </text>
               </g>
             );
           })}
 
-          <path d={areaPath} fill="url(#areaFill)" />
-          <path d={linePath} fill="none" stroke="#E50914" strokeWidth="2.4" strokeLinecap="round" />
+          {/* Y axis labels */}
+          {[0, 0.25, 0.5, 0.75, 1].map((f, i) => {
+            const v = maxVal * f;
+            const y = PAD.t + innerH - (v / maxVal) * innerH;
+            return (
+              <text key={i} x={PAD.l - 10} y={y + 4} fill="#71717A" fontSize="10" textAnchor="end">
+                {Math.round(v)}
+              </text>
+            );
+          })}
 
-          {/* hover hit areas */}
+          <path d={linePath} fill="none" stroke="#B8202E" strokeWidth="2" strokeLinecap="round" />
+          <path d={`${linePath} L ${pts[pts.length - 1]?.x ?? 0} ${PAD.t + innerH} L ${pts[0]?.x ?? 0} ${PAD.t + innerH} Z`} fill="url(#areaFill)" />
+
+          {/* Hover hit areas */}
           {pts.map((p, i) => (
             <rect
               key={i}
@@ -142,8 +144,8 @@ export default function RevenueChart({ sales }: { sales: SalePoint[] }) {
 
           {hover && (
             <g pointerEvents="none">
-              <line x1={hover.x} x2={hover.x} y1={PAD.t} y2={PAD.t + innerH} stroke="#3a3a42" strokeWidth="1" strokeDasharray="4 4" />
-              <circle cx={hover.x} cy={hover.y} r="5" fill="#E50914" stroke="#050505" strokeWidth="2" />
+              <line x1={hover.x} x2={hover.x} y1={PAD.t} y2={PAD.t + innerH} stroke="#2c2c2c" strokeWidth="1" strokeDasharray="4 4" />
+              <circle cx={hover.x} cy={hover.y} r="4" fill="#B8202E" stroke="#090909" strokeWidth="1.5" />
             </g>
           )}
         </svg>
@@ -164,7 +166,7 @@ export default function RevenueChart({ sales }: { sales: SalePoint[] }) {
 
       <div className="chart-axis">
         {series
-          .filter((_, i) => i % Math.ceil(series.length / 7) === 0)
+          .filter((_, i) => i % Math.ceil(series.length / 6) === 0 || i === series.length - 1)
           .map((p) => (
             <span key={p.date}>{p.label}</span>
           ))}
