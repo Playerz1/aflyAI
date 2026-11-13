@@ -10,7 +10,7 @@ const fmtBRL = (v: number) =>
 
 export default function ConfiguracoesClient({ user }: { user: User }) {
   const router = useRouter();
-  const [activeSection, setActiveSection] = useState<"perfil" | "seguranca">("perfil");
+  const [activeSection, setActiveSection] = useState<"perfil" | "seguranca" | "conta">("perfil");
   const [profileName, setProfileName] = useState(user.name);
   const [profileEmail, setProfileEmail] = useState(user.email);
   const [newEmail, setNewEmail] = useState("");
@@ -113,16 +113,23 @@ export default function ConfiguracoesClient({ user }: { user: User }) {
     router.refresh();
   }
 
+  const sectionCard = (title: string, children: React.ReactNode) => (
+    <div className="card" style={{ padding: 24, marginBottom: 24 }}>
+      <h2 style={{ fontSize: 18, fontWeight: 800, color: "var(--text)", marginBottom: 16 }}>{title}</h2>
+      {children}
+    </div>
+  );
+
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 24, maxWidth: 800, margin: "0 auto", padding: "24px 16px" }}>
-      <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 8 }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: 32, maxWidth: 800, margin: "0 auto", padding: "32px 20px 60px" }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 4 }}>
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" onClick={() => router.back()} style={{ cursor: "pointer" }}>
           <path d="M19 12H5M12 19l-7-7 7-7" />
         </svg>
         <h1 style={{ fontSize: 24, fontWeight: 800, letterSpacing: "-0.02em", color: "var(--text)" }}>Configuracoes</h1>
       </div>
 
-      <div style={{ display: "flex", gap: 8, marginBottom: 20 }}>
+      <div style={{ display: "flex", gap: 8, marginBottom: 24 }}>
         <button
           onClick={() => setActiveSection("perfil")}
           className={`btn ${activeSection === "perfil" ? "btn-primary" : "btn-outline"}`}
@@ -135,19 +142,23 @@ export default function ConfiguracoesClient({ user }: { user: User }) {
         >
           Seguranca
         </button>
+        <button
+          onClick={() => setActiveSection("conta")}
+          className={`btn ${activeSection === "conta" ? "btn-primary" : "btn-outline"}`}
+        >
+          Dados da conta
+        </button>
       </div>
 
       {activeSection === "perfil" && (
-        <div className="card" style={{ padding: 24 }}>
-          <h2 style={{ fontSize: 18, fontWeight: 800, color: "var(--text)", marginBottom: 20 }}>Perfil</h2>
-
-          <div style={{ display: "flex", gap: 16, marginBottom: 24, alignItems: "flex-start" }}>
-            <div style={{ position: "relative" }}>
-              <div style={{ width: 96, height: 96, borderRadius: "50%", background: "var(--card-2)", border: "1px solid var(--border)", display: "grid", placeItems: "center", overflow: "hidden", position: "relative" }}>
+        sectionCard("Perfil", (
+          <div style={{ display: "flex", gap: 20, marginBottom: 20, alignItems: "flex-start" }}>
+            <div style={{ position: "relative", flexShrink: 0 }}>
+              <div style={{ width: 100, height: 100, borderRadius: "50%", background: "var(--card-2)", border: "1px solid var(--border)", display: "grid", placeItems: "center", overflow: "hidden", position: "relative" }}>
                 {newPhoto ? (
                   <img src={newPhoto} alt="Foto" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                 ) : (
-                  <div style={{ fontSize: 32, fontWeight: 800, color: "var(--red)" }}>
+                  <div style={{ fontSize: 34, fontWeight: 800, color: "var(--red)" }}>
                     {user.name.split(" ").map((p) => p[0]).slice(0, 2).join("").toUpperCase()}
                   </div>
                 )}
@@ -174,7 +185,7 @@ export default function ConfiguracoesClient({ user }: { user: User }) {
               </div>
             </div>
 
-            <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 16 }}>
+            <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 14 }}>
               <div className="field">
                 <label>Nome</label>
                 <input className="input" value={profileName} onChange={(e: any) => setProfileName(e.target.value)} placeholder="Seu nome" />
@@ -192,19 +203,12 @@ export default function ConfiguracoesClient({ user }: { user: User }) {
               </div>
             </div>
           </div>
-
-          <button className="btn btn-primary" onClick={saveProfile} disabled={loading} style={{ width: "fit-content" }}>
-            {loading ? "Salvando..." : "Salvar alteracoes"}
-          </button>
-        </div>
+        ))
       )}
 
       {activeSection === "seguranca" && (
-        <div className="card" style={{ padding: 24 }}>
-          <h2 style={{ fontSize: 18, fontWeight: 800, color: "var(--text)", marginBottom: 20 }}>Seguranca</h2>
-
-          <div style={{ marginBottom: 30, paddingBottom: 24, borderBottom: "1px solid var(--border)" }}>
-            <h3 style={{ fontSize: 15, fontWeight: 800, color: "var(--text)", marginBottom: 14 }}>Alterar senha</h3>
+        <>
+          {sectionCard("Alterar senha", (
             <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
               <div className="field">
                 <label>Senha atual</label>
@@ -219,36 +223,40 @@ export default function ConfiguracoesClient({ user }: { user: User }) {
                 <input className="input" type="password" value={confirmPassword} onChange={(e: any) => setConfirmPassword(e.target.value)} placeholder="Confirme a nova senha" />
               </div>
             </div>
-            <button className="btn btn-primary" onClick={changePassword} disabled={loading} style={{ width: "fit-content" }}>
-              {loading ? "Alterando..." : "Alterar senha"}
-            </button>
-          </div>
-
-          <div style={{ marginBottom: 30, paddingBottom: 24, borderBottom: "1px solid var(--border)" }}>
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 14 }}>
-              <div>
-                <h3 style={{ fontSize: 15, fontWeight: 800, color: "var(--text)", marginBottom: 4 }}>Autenticacao de dois fatores (2FA)</h3>
-                <p style={{ fontSize: 13, color: "var(--text-dim)" }}>Adicione uma camada extra de seguranca a sua conta.</p>
+          ))}
+          {sectionCard("Autenticacao de dois fatores (2FA)", (
+            <>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 14 }}>
+                <div>
+                  <p style={{ fontSize: 13, color: "var(--text-dim)" }}>Adicione uma camada extra de seguranca a sua conta.</p>
+                </div>
+                <button
+                  className="btn btn-primary small"
+                  onClick={toggleTwoFactor}
+                  disabled={loading}
+                >
+                  {twoFactorEnabled ? "Desativar 2FA" : "Ativar 2FA"}
+                </button>
               </div>
-              <button
-                className="btn btn-primary small"
-                onClick={toggleTwoFactor}
-                disabled={loading}
-              >
-                {twoFactorEnabled ? "Desativar 2FA" : "Ativar 2FA"}
-              </button>
-            </div>
-            <div style={{ fontSize: 13, color: twoFactorEnabled ? "var(--text-dim)" : "var(--text-mute)" }}>
-              {twoFactorEnabled ? "Autenticacao de dois fatores esta ATIVA." : "Autenticacao de dois fatores esta DESATIVADA."}
-            </div>
-          </div>
+              <div style={{ fontSize: 13, color: twoFactorEnabled ? "var(--text-dim)" : "var(--text-mute)" }}>
+                {twoFactorEnabled ? "Autenticacao de dois fatores esta ATIVA." : "Autenticacao de dois fatores esta DESATIVADA."}
+              </div>
+            </>
+          ))}
+        </>
+      )}
 
-          <div>
+      {activeSection === "conta" && (
+        sectionCard("Encerrar sessao", (
+          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+            <p style={{ fontSize: 13, color: "var(--text-dim)" }}>
+              Encerre sua sessao atual e seja redirecionado para a pagina de login.
+            </p>
             <button onClick={logout} disabled={loading} className="btn btn-outline" style={{ color: "#e8838c", borderColor: "rgba(232, 131, 140, 0.4)", width: "fit-content" }}>
               {loading ? "Encerrando..." : "Encerrar sessao"}
             </button>
           </div>
-        </div>
+        ))
       )}
 
       {message && (

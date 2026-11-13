@@ -63,25 +63,10 @@ export default function DashboardShell({ user, stats, sales, products }: Props) 
             <span style={{ fontSize: 13, color: "var(--text-dim)" }}>{nomeUsuario ? "" : "!"}</span>
           </div>
           <p style={{ color: "var(--text-dim)", marginBottom: 20 }}>
-            Aqui esta o resumo do desempenho dos seus infoprodutos.
+            Bom dia!
           </p>
         </div>
       )}
-
-      <div style={{ display: "flex", gap: 10, marginBottom: 16, paddingBottom: 12, borderBottom: "1px solid var(--border)" }}>
-        <button
-          onClick={() => switchTab("dashboard")}
-          className={`btn ${tab === "dashboard" ? "btn-primary" : "btn-outline"}`}
-        >
-          Dashboard
-        </button>
-        <button
-          onClick={() => switchTab("historico")}
-          className={`btn ${tab === "historico" ? "btn-primary" : "btn-outline"}`}
-        >
-          Historico
-        </button>
-      </div>
 
       {tab === "dashboard" ? (
         <DashboardClient stats={stats} sales={sales} />

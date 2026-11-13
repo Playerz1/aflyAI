@@ -55,11 +55,6 @@ export default function DashboardClient({ stats, sales }: { stats: Stats; sales:
 
   return (
     <div className="dash-content fade-up">
-      <header className="dash-header">
-        <h1>Dashboard</h1>
-        <p>Acompanhe seus resultados em tempo real.</p>
-      </header>
-
       <section className="stat-grid">
         {cards.map((c) => (
           <div key={c.label} className="card stat-card">
@@ -69,6 +64,8 @@ export default function DashboardClient({ stats, sales }: { stats: Stats; sales:
           </div>
         ))}
       </section>
+
+      <RevenueChart sales={sales} />
 
       {/* Historico de vendas compacto */}
       <section style={{ marginTop: 22 }}>
@@ -106,8 +103,6 @@ export default function DashboardClient({ stats, sales }: { stats: Stats; sales:
           </div>
         )}
       </section>
-
-      <RevenueChart sales={sales} />
     </div>
   );
 }
