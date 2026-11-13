@@ -13,7 +13,6 @@ const fmtBRL = (v: number) =>
   v.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 
 export default function DashboardClient({ stats, sales }: { stats: Stats; sales: SalePoint[] }) {
-  const router = useRouter();
 
   const cards = [
     {
