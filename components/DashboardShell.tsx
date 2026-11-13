@@ -36,8 +36,38 @@ export default function DashboardShell({ user, stats, sales, products }: Props) 
     setTab(t);
   };
 
+  // Saudação personalizada dinâmica baseada no horário
+  const getSaudacao = (): string => {
+    const now = new Date();
+    const hour = now.getHours();
+    if (hour >= 5 && hour < 12) return "Bom dia";
+    if (hour >= 12 && hour < 18) return "Boa tarde";
+    if (hour >= 18 && hour < 24) return "Boa noite";
+    return "Boa madrugada";
+  };
+
+  const saudacao = getSaudacao();
+  const nomeUsuario = user.name ? user.name.split(" ")[0] : "";
+
   return (
     <div style={{ display: "flex", flexDirection: "column", height: "100%", minHeight: 0 }}>
+      {tab === "dashboard" && (
+        <div className="dash-header-section">
+          <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }}>
+            <span style={{ fontSize: 13, color: "var(--text-dim)" }}>{saudacao}</span>
+            {nomeUsuario && (
+              <span style={{ fontSize: 16, fontWeight: 700, color: "var(--text)", marginLeft: 4 }}>
+                , {nomeUsuario}
+              </span>
+            )}
+            <span style={{ fontSize: 13, color: "var(--text-dim)" }}>{nomeUsuario ? "" : "!"}</span>
+          </div>
+          <p style={{ color: "var(--text-dim)", marginBottom: 20 }}>
+            Aqui esta o resumo do desempenho dos seus infoprodutos.
+          </p>
+        </div>
+      )}
+
       <div style={{ display: "flex", gap: 10, marginBottom: 16, paddingBottom: 12, borderBottom: "1px solid var(--border)" }}>
         <button
           onClick={() => switchTab("dashboard")}

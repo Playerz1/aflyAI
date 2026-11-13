@@ -137,6 +137,12 @@ export default function AuthForm({ mode }: { mode: "login" | "register" }) {
             </button>
           </form>
 
+          {!isRegister && (
+            <p className="auth-switch" style={{ marginTop: -6 }}>
+              <Link href="/recuperar-senha">Esqueci minha senha</Link>
+            </p>
+          )}
+
           <p className="auth-switch">
             {isRegister ? "Já tem uma conta? " : "Ainda não tem conta? "}
             <Link href={isRegister ? "/" : "/cadastro"}>

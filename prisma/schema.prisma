@@ -9,17 +9,19 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(cuid())
-  name      String
-  email     String   @unique
-  password  String
-  role      Role     @default(MEMBER)
-  status    Status   @default(ACTIVE)
-  lastLogin DateTime?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id           String   @id @default(cuid())
+  name         String
+  email        String   @unique
+  password     String
+  role         Role     @default(MEMBER)
+  status       Status   @default(ACTIVE)
+  lastLogin    DateTime?
+  profilePicture String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 
   sessions Session[]
+  resetTokens PasswordResetToken[]
   sales    Sale[]
   infoproducts Infoproduct[]
 }
@@ -41,6 +43,18 @@ model Session {
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   expiresAt DateTime
   createdAt DateTime @default(now())
+}
+
+model PasswordResetToken {
+  id        String   @id @default(cuid())
+  tokenHash String   @unique
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime @default(now())
+
+  @@index([userId])
 }
 
 model Sale {
