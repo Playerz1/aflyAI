@@ -2,10 +2,10 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import AddSaleModal from "./AddSaleModal";
+import InfoprodutoWizard from "./InfoprodutoWizard";
 
-export function Sidebar({ user }: { user: { name: string } }) {
-  const [modalOpen, setModalOpen] = useState(false);
+export function Sidebar({ user }: { user: { id: string; name: string } }) {
+  const [wizardOpen, setWizardOpen] = useState(false);
 
   return (
     <>
@@ -25,33 +25,46 @@ export function Sidebar({ user }: { user: { name: string } }) {
             </svg>
             <span>Dashboard</span>
           </div>
+          <div
+            className="nav-item"
+            onClick={() => setWizardOpen(true)}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => { if (e.key === "Enter") setWizardOpen(true); }}
+          >
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M12 2L2 7l10 5 10-5-10-5z" />
+              <path d="M2 17l10 5 10-5" />
+              <path d="M2 12l10 5 10-5" />
+            </svg>
+            <span>Criar Infoproduto</span>
+          </div>
         </nav>
 
-        <button className="btn-add-big" onClick={() => setModalOpen(true)} aria-label="Adicionar venda">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round">
+        <button className="btn-add-small" onClick={() => setWizardOpen(true)} aria-label="Criar infoproduto">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round">
             <line x1="12" y1="5" x2="12" y2="19" />
             <line x1="5" y1="12" x2="19" y2="12" />
           </svg>
-          <span>Adicionar</span>
+          <span>Criar</span>
         </button>
 
         <div className="sidebar-footer">
           <div className="avatar">{user.name.split(" ").map((p) => p[0]).slice(0, 2).join("").toUpperCase()}</div>
           <div className="user-meta">
-            <span className="user-name">{user.name.split(" ")[0]}</span>
+            <div className="user-name">{user.name.split(" ")[0]}</div>
           </div>
           <LogoutButton />
         </div>
       </aside>
 
-      <AddSaleModal open={modalOpen} onClose={() => setModalOpen(false)} />
+      <InfoprodutoWizard open={wizardOpen} onClose={() => setWizardOpen(false)} userId={user.id} />
     </>
   );
 }
 
-export function Hotbar() {
-  const [modalOpen, setModalOpen] = useState(false);
-
+export function Hotbar({ userId }: { userId: string }) {
+  const [wizardOpen, setWizardOpen] = useState(false);
   return (
     <>
       <nav className="hotbar">
@@ -65,8 +78,8 @@ export function Hotbar() {
           <span>Dashboard</span>
         </div>
 
-        <button className="hotbar-add" onClick={() => setModalOpen(true)} aria-label="Adicionar venda">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.8" strokeLinecap="round">
+        <button className="hotbar-add" onClick={() => setWizardOpen(true)} aria-label="Criar infoproduto">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round">
             <line x1="12" y1="5" x2="12" y2="19" />
             <line x1="5" y1="12" x2="19" y2="12" />
           </svg>
@@ -88,7 +101,7 @@ export function Hotbar() {
         </button>
       </nav>
 
-      <AddSaleModal open={modalOpen} onClose={() => setModalOpen(false)} />
+      <InfoprodutoWizard open={wizardOpen} onClose={() => setWizardOpen(false)} userId={userId} />
     </>
   );
 }

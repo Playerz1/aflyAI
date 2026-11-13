@@ -10,7 +10,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
 
   return (
     <div className="dash-shell">
-      <Sidebar user={{ name: user.name }} />
+      <Sidebar user={user} />
       <main className="dash-main">{children}</main>
     </div>
   );

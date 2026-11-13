@@ -32,7 +32,7 @@ export default async function DashboardPage() {
   return (
     <>
       <DashboardClient stats={stats} sales={points} />
-      <Hotbar />
+      <Hotbar userId={user.id} />
     </>
   );
 }

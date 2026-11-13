@@ -21,6 +21,7 @@ model User {
 
   sessions Session[]
   sales    Sale[]
+  infoproducts Infoproduct[]
 }
 
 enum Role {
@@ -49,6 +50,24 @@ model Sale {
   title     String
   amount    Float
   createdAt DateTime @default(now())
+
+  @@index([userId, createdAt])
+}
+
+model Infoproduct {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title       String   @default("")
+  niche       String   @default("")
+  nicheData   Json     @default("{}")
+  price       Float?
+  format      String?
+  description String   @default("")
+  currentStep Int      @default(1)
+  data        Json     @default("{}")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
   @@index([userId, createdAt])
 }
