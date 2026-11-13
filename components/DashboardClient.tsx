@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import RevenueChart, { type SalePoint } from "./RevenueChart";
-import { useRouter } from "next/navigation";
 
 type Stats = {
   faturamento: number;
@@ -66,43 +65,6 @@ export default function DashboardClient({ stats, sales }: { stats: Stats; sales:
       </section>
 
       <RevenueChart sales={sales} />
-
-      {/* Historico de vendas compacto */}
-      <section style={{ marginTop: 22 }}>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
-          <div style={{ fontSize: 16, fontWeight: 800, color: "var(--text)" }}>Historico de vendas</div>
-          <button
-            className="btn btn-outline small"
-            onClick={() => router.push("/dashboard?tab=historico")}
-          >
-            Ver historico completo
-          </button>
-        </div>
-
-        {recentSales.length === 0 ? (
-          <div style={{ padding: 24, textAlign: "center", color: "var(--text-dim)" }}>
-            Nenhuma venda registrada ainda.
-          </div>
-        ) : (
-          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-            {recentSales.map((s, i) => (
-              <div key={i} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, padding: 10, background: "var(--card-2)", borderRadius: 8, border: "1px solid var(--border)" }}>
-                <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ fontSize: 13, color: "var(--text)", fontWeight: 600, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
-                    Venda #{i + 1}
-                  </div>
-                  <div style={{ fontSize: 11, color: "var(--text-mute)" }}>
-                    {new Date(s.date).toLocaleDateString("pt-BR")}
-                  </div>
-                </div>
-                <div style={{ textAlign: "right" }}>
-                  <div style={{ fontSize: 14, fontWeight: 700, color: "var(--text)" }}>{fmtBRL(s.amount)}</div>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-      </section>
     </div>
   );
 }
