@@ -17,7 +17,12 @@ export function Sidebar({ user }: { user: { id: string; name: string } }) {
         </div>
 
         <nav className="sidebar-nav">
-          <div className="nav-item active">
+          <button
+            className="nav-item active"
+            onClick={() => router.push("/dashboard?tab=")}
+            role="button"
+            tabIndex={0}
+          >
             <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
               <rect x="3" y="3" width="7" height="9" rx="1.5" />
               <rect x="14" y="3" width="7" height="5" rx="1.5" />
@@ -25,35 +30,31 @@ export function Sidebar({ user }: { user: { id: string; name: string } }) {
               <rect x="3" y="16" width="7" height="5" rx="1.5" />
             </svg>
             <span>Dashboard</span>
-          </div>
-          <div
+          </button>
+          <button
             className="nav-item"
             onClick={() => router.push("/dashboard?tab=historico")}
             role="button"
             tabIndex={0}
-            onKeyDown={(e) => { if (e.key === "Enter") router.push("/dashboard?tab=historico"); }}
-            style={{ cursor: "pointer" }}
           >
             <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <circle cx="12" cy="12" r="10" />
               <polyline points="12 6 12 12 16 14" />
             </svg>
             <span>Historico</span>
-          </div>
-          <div
+          </button>
+          <button
             className="nav-item"
             onClick={() => router.push("/configuracoes")}
             role="button"
             tabIndex={0}
-            onKeyDown={(e) => { if (e.key === "Enter") router.push("/configuracoes"); }}
-            style={{ cursor: "pointer" }}
           >
             <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <circle cx="12" cy="12" r="3" />
-              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 14a1.65 1.65 0 0 0-1.82-.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h2.65a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l.06.06a1.65 1.65 0 0 0 1 1.51V19a1.65 1.65 0 0 0 1.51 1H17a1.65 1.65 0 0 0 1-1.51 1.65 1.65 0 0 0-1.51-1.82z" />
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 14a1.65 1.65 0 0 0-1.82-.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h2.65a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l.06.06a1.65 1.65 0 0 0 1 1.51V19a1.65 1.65 0 0 0 1.51 1H17a1.65 1.65 0 0 0 1-1.51 1.65 1.65 0 0 0-1.51-1.82z" />
             </svg>
             <span>Configuracoes</span>
-          </div>
+          </button>
         </nav>
 
         <button className="btn-add-small" onClick={() => setWizardOpen(true)} aria-label="Criar infoproduto">
@@ -84,12 +85,11 @@ export function Hotbar({ userId }: { userId: string }) {
   return (
     <>
       <nav className="hotbar">
-        <div
+        <button
           className="hotbar-item"
           onClick={() => router.push("/dashboard?tab=")}
           role="button"
           tabIndex={0}
-          style={{ cursor: "pointer" }}
         >
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
             <rect x="3" y="3" width="7" height="9" rx="1.5" />
@@ -98,21 +98,20 @@ export function Hotbar({ userId }: { userId: string }) {
             <rect x="3" y="16" width="7" height="5" rx="1.5" />
           </svg>
           <span>Dashboard</span>
-        </div>
+        </button>
 
-        <div
+        <button
           className="hotbar-item"
           onClick={() => router.push("/dashboard?tab=historico")}
           role="button"
           tabIndex={0}
-          style={{ cursor: "pointer" }}
         >
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <circle cx="12" cy="12" r="10" />
             <polyline points="12 6 12 12 16 14" />
           </svg>
           <span>Historico</span>
-        </div>
+        </button>
 
         <button className="hotbar-add" onClick={() => setWizardOpen(true)} aria-label="Criar infoproduto">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round">
@@ -121,19 +120,18 @@ export function Hotbar({ userId }: { userId: string }) {
           </svg>
         </button>
 
-        <div
+        <button
           className="hotbar-item"
           onClick={() => router.push("/configuracoes")}
           role="button"
           tabIndex={0}
-          style={{ cursor: "pointer" }}
         >
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <circle cx="12" cy="12" r="3" />
             <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 14a1.65 1.65 0 0 0-1.82-.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h2.65a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l.06.06a1.65 1.65 0 0 0 1 1.51V19a1.65 1.65 0 0 0 1.51 1H17a1.65 1.65 0 0 0 1-1.51 1.65 1.65 0 0 0-1.51-1.82z" />
           </svg>
           <span>Config</span>
-        </div>
+        </button>
 
         <button
           className="hotbar-item hotbar-exit"

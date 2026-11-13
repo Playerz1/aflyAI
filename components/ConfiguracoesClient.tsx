@@ -152,7 +152,7 @@ export default function ConfiguracoesClient({ user }: { user: User }) {
 
       {activeSection === "perfil" && (
         sectionCard("Perfil", (
-          <div style={{ display: "flex", gap: 20, marginBottom: 20, alignItems: "flex-start" }}>
+          <div style={{ display: "flex", gap: 20, marginBottom: 24, alignItems: "flex-start" }}>
             <div style={{ position: "relative", flexShrink: 0 }}>
               <div style={{ width: 100, height: 100, borderRadius: "50%", background: "var(--card-2)", border: "1px solid var(--border)", display: "grid", placeItems: "center", overflow: "hidden", position: "relative" }}>
                 {newPhoto ? (
@@ -204,6 +204,13 @@ export default function ConfiguracoesClient({ user }: { user: User }) {
             </div>
           </div>
         ))
+      )}
+      {activeSection === "perfil" && (
+        <div style={{ marginTop: 12 }}>
+          <button className="btn btn-primary" onClick={saveProfile} disabled={loading} style={{ width: "fit-content" }}>
+            {loading ? "Salvando..." : "Salvar alteracoes"}
+          </button>
+        </div>
       )}
 
       {activeSection === "seguranca" && (
